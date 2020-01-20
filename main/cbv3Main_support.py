@@ -10,7 +10,11 @@
 #    Jan 15, 2020 05:33:34 AM CST  platform: Linux
 #    Jan 19, 2020 07:01:49 PM CST  platform: Linux
 #    Jan 19, 2020 08:00:03 PM CST  platform: Linux
-
+# ======================================================
+# Written by G.D. Walters
+# ------------------------------------------------------
+# Last modification date: 20 January, 2020
+# ======================================================
 import sys
 import os
 import platform
