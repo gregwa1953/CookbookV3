@@ -28,16 +28,20 @@ def vp_start_gui():
     ScraperGUI1_support.set_Tk_var()
     top = Scraper (root)
     ScraperGUI1_support.init(root, top)
+    global outside
+    outside = False
     root.mainloop()
 
 w = None
 def create_Scraper(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
-    global w, w_win, rt
+    global w, w_win, rt  # rt, root
     rt = root
     w = tk.Toplevel (root)
     ScraperGUI1_support.set_Tk_var()
     top = Scraper (w)
+    global outside
+    outside = True
     ScraperGUI1_support.init(w, top, *args, **kwargs)
     return (w, top)
 
@@ -235,7 +239,11 @@ class Scraper:
 
     @staticmethod
     def popup1(event, *args, **kwargs):
-        Popupmenu1 = tk.Menu(root, tearoff=0)
+        global outside
+        if not(outside):
+            Popupmenu1 = tk.Menu(root, tearoff=0)
+        else:
+            Popupmenu1 = tk.Menu(rt, tearoff=0)
         Popupmenu1.configure(activebackground="#f9f9f9")
         Popupmenu1.add_command(
                 activebackground="#ececec",

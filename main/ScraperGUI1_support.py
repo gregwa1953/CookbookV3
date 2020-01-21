@@ -86,9 +86,9 @@ def on_btnExit():
     if shared.debug:
         print('ScraperGUI1_support.on_btnExit')
         sys.stdout.flush()
-    # cbv3Main_support.show_me()
-    destroy_window()
-    # hide_me()
+    cbv3Main_support.show_me()
+    # destroy_window()
+    hide_me()
 
 def get_image_from_web(url):
     # Attempt to get image from url and place it in w.lblImage

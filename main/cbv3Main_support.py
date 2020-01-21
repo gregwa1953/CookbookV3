@@ -110,11 +110,11 @@ def set_Tk_var():
     Notes.set('Message')
 
 def on_btnScrape():
-    if shared.debug:
-        print('cbv3Main_support.on_btnScrape')
-        sys.stdout.flush()
-    # ScraperGUI1.create_Scraper(root)
-    # hide_me()
+    # if shared.debug:
+    print('cbv3Main_support.on_btnScrape')
+        # sys.stdout.flush()
+    ScraperGUI1.create_Scraper(root)
+    hide_me()
 
 def on_chkClick():
     if shared.debug:
@@ -598,12 +598,14 @@ def set_icon():
 # Window stuff
 # =================================================================
 def show_me():
+    global root
     root.deiconify()
     root.attributes("-topmost", True)
     centre_screen(1270,861)
     # reload treeview here
 
 def hide_me():
+    global root
     root.withdraw()
 
 
