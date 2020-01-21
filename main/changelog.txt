@@ -1,8 +1,14 @@
 Changelog.txt
 
+21 January 0840
+
+Created new branch NewFeatures-012120
+
+---------------
 21 January 0800
 
 * Main - line 282 - moved print statement under if debug...
+---------------
 21 January 0630
 
 * Scraper - Clear form on paste URL
@@ -11,6 +17,7 @@ Changelog.txt
 * Scraper - On write error show messagebox
 * Database - Added catagories Moroccan, UK, Middle East, African, Air Fryer, Breakfast, Sweets, German, European
 
+---------------
 21 January 0500
 
 * Scraper - Fixed bug where categories were not saving properly when entering recipe from scraper
