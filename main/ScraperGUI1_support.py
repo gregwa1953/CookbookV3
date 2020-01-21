@@ -85,9 +85,10 @@ def set_Tk_var():
 def on_btnExit():
     if shared.debug:
         print('ScraperGUI1_support.on_btnExit')
-    sys.stdout.flush()
-    # destroy_window()
-    hide_me()
+        sys.stdout.flush()
+    # cbv3Main_support.show_me()
+    destroy_window()
+    # hide_me()
 
 def get_image_from_web(url):
     # Attempt to get image from url and place it in w.lblImage
@@ -189,7 +190,7 @@ def on_popPaste():
     EntryWebsite.set(root.clipboard_get())  # type='UTF8_String'))
     on_btnGo()
 
-def on_popClear(e):
+def on_popClear(e=None):
     if shared.debug:
         print('PopClear')
     EntryWebsite.set('')
@@ -488,8 +489,8 @@ def show_me():
     # reload treeview here
 
 def hide_me():
-    root.withdraw()
     cbv3Main_support.show_me()
+    root.withdraw()
 
 def destroy_window():
     # Function which closes the window.
