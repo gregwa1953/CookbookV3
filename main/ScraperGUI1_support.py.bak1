@@ -46,6 +46,7 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+
 def on_btnSaveToDB():
     if shared.debug:
         print('ScraperGUI1_support.on_btnSaveToDB')
@@ -61,6 +62,7 @@ def on_btnSaveToDB():
         resp = messagebox.askyesno(title,txt)
         if resp:
             WriteToDb()
+
 
 def set_Tk_var():
     global msgCategories
@@ -82,12 +84,14 @@ def set_Tk_var():
     sImageURL = tk.StringVar()
     sImageURL.set('Label')
 
+
 def on_btnExit():
     if shared.debug:
         print('ScraperGUI1_support.on_btnExit')
     sys.stdout.flush()
     # destroy_window()
     hide_me()
+
 
 def get_image_from_web(url):
     # Attempt to get image from url and place it in w.lblImage
@@ -146,6 +150,7 @@ def get_image_from_web(url):
         _img2 = None
         w.lblImage.configure(image=_img2)
 
+
 def on_btnGo():
     busyStart()
     print('ScraperGUI1_support.on_btnGo')
@@ -180,6 +185,7 @@ def on_btnGo():
     #     print('oh-oh')
     busyEnd()
 
+
 def on_popPaste():
     # if shared.debug:
     #     print('PopPaste')
@@ -189,10 +195,12 @@ def on_popPaste():
     EntryWebsite.set(root.clipboard_get())  # type='UTF8_String'))
     on_btnGo()
 
+
 def on_popClear(e):
     if shared.debug:
         print('PopClear')
     EntryWebsite.set('')
+
 
 def on_popCopy():
     if shared.debug:
@@ -202,17 +210,20 @@ def on_popCopy():
     root.clipboard_clear()  # clear clipboard contents
     root.clipboard_append(field_value)
 
+
 def on_entryKeyPress(e):
     if shared.debug:
         print('EntryKeyPress')
     if e.keysym == 'Return':
         on_btnGo()
 
+
 def on_customClick(s=None):
     if shared.debug:
         print('on_customClick')
     update_label()
     # keep a list for updating database
+
 
 def fill_form():
     if shared.debug:
@@ -228,6 +239,7 @@ def fill_form():
     # instructions
     load_instructions()
 
+
 def clear_form():
     w.Scrolledtext1.delete('1.0', tk.END)
     w.Scrolledlistbox1.delete(0, tk.END)
@@ -242,8 +254,10 @@ def load_ingredients():
     for line in shared.ingredients:
         w.Scrolledlistbox1.insert('end', line)
 
+
 def load_instructions():
     w.Scrolledtext1.insert('end', shared.instructions)
+
 
 def testdb():
     global cursor
@@ -253,6 +267,7 @@ def testdb():
     recs = list(cursor.execute(sql))
     if len(recs):
         print(len(recs))
+
 
 def WriteToDb():
     global connection, cursor
@@ -354,6 +369,8 @@ def WriteToDb():
         busyEnd()
         messagebox.showerror('Error', 'Something went wrong when trying to write to database!')
 
+
+
 def start_up():
     global connection
     global cursor
@@ -385,6 +402,7 @@ def start_up():
         print('calling testdb')
     testdb()
 
+
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
@@ -394,7 +412,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.2.2'
+    version = '0.2.1'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files
@@ -404,11 +422,14 @@ def init(top, gui, *args, **kwargs):
     print(f"Version: {version}")
     start_up()
 
+
 def clear_label():
     msgCategories.set('')
 
+
 def set_labels():
     pass
+
 
 def update_label():
     dat = w.Custom1.get()
@@ -423,6 +444,7 @@ def update_label():
     s = ", ".join(lst)
     msgCategories.set(s)
 
+
 def get_Custom_Cats():
     global connection, cursor
     sql = 'SELECT CatText, idCategoriesMain FROM categoriesmain order by CatText ASC'
@@ -432,6 +454,7 @@ def get_Custom_Cats():
     return recs
     # if len(recs) > 0:
     #     for r in recs:
+
 
 def initialize_custom_widget():
     w.Custom1.cback = on_customClick
@@ -447,6 +470,7 @@ def initialize_custom_widget():
 # cursor stuff
 # =================================================================
 
+
 def busyStart(newcursor=None):
     global preBusyCursors
 
@@ -458,6 +482,7 @@ def busyStart(newcursor=None):
         component.configure(cursor=newcursor)
         component.update_idletasks()
     preBusyCursors = (newPreBusyCursors, preBusyCursors)
+
 
 def busyEnd():
     global preBusyCursors
@@ -472,12 +497,14 @@ def busyEnd():
             pass
         component.update_idletasks()
 
+
 def centre_screen(wid, hei):
     ws = root.winfo_screenwidth()
     hs = root.winfo_screenheight()
     x = (ws/2) - (wid/2)
     y = (hs/2) - (hei/2)
     root.geometry('%dx%d+%d+%d' % (wid, hei, x, y))
+
 
 # =================================================================
 # Window stuff
@@ -487,9 +514,13 @@ def show_me():
     root.attributes("-topmost", True)
     # reload treeview here
 
+
 def hide_me():
     root.withdraw()
     cbv3Main_support.show_me()
+
+
+
 
 def destroy_window():
     # Function which closes the window.
@@ -497,13 +528,10 @@ def destroy_window():
     top_level.destroy()
     top_level = None
 
+
 # Custom = tk.Frame  # To be updated by user with name of custom widget.
 Custom = ScrolledCheckedListBox
 
 if __name__ == '__main__':
     import ScraperGUI1
     ScraperGUI1.vp_start_gui()
-
-
-
-

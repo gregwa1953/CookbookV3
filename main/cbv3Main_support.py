@@ -113,8 +113,8 @@ def on_btnScrape():
     if shared.debug:
         print('cbv3Main_support.on_btnScrape')
         sys.stdout.flush()
-    ScraperGUI1.create_Toplevel1(root)
-    hide_me()
+    # ScraperGUI1.create_Scraper(root)
+    # hide_me()
 
 def on_chkClick():
     if shared.debug:
@@ -570,7 +570,7 @@ def init(top, gui, *args, **kwargs):
     # My init code here...
     # ======================================================
     global version
-    version = '3.0.1'
+    version = '3.0.2'
     global progname
     progname = "Cookbook"
     startup()
