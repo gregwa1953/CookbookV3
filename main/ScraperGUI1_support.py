@@ -49,7 +49,17 @@ def on_btnSaveToDB():
     if shared.debug:
         print('ScraperGUI1_support.on_btnSaveToDB')
     sys.stdout.flush()
-    WriteToDb()
+    # Check to see if there are any categories set
+    lst = w.Custom1.get()
+    print(len(lst))
+    if len(lst):
+        WriteToDb()
+    else:
+        title = 'No Categories'
+        txt = 'There are no categories selected.  Do you still want to save to database?'
+        resp = messagebox.askyesno(title,txt)
+        if resp:
+            WriteToDb()
 
 
 def set_Tk_var():
@@ -177,6 +187,7 @@ def on_popPaste():
     if shared.debug:
         print('PopPaste')
     EntryWebsite.set('')
+    clear_form()
     EntryWebsite.set(root.clipboard_get())  # type='UTF8_String'))
     on_btnGo()
 
@@ -228,7 +239,12 @@ def fill_form():
 def clear_form():
     w.Scrolledtext1.delete('1.0', tk.END)
     w.Scrolledlistbox1.delete(0, tk.END)
-
+    w.Custom1.clear()
+    msgCategories.set('')
+    sRecipeTitle.set('')
+    sTotalTime.set('')
+    sYields.set('')
+    sImageURL.set('')
 
 def load_ingredients():
     for line in shared.ingredients:
@@ -258,97 +274,97 @@ def WriteToDb():
     #                    'About to save data. Are you sure you wish to continue?')
     # print(resp)
     # if resp is True:
+
     busyStart()
-
-    cur = cursor
-    NewRecipe = True
-    if NewRecipe is True:
-        # -----------------------
-        # Write Title,Source and Servings - Retain Record Number
-        # -----------------------
-        sql = ("Insert into recipes "
-               "(RecipeText,RecipeSource,RecipeServes,TotalTime, Active) "
-               "VALUES ({0},{1},{2},{3},{4});").format(
-            quote(sRecipeTitle.get()),
-            quote(EntryWebsite.get()),
-            quote(sYields.get()),
-            quote(sTotalTime.get()),
-            1)
-        # print(sql)
-        # Everything depends on the last_insert_rowid being available
-        # so if this fails, we have to abort and have the user try again
-        cur.execute(sql)
-        connection.commit()
-        if shared.debug:
-            print('Main Record Written')
-        # LastRecord is the last id that was saved in the recipe table
-        # We will use it to link the rest of the data to this recipe
-        LastRecord = cur.lastrowid
-        if shared.debug:
-            print(f'LastRecord inserted at {LastRecord}')
-        # -----------------------
-        # Write Instructions
-        # -----------------------
-        sql = ("Insert into instructions "
-               "(RecipeID,InstructionsData) "
-               "VALUES ({0},{1})").format(LastRecord,
-                                          quote(
-                                              w.Scrolledtext1.get(
-                                                  1.0, tk.END)))
-        # print(sql)
-        # r = input('Press a key ->')
-        cur.execute(sql)
-        connection.commit()
-        if shared.debug:
-            print('Instructions written')
-        # -----------------------
-        # Write ImageURL
-        # STILL TO DO
-        sql = ('INSERT INTO images (recipeID, image) '
-               'VALUES ({0}, {1})'.format(
-                   LastRecord, quote(shared.imgname)))
-        # print(sql)
-        cur.execute(sql)
-        connection.commit()
-        if shared.debug:
-            print('Image Written')
-
-        # -----------------------
-        # Write Ingredients
-        # -----------------------
-        # ilist = GetIngredientItems(w.Scrolledlistbox1, 'I', 3)
-        # print(ilist)
-        # r = raw_input('Press a key -> ')
-        for line in shared.ingredients:
-            sql = ("INSERT INTO ingredients "
-                   "(RecipeID,Ingredientitem) "
-                   "VALUES ({0},{1})").format(
-                LastRecord, quote(line))
-
+    try:
+        cur = cursor
+        NewRecipe = True
+        if NewRecipe is True:
+            # -----------------------
+            # Write Title,Source and Servings - Retain Record Number
+            # -----------------------
+            sql = ("Insert into recipes "
+                "(RecipeText,RecipeSource,RecipeServes,TotalTime, Active) "
+                "VALUES ({0},{1},{2},{3},{4});").format(
+                quote(sRecipeTitle.get()),
+                quote(EntryWebsite.get()),
+                quote(sYields.get()),
+                quote(sTotalTime.get()),
+                1)
+            # print(sql)
+            # Everything depends on the last_insert_rowid being available
+            # so if this fails, we have to abort and have the user try again
             cur.execute(sql)
-        connection.commit()
-        if shared.debug:
-            print('Ingredients Written')
-        # -----------------------
-        # Write Categories
-        # Get checked cateegories
-        checks = w.Custom1.get()
-        print(checks)
-        for c in checks:
-            sql = (
-                "INSERT INTO recipecategories (RecipeId, MainCatKey) VALUES ({1}, {0})".format(c[1], LastRecord))
-            print(sql)
+            connection.commit()
+            if shared.debug:
+                print('Main Record Written')
+            # LastRecord is the last id that was saved in the recipe table
+            # We will use it to link the rest of the data to this recipe
+            LastRecord = cur.lastrowid
+            if shared.debug:
+                print(f'LastRecord inserted at {LastRecord}')
+            # -----------------------
+            # Write Instructions
+            # -----------------------
+            sql = ("Insert into instructions "
+                "(RecipeID,InstructionsData) "
+                "VALUES ({0},{1})").format(LastRecord,
+                                            quote(
+                                                w.Scrolledtext1.get(
+                                                    1.0, tk.END)))
+            # print(sql)
+            # r = input('Press a key ->')
             cur.execute(sql)
-        connection.commit()
-        # -----------------------
-        # connection.commit()
-        messagebox.showinfo('Data Actions', 'Recipe Saved')
+            connection.commit()
+            if shared.debug:
+                print('Instructions written')
+            # -----------------------
+            # Write ImageURL
+            # STILL TO DO
+            sql = ('INSERT INTO images (recipeID, image) '
+                'VALUES ({0}, {1})'.format(
+                    LastRecord, quote(shared.imgname)))
+            # print(sql)
+            cur.execute(sql)
+            connection.commit()
+            if shared.debug:
+                print('Image Written')
+
+            # -----------------------
+            # Write Ingredients
+            # -----------------------
+            # ilist = GetIngredientItems(w.Scrolledlistbox1, 'I', 3)
+            # print(ilist)
+            # r = raw_input('Press a key -> ')
+            for line in shared.ingredients:
+                sql = ("INSERT INTO ingredients "
+                    "(RecipeID,Ingredientitem) "
+                    "VALUES ({0},{1})").format(
+                    LastRecord, quote(line))
+
+                cur.execute(sql)
+            connection.commit()
+            if shared.debug:
+                print('Ingredients Written')
+            # -----------------------
+            # Write Categories
+            # Get checked cateegories
+            checks = w.Custom1.get()
+            print(checks)
+            for c in checks:
+                sql = (
+                    "INSERT INTO recipecategories (RecipeId, MainCatKey) VALUES ({1}, {0})".format(c[1], LastRecord))
+                print(sql)
+                cur.execute(sql)
+            connection.commit()
+            # -----------------------
+            # connection.commit()
+            messagebox.showinfo('Data Actions', 'Recipe Saved')
+            busyEnd()
+    except:
         busyEnd()
-#         except:
-        # Sorry for the dumb error message...
-#             busyEnd()
-#             messagebox.showerror(
-#                'Error', 'Something went wrong with the save...')
+        messagebox.showerror('Error', 'Something went wrong when trying to write to database!')
+
 
 
 def start_up():

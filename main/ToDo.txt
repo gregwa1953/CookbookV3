@@ -1,5 +1,13 @@
 Still to do
 
+Done - scraper - add check for no cats on recipe save
+Done - scraper - Clear cats on new scrape
+scraper - don't insert default web site on startup
+Done - scraper - clear all form on start
+
+Done - Database - Add "breakfast" to cats
+Dome - Database - Add "Sweets" to cats
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Create database cleanup program to remove orphan records
 Implement active "delete" in main
 Create HTML Print functions to print recipe
@@ -8,3 +16,10 @@ Create New/Edit form for hand entry/editing of recipes
 Clean up GUIs
 Clean up Code
 Simplify code
+
+Scrapers - copykat.com
+Scrapers - togetherasfamily.com
+
+Won't scrape properly - https://www.allrecipes.com/recipe/219635/chef-johns-sloppy-joes/print/?recipeType=Recipe&servings=6&isMetric=false
+
+
