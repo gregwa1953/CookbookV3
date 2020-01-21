@@ -17,7 +17,7 @@
 # ======================================================
 # To do before first release:
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Fix write/read categories
+# Fix write/read categories - done
 # Create New/Edit Form
 # Support "deleted" records in main table
 # Create HTML print routine

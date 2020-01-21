@@ -1,0 +1,10 @@
+Still to do
+
+Create database cleanup program to remove orphan records
+Implement active "delete" in main
+Create HTML Print functions to print recipe
+Create New/Edit form for hand entry/editing of recipes
+
+Clean up GUIs
+Clean up Code
+Simplify code
