@@ -2,9 +2,13 @@ Changelog.txt
 
 
 ---------------
-21 January 1500 - 
+21 January 1500 
+
 Scraper ver 0.2.4 
        - line 380 - Removed "default" url in entry widget from scraper startup and replaced with 'Right click here to paste a website URL from the clipboard'
+* Main - small changes to GUI layout 
+       - added Total Time display label
+
 ---------------
 21 January 1030
 
