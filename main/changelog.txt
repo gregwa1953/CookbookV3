@@ -1,0 +1,6 @@
+Changelog.txt
+21 January 0500
+
+* Scraper - Fixed bug where categories were not saving properly when entering recipe from scraper
+* Scraper - Added check for no categories selected before save to database
+* Main - Fixed bug in ingredient search

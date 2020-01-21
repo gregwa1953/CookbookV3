@@ -250,8 +250,7 @@ def testdb():
 
 
 def WriteToDb():
-    global connection
-    global cursor
+    global connection, cursor
 
     # print('NewRecipe = {0}'.format(NewRecipe))
     # resp = AskQuestion(
@@ -337,7 +336,7 @@ def WriteToDb():
         print(checks)
         for c in checks:
             sql = (
-                "INSERT INTO recipecategories (RecipeId, MainCatKey) VALUES ({0}, {1})".format(c[1], LastRecord))
+                "INSERT INTO recipecategories (RecipeId, MainCatKey) VALUES ({1}, {0})".format(c[1], LastRecord))
             print(sql)
             cur.execute(sql)
         connection.commit()
@@ -375,7 +374,8 @@ def start_up():
     # Fill the entry widget for testing purposes
     initialize_custom_widget()
     EntryWebsite.set(
-        'https://www.allrecipes.com/recipe/219936/spicy-chicken-thai-soup/')
+        'https://www.allrecipes.com/recipe/9616/grandma-ms-raisin-cookies/')
+    #     'https://www.allrecipes.com/recipe/219936/spicy-chicken-thai-soup/')
 
     shared.debug = False
     if shared.debug:
