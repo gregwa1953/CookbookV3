@@ -15,6 +15,14 @@
 # ------------------------------------------------------
 # Last modification date: 20 January, 2020
 # ======================================================
+# To do before first release:
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Fix write/read categories
+# Create New/Edit Form
+# Support "deleted" records in main table
+# Create HTML print routine
+# Write program to clean orphans in database
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import sys
 import os
 import platform
@@ -508,22 +516,19 @@ def load_ingredient_list():
             "recipes.RecipeSource, "
             "recipes.RecipeServes, "
             "recipes.RecipeRating, "
-            "ingredients.IngredientData "
-            # "ingredients.IngredientItem "
+            "ingredients.IngredientItem "
+            # "ingredients.IngredientData "
             "FROM ingredients "
             "INNER JOIN recipes ON "
             "(ingredients.RecipeID = recipes.idRecipes) "
-            "WHERE ingredients.IngredientData "
+            "WHERE ingredients.IngredientItem "
             "like '%{0}%'").format(str(shared.searchfor))
+    # sql = (f"SELECT idIngredients, RecipeID, IngredientItem FROM ingredients WHERE IngredientItem like '%{shared.searchfor}%'")
     if shared.debug:
         print(sql)
     recs = list(cursor.execute(sql))
     return recs
-    # if len(recs):
-    #     for r in recs:
-    #         print(r)
-    #         title = r[1]
-    #         idkey = r[0]
+
 
 def startup():
     global version, path1, progname
@@ -540,13 +545,11 @@ def startup():
     global connection, cursor
     connection = sqlite3.Connection("./database/cookbook-original.db")
     cursor = connection.cursor()
-    # global folder
-    # folder = tk.PhotoImage(file='./images/document.png')
     shared.folder = ImageTk.PhotoImage(file='./images/document.png')
     shared.tv_mode = 1
     setup_treeview()
     set_icon()
-    root.title("Greg's Cookbook")
+    root.title("Greg's Cookbook V3")
     centre_screen(1270,861)
     che46.set(0)
     shared.tv_mode = 1
