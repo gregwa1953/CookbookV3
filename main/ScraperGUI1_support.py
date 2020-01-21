@@ -7,7 +7,11 @@
 #    Jan 19, 2020 03:25:29 PM CST  platform: Linux
 #    Jan 20, 2020 05:06:04 AM CST  platform: Linux
 #    Jan 20, 2020 09:52:23 AM CST  platform: Linux
-
+# ======================================================
+# Written by G.D. Walters
+# ------------------------------------------------------
+# Last modification date: 20 January, 2020
+# ======================================================
 import sys
 from recipe_scrapers import scrape_me
 from PIL import Image, ImageTk
@@ -328,7 +332,15 @@ def WriteToDb():
             print('Ingredients Written')
         # -----------------------
         # Write Categories
-        # STILL TO DO
+        # Get checked cateegories
+        checks = w.Custom1.get()
+        print(checks)
+        for c in checks:
+            sql = (
+                "INSERT INTO recipecategories (RecipeId, MainCatKey) VALUES ({0}, {1})".format(c[1], LastRecord))
+            print(sql)
+            cur.execute(sql)
+        connection.commit()
         # -----------------------
         # connection.commit()
         messagebox.showinfo('Data Actions', 'Recipe Saved')
@@ -380,7 +392,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.0.1'
+    version = '0.2.1'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files
