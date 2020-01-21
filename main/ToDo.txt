@@ -9,7 +9,7 @@ UI issue
 Main - Treeview - Title Display - oddly sorted.  Sort by Alpha Asc
 Main - RecipeSource WAY too big. reduce font and extend size
 Main - Hide RecordID
-Scraper - don't insert default web site on startup
+
 Scraper - auto remove "local_image.png" and "pic1.jpg"?
 Main - Line 499 - instead of printing "Error", support message box
 
@@ -35,9 +35,10 @@ Simplify code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 COMPLETE:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Done - scraper - add check for no cats on recipe save
-Done - scraper - Clear cats on new scrape
-Done - scraper - clear all form on start
+Done - Scraper - don't insert default web site on startup
+Done - Scraper - add check for no cats on recipe save
+Done - Scraper - Clear cats on new scrape
+Done - Scraper - clear all form on start
 Done - Database - Add "breakfast" to cats
 Dome - Database - Add "Sweets" to cats
 

@@ -1,8 +1,18 @@
 Bugs
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Bug number: I-2
+Date:21 January 2020
+Status: Verified
+
+Treeview - Title fill.  Filled in some random order.  Needs at minimum to be sorted Alpha Asc.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 Bug number: I-1 
 Date: 21 January 2020
-Status: Verified
+Status: Workaround applied
+Status: Closed
 
 When scraper is called from main, right click in entry causes error message and no popup...
 Exception in Tkinter callback
