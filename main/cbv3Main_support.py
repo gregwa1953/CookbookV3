@@ -279,8 +279,8 @@ def load_form(id):
     # ingreds = cursor.execute(sql)
     if len(ingreds):
         for i in ingreds:
-            # print(type(i))
-            print(str(i[0]))
+            if shared.debug:
+                print(str(i[0]))
             w.Scrolledlistbox1.insert('end', str(i[0]))
     # ======================================================
     # Load the instructions
@@ -496,6 +496,7 @@ def tv_fill_cats():
                 id = tree.insert(parentid, tk.END,
                                  values=(title, recipeid))
     else:
+        # TODO - Support messagebox here!
         print('ERROR!!!')
 
 def tv_fill_ingreds(text):

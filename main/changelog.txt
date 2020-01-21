@@ -1,5 +1,8 @@
 Changelog.txt
 
+21 January 0800
+
+* Main - line 282 - moved print statement under if debug...
 21 January 0630
 
 * Scraper - Clear form on paste URL
