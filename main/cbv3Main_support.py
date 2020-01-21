@@ -31,6 +31,9 @@ import sqlite3
 import shared
 from PIL import ImageTk, Image
 from dbutils import quote
+import ScraperGUI1_support
+import ScraperGUI1
+
 
 # try:
 #     import Tkinter as tk
@@ -110,6 +113,8 @@ def on_btnScrape():
     if shared.debug:
         print('cbv3Main_support.on_btnScrape')
         sys.stdout.flush()
+    ScraperGUI1.create_Toplevel1(root)
+    hide_me()
 
 def on_chkClick():
     if shared.debug:
@@ -588,6 +593,19 @@ def set_icon():
     # p1 = tk.Image("photo", file='images/chef.png')
     shared.p1 = ImageTk.PhotoImage(file='images/chef.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
+
+# =================================================================
+# Window stuff
+# =================================================================
+def show_me():
+    root.deiconify()
+    root.attributes("-topmost", True)
+    centre_screen(1270,861)
+    # reload treeview here
+
+def hide_me():
+    root.withdraw()
+
 
 def destroy_window():
     # Function which closes the window.

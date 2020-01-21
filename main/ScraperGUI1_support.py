@@ -23,6 +23,8 @@ import shared
 import sqlite3
 from dbutils import quote
 from ScrolledCheckedListBox import ScrolledCheckedListBox
+import cbv3Main
+import cbv3Main_support
 
 try:
     import Tkinter as tk
@@ -87,7 +89,8 @@ def on_btnExit():
     if shared.debug:
         print('ScraperGUI1_support.on_btnExit')
     sys.stdout.flush()
-    destroy_window()
+    # destroy_window()
+    hide_me()
 
 
 def get_image_from_web(url):
@@ -500,6 +503,22 @@ def centre_screen(wid, hei):
     x = (ws/2) - (wid/2)
     y = (hs/2) - (hei/2)
     root.geometry('%dx%d+%d+%d' % (wid, hei, x, y))
+
+
+# =================================================================
+# Window stuff
+# =================================================================
+def show_me():
+    root.deiconify()
+    root.attributes("-topmost", True)
+    # reload treeview here
+
+
+def hide_me():
+    root.withdraw()
+    cbv3Main_support.show_me()
+
+
 
 
 def destroy_window():

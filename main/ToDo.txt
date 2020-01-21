@@ -1,5 +1,8 @@
 Still to do
 
+IN Progress
+    Partial - Main - Implement WebScrape button on Main icon bar
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 UI issue
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -19,7 +22,6 @@ Maint - Create database cleanup program to remove orphan records
 Main - Implement active "delete"
 Main - Create HTML Print functions to print recipe
 New GUI - Create New/Edit form for hand entry/editing of recipes
-Main - Implement WebScrape button on Main icon bar
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

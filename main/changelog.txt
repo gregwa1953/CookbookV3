@@ -1,5 +1,19 @@
 Changelog.txt
 
+---------------
+21 January 1030
+
+* Main - implement scraper form
+       - line 597+  Added show_me() and hide_me() functions 
+       - line 116+  Added call to launch Scraper form
+       - line 34+   Added imports for scraper form
+
+* Scraper - Implement popup and hide functions
+          - line 26+  Added imports for main form
+          - line 508+ Added show_me() and hide_me() functions
+          - line 93 - Added call to hide_me rather than exit
+
+---------------
 21 January 0840
 
 Created new branch NewFeatures-012120
