@@ -377,8 +377,8 @@ def start_up():
     shared.debug = False
     # Fill the entry widget for testing purposes
     initialize_custom_widget()
-    EntryWebsite.set(
-        'https://www.allrecipes.com/recipe/9616/grandma-ms-raisin-cookies/')
+    EntryWebsite.set('Right click here to paste a website URL from the clipboard')
+    #     'https://www.allrecipes.com/recipe/9616/grandma-ms-raisin-cookies/')
     #     'https://www.allrecipes.com/recipe/219936/spicy-chicken-thai-soup/')
 
     shared.debug = False
@@ -395,7 +395,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.2.2'
+    version = '0.2.4'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files
