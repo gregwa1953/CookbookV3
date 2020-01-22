@@ -1,5 +1,10 @@
 Changelog.txt
 
+---------------
+21 January 1630 
+
+* Main - Sorts for the title Treeview
+* Main - When coming back from scraper, the treeview is re-built with a fresh database query
 
 ---------------
 21 January 1500 

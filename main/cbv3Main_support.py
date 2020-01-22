@@ -410,12 +410,15 @@ def populate_tree(tree, node):
         recs = load_base_recipes()
     elif shared.tv_mode == 3:
         recs = load_ingredient_list()
+    parent = node
     # nd = tree.item(node)
     cntr = 0
     for r in recs:
+        print(f'Title: {r[1]}')
         title = r[1]
         recid = r[0]
-        id = tree.insert(node, 2, values=(title, recid))
+        # id = tree.insert(parent, 2, values=(title, recid))
+        id = tree.insert(parent, tk.END, values=(title, recid))
         if cntr == 0:
             first = id
         cntr += 1
@@ -425,12 +428,14 @@ def populate_tree(tree, node):
     # print(f'first: {first}')
     # title = w.Scrolledtreeview1.set(first, 0)
     CurrentID = w.Scrolledtreeview1.set(first, 1)
+    if shared.tv_mode == 1:
+        sort_by(tree, 'Recipe', 0)
     load_form(CurrentID)
 
 
 def load_base_recipes():
     global connection, cursor
-    sql = "SELECT * from recipes"    # order by RecipeText ASC"
+    sql = "SELECT * from recipes order by RecipeText ASC"
     recs = list(cursor.execute(sql))
     if len(recs):
         return(recs)
@@ -559,6 +564,25 @@ def load_ingredient_list():
     return recs
 
 
+# ======================================================
+# Sorts the treeview
+# ======================================================
+def sort_by(tree, col, descending):
+    # grab values to
+    print('into sort_by')
+    data = [(tree.set(child, col), child)
+            for child in tree.get_children('')]
+    # if the data to be sorted is numeric change to float
+    # data =  change_numeric(data)
+    # now sort the data in place
+    data.sort(reverse=descending)
+    for ix, item in enumerate(data):
+        tree.move(item[1], '', ix)
+    # switch the heading so it will sort in the opposite direction
+    tree.heading(col, command=lambda col=col: sort_by(tree, col,
+                 int(not descending)))
+
+
 def startup():
     global version, path1, progname
     pv = platform.python_version()
@@ -630,6 +654,9 @@ def show_me():
     root.attributes("-topmost", True)
     centre_screen(1270,861)
     # reload treeview here
+    shared.tv_mode = 1
+    tv_fill_title()
+
 
 def hide_me():
     global root
