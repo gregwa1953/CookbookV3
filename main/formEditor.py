@@ -35,14 +35,18 @@ def vp_start_gui():
     root.mainloop()
 
 w = None
-def create_formEditor(root, *args, **kwargs):
+# Modified this routine per Don Rozen 1/22/20
+def create_formEditor(rt, *args, **kwargs):   # (root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
-    global w, w_win, rt
+    # global w, w_win, rt
+    global w, w_win, root
     global prog_location
     prog_call = sys.argv[0]
     prog_location = os.path.split(prog_call)[0]
-    rt = root
+    root = rt            # Replaces commented statement above.
     w = tk.Toplevel (root)
+    # rt = root
+    # w = tk.Toplevel (root)
     formEditor_support.set_Tk_var()
     top = formEditor (w)
     formEditor_support.init(w, top, *args, **kwargs)

@@ -7,7 +7,11 @@ Changelog.txt
        - Support for recipe rating
 * Editor - Started support for Entry/Edit form
          - Base editor GUI is finished.  No save or anything else yet.  Not yet integrated into Main Gui.
+         - Modified the startup function in formEditor.py (create_FormEditor) as workaround for issue in Page 4.27x Per Don Rozen
+         - Testing routine that "safely" checks to see if a shared (via shared.py) variable is available.  This should allow
+           an easy way to run dependant forms without parent support.
 
+* Scraper - Modified the startup function in ScraperGUI1.py (create_Scraper) as workaround for issue in Page 4.27x Per Don Rozen
 ---------------
 21 January 1630 
 

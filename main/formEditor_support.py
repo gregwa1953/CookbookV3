@@ -70,6 +70,8 @@ def on_btnExit():
     if shared.debug:
         print('formEditor_support.on_btnExit')
         sys.stdout.flush()
+    # cbv3Main_support.show_me()
+    # hide_me()
     destroy_window()
 
 
@@ -77,6 +79,9 @@ def on_btnSave():
     if shared.debug:
         print('formEditor_support.on_btnSave')
         sys.stdout.flush()
+    title = 'Save functions'
+    msg = "Sorry, but the Save functions are not yet implemented"
+    messagebox.showinfo(title, msg)
 
 
 def on_chkActive():
@@ -126,7 +131,7 @@ def update_label():
     for x in dat:
         if len(x) == 2:
             t = x[0]
-            k = x[1]
+            # k = x[1]
             lst.append(t)
         else:
             lst.append(x)
@@ -294,10 +299,31 @@ def init(top, gui, *args, **kwargs):
     print(path1)
     print(f"Version: {version}")
     progname = 'Editor v' + version
-    root.title(progname)
+    # root.title(progname)
     start_up()
     # Record to use for testing/development
+    testrec = 118
+    attr = getattr(shared, 'rectouse', False)
+    if attr is False:
+        shared.rectouse = testrec
+        testmode = True
+    else:
+        testmode = False
     shared.rectouse = 118  # 108
+    global is_child
+    # Use the following check to see if we are running as a child or standalone
+    attr = getattr(shared, 'remote', False)
+    if attr is False:
+        is_child = False
+        if testmode == True:
+            shared.testmode = True
+            root.title(progname + " - Standalone mode - TESTING MODE!")
+        else:
+            root.title(progname + " - Standalone mode")
+    else:
+        is_child = True
+        root.title(progname)
+
     fill_form()
 
 
