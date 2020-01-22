@@ -5,6 +5,9 @@ Changelog.txt
 
 * Main - Version updated to 3.0.3
        - Support for recipe rating
+* Editor - Started support for Entry/Edit form
+         - Base editor GUI is finished.  No save or anything else yet.  Not yet integrated into Main Gui.
+
 ---------------
 21 January 1630 
 
