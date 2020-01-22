@@ -34,7 +34,7 @@ if you are using Python 3.x (which at this time you _*SHOULD*_ be using anyway).
 
 ## Sourcecode considerations
 
-I can, without fear of contradiction, that my coding style is very old school and more verbose that it "needs" to be.  Basically, I feel that I am a teacher, since I share my source code freely with anyone.  Therefore, I write as if anyone who reads my code is using it for learning purposes.  So I tend to keep the cryptic programming at a level of almost non-existance.  If you feel you don't like my coding style, that's alright.  Others seem to, so you must be in the minority. ;o}
+I can, without fear of contradiction, state that my coding style is very old school and more verbose that it "needs" to be.  Basically, I feel that I am a teacher, since I share my source code freely with anyone.  Therefore, I write as if anyone who reads my code is using it for learning purposes.  So I tend to keep the cryptic programming at a level of almost non-existance.  If you feel you don't like my coding style, that's alright.  Others seem to, so you must be in the minority. ;o}
 
 I should put a quick note here about the number of files that make up my program.  When Page generates a GUI, there are three files that are created.  Assuming that your project is named "Project", it would create the following three files:
 
