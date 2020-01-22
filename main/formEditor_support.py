@@ -11,7 +11,6 @@
 # Last modification date: 21 January, 2020
 # ======================================================
 import sys
-from recipe_scrapers import scrape_me
 from PIL import Image, ImageTk
 import os
 import platform
@@ -70,9 +69,13 @@ def on_btnExit():
     if shared.debug:
         print('formEditor_support.on_btnExit')
         sys.stdout.flush()
-    # cbv3Main_support.show_me()
-    # hide_me()
-    destroy_window()
+
+    isok = check_attr(shared, 'remote')
+    if isok:
+        cbv3Main_support.show_me()
+        hide_me()
+    else:
+        destroy_window()
 
 
 def on_btnSave():
@@ -104,6 +107,30 @@ def on_customClick(s=None):
     if shared.debug:
         print('on_customClick')
     update_label()
+
+
+def on_keytab(e, which):
+    print('on_keytab')
+    print(which)
+    if which == 1:     # entryTitle
+        pass
+    elif which == 2:   # entrySource
+        pass
+    elif which == 3:   # entryServes
+        pass
+    elif which == 4:   # entryTotalTime
+        pass
+    elif which == 5:   # entryRating
+        pass
+    elif which == 6:   # stNotes
+        w.Scrolledtext1.focus_set()
+    elif which == 7:   # Scrolledtext1
+        w.Scrolledlistbox1.focus_set()
+
+
+def on_focusout(e, which):
+    print('on_focusout')
+    print(which)
 
 
 def clear_labels():
@@ -165,8 +192,8 @@ def load_image():
 
 
 def fill_form():
-    global connection, cursor
-    clear_labels
+    global connection, cursor, datacheck
+    clear_labels()
     # Get the recipe basics
     sql = f'SELECT * FROM recipes WHERE idRecipes = {shared.rectouse}'
     print(sql)
@@ -176,24 +203,28 @@ def fill_form():
         r = mainrec[0]
     RecordNumber.set(shared.rectouse)
     RecipeTitle.set(r[1])
-    shared.datacheck.append(r[1])
+    datacheck.append(r[1])
     RecipeSource.set(r[2])
-    shared.datacheck.append(r[2])
+    datacheck.append(r[2])
     RecipeServes.set(r[3])
-    shared.datacheck.append(r[3])
+    datacheck.append(r[3])
     RecipeTotalTime.set(r[4])
-    shared.datacheck.append(r[4])
+    datacheck.append(r[4])
     RecipeRating.set(r[5])
-    shared.datacheck.append(r[5])
+    datacheck.append(r[5])
     if r[6] == 1:
         che49.set(1)
         shared.IsActive = True
     else:
         che49.set(0)
         shared.IsActive = False
-    shared.datacheck.append(shared.IsActive)
-    w.stNotes.insert(tk.END, r[8])
-    shared.datacheck.append(r[8])
+    datacheck.append(shared.IsActive)
+    print(r[8])
+    if r[8] != None:
+        w.stNotes.insert(tk.END, r[8])
+        datacheck.append(r[8])
+    else:
+        datacheck.append('')
     # Now fill in the image, if there is one.
     shared.imagePath = ''
     sql = (f'SELECT * FROM images WHERE recipeID = {shared.rectouse}')
@@ -201,7 +232,7 @@ def fill_form():
     if len(imgrec) > 0:
         r = imgrec[0]
         shared.imagePath = r[2]
-    shared.datacheck.append(shared.imagePath)
+    datacheck.append(shared.imagePath)
     if shared.imagePath != '':
         load_image()
     # ===================================
@@ -213,7 +244,7 @@ def fill_form():
     if len(ingRecs) > 0:
         for i in ingRecs:
             w.Scrolledlistbox1.insert('end', str(i[0]))
-    shared.datacheck.append(ingRecs)
+    datacheck.append(ingRecs)
     # ===================================
     # Fill in the instructions
     # ===================================
@@ -222,7 +253,7 @@ def fill_form():
     recs = list(cursor.execute(sql))
     for r in recs:
         w.Scrolledtext1.insert(tk.END, r[0])
-    shared.datacheck.append(recs)
+    datacheck.append(recs)
     # ===================================
     # Set the categories
     # ===================================
@@ -249,12 +280,46 @@ def fill_form():
     update_label()
     x = w.Custom1.get()
     # print(x)
-    shared.datacheck.append(x)
+    datacheck.append(x)
     # ===================================
     shared.isDirty = False
 
     print('Datacheck:')
-    # print(shared.datacheck)
+    print(datacheck)
+
+
+# ======================================================
+# function check_attr()
+# ------------------------------------------------------
+# When using a shared.py empty module for inter-module
+# communications, if the program tries to access a variable that
+# hasn't bee defined, it will crash the program with an error.
+# This attemps to make it safe.
+# ======================================================
+def check_attr(module, variable):
+    attr = getattr(module, variable, False)
+    if attr is False:
+        return False
+    else:
+        return True
+
+
+def set_bindings():
+    w.entryTitle.bind('<KeyPress-Tab>', lambda e: on_keytab(e, 1))
+    w.entryTitle.bind('<FocusOut>', lambda e: on_focusout(e, 1))
+
+    w.entrySource.bind('<KeyPress-Tab>', lambda e: on_keytab(e, 2))
+    w.entrySource.bind('<FocusOut>', lambda e: on_focusout(e, 2))
+    w.entryServes.bind('<KeyPress-Tab>', lambda e: on_keytab(e, 3))
+    w.entryServes.bind('<FocusOut>', lambda e: on_focusout(e, 3))
+    w.entryTotalTime.bind('<KeyPress-Tab>', lambda e: on_keytab(e, 4))
+    w.entryTotalTime.bind('<FocusOut>', lambda e: on_focusout(e, 4))
+    w.entryRating.bind('<KeyPress-Tab>', lambda e: on_keytab(e, 5))
+    w.entryRating.bind('<FocusOut>', lambda e: on_focusout(e, 5))
+    w.stNotes.bind('<Control-Return>', lambda e: on_keytab(e, 6))
+    w.stNotes.bind('<FocusOut>', lambda e: on_focusout(e, 6))
+    w.Scrolledtext1.bind('<Control-Return>', lambda e: on_keytab(e, 7))
+    w.Scrolledtext1.bind('<FocusOut>', lambda e: on_focusout(e, 7))
 
 
 def start_up():
@@ -272,13 +337,17 @@ def start_up():
     lblImage.configure(text='')
     # Set up the debug flag
     shared.debug = True
-    shared.datacheck = []
+    global datacheck
+    datacheck = []
     # Fill the entry widget for testing purposes
     initialize_custom_widget()
+    # Set the entry widgets bindings
+    set_bindings()
     # set the window icon
     set_icon()
     # Centre the screen
     centre_screen(1139, 773)
+    w.entryTitle.focus_set()
 
 
 def init(top, gui, *args, **kwargs):
@@ -303,28 +372,38 @@ def init(top, gui, *args, **kwargs):
     start_up()
     # Record to use for testing/development
     testrec = 118
-    attr = getattr(shared, 'rectouse', False)
-    if attr is False:
+    # print(shared.rectouse)
+    isok = check_attr(shared, 'rectouse')
+    # attr = getattr(shared, 'rectouse', False)
+    if isok is False:
         shared.rectouse = testrec
         testmode = True
     else:
         testmode = False
-    shared.rectouse = 118  # 108
+    # shared.rectouse = 118  # 108
     global is_child
     # Use the following check to see if we are running as a child or standalone
-    attr = getattr(shared, 'remote', False)
-    if attr is False:
+    # attr = getattr(shared, 'remote', False)
+    isok = check_attr(shared, 'remote')
+    if isok is False:
         is_child = False
         if testmode == True:
             shared.testmode = True
-            root.title(progname + " - Standalone mode - TESTING MODE!")
+            shared.EditMode = 'Edit'
+            root.title(progname + " - Standalone mode - TEST Edit MODE!")
+            fill_form()
         else:
-            root.title(progname + " - Standalone mode")
+            shared.EditMode = 'New'
+            root.title(progname + " - Standalone mode - TEST New MODE")
+            clear_labels()
     else:
         is_child = True
-        root.title(progname)
-
-    fill_form()
+        if shared.EditMode == 'Edit':
+            root.title(progname + ' - Edit Mode')
+            fill_form()
+        else:
+            root.title(progname + ' - New Form')
+            clear_labels()
 
 
 def get_Custom_Cats():

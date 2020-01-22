@@ -35,6 +35,9 @@ from PIL import ImageTk, Image
 from dbutils import quote
 import ScraperGUI1_support
 import ScraperGUI1
+import formEditor
+import formEditor_support
+
 
 # try:
 #     import Tkinter as tk
@@ -149,12 +152,20 @@ def on_btnDelete():
 
 
 def on_btnEdit():
+    global CurrentID
     if shared.debug:
         print('test3_support.on_btnEdit')
         sys.stdout.flush()
-    title = "Edit Recipe"
-    msg = "Sorry, but the Edit Recipe function is not yet complete"
-    messagebox.showinfo(title, msg)
+    shared.remote = True
+    # Use the record selected by user to edit
+    shared.rectouse = CurrentID
+    shared.EditMode = 'Edit'
+    hide_me()
+    formEditor.create_formEditor(root)
+
+    # title = "Edit Recipe"
+    # msg = "Sorry, but the Edit Recipe function is not yet complete"
+    # messagebox.showinfo(title, msg)
 
 
 def on_btnExit():
