@@ -1,6 +1,11 @@
 Changelog.txt
 
 ---------------
+22 January 
+
+* Main - Version updated to 3.0.3
+       - Support for recipe rating
+---------------
 21 January 1630 
 
 * Main - Sorts for the title Treeview
