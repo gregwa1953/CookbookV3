@@ -370,8 +370,24 @@ def init(top, gui, *args, **kwargs):
     progname = 'Editor v' + version
     # root.title(progname)
     start_up()
-    # Record to use for testing/development
-    testrec = 118
+    # ======================================================
+    # At this point, we want to check to see if the program was called
+    # remotely or from the command line...
+    # ======================================================
+    isok = check_attr(shared, 'remote')
+    if isok:   # Cookbook main will set 'remote' to True
+        # Check to see if we are starting in Edit mode or New Recipe mode...
+        if shared.EditMode == 'Edit':
+            # shared.rectouse
+            root.title(progname + ' - Edit Mode')
+            fill_form()
+        else:
+            root.title(progname + ' - New Form')
+            clear_labels()
+    else:
+        # We are running in standalone mode.
+        # Record to use for testing/development
+        testrec = 118
     # print(shared.rectouse)
     isok = check_attr(shared, 'rectouse')
     # attr = getattr(shared, 'rectouse', False)

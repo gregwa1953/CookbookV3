@@ -86,9 +86,13 @@ def on_btnExit():
     if shared.debug:
         print('ScraperGUI1_support.on_btnExit')
         sys.stdout.flush()
-    cbv3Main_support.show_me()
-    # destroy_window()
-    hide_me()
+    isok = check_attr(shared, 'remote')
+    if isok:
+        cbv3Main_support.show_me()
+        hide_me()
+    else:
+        destroy_window()
+
 
 def get_image_from_web(url):
     # Attempt to get image from url and place it in w.lblImage
@@ -354,6 +358,23 @@ def WriteToDb():
     except:
         busyEnd()
         messagebox.showerror('Error', 'Something went wrong when trying to write to database!')
+
+
+# ======================================================
+# function check_attr()
+# ------------------------------------------------------
+# When using a shared.py empty module for inter-module
+# communications, if the program tries to access a variable that
+# hasn't bee defined, it will crash the program with an error.
+# This attemps to make it safe.
+# ======================================================
+def check_attr(module, variable):
+    attr = getattr(module, variable, False)
+    if attr is False:
+        return False
+    else:
+        return True
+
 
 def start_up():
     global connection

@@ -117,6 +117,7 @@ def on_btnScrape():
     # if shared.debug:
     print('cbv3Main_support.on_btnScrape')
         # sys.stdout.flush()
+    shared.remote = True
     ScraperGUI1.create_Scraper(root)
     hide_me()
 
@@ -137,9 +138,11 @@ def on_btnAdd():
     if shared.debug:
         print('test3_support.on_btnAdd')
         sys.stdout.flush()
-    title = "Add New Recipe"
-    msg = "Sorry, but the Add New Recipe function is not yet complete"
-    messagebox.showinfo(title, msg)
+        shared.rectouse = CurrentID
+    shared.remote = True
+    shared.EditMode = 'New'
+    hide_me()
+    formEditor.create_formEditor(root)
 
 
 def on_btnDelete():
@@ -157,15 +160,10 @@ def on_btnEdit():
         print('test3_support.on_btnEdit')
         sys.stdout.flush()
     shared.remote = True
-    # Use the record selected by user to edit
     shared.rectouse = CurrentID
     shared.EditMode = 'Edit'
     hide_me()
     formEditor.create_formEditor(root)
-
-    # title = "Edit Recipe"
-    # msg = "Sorry, but the Edit Recipe function is not yet complete"
-    # messagebox.showinfo(title, msg)
 
 
 def on_btnExit():
