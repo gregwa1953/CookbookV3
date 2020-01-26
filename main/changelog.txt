@@ -1,5 +1,13 @@
 Changelog.txt
 
+26 January 1300
+
+* Editor - Version 0.2.5
+     Right click support for all entry and text widgets complete
+     Load image into image label complete
+  Still to do - Finish New Entry Save to database
+              - Start existing recipe edits save to database
+
 ---------------
 26 January 
 

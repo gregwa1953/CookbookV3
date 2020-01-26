@@ -167,9 +167,9 @@ def on_popPaste(p1):
     elif p1 == 5:
         RecipeRating.set(root.clipboard_get())
     elif p1 == 6:
-        pass
+        w.stNotes.insert(tk.END, root.clipboard_get())
     elif p1 == 7:
-        pass
+        w.Scrolledtext1.insert(tk.END, root.clipboard_get())
     elif p1 == 8:
         EntryIngredient.set(root.clipboard_get())
     else:
@@ -179,15 +179,49 @@ def on_popPaste(p1):
 def on_popCopy(p1):
     print(f'on_popCopy - {p1}')
     global eWidgets
-    # field_value = eWidgets[p1].get()  # "1.0", 'end-1c')
-    # root.clipboard_clear()  # clear clipboard contents
-    # root.clipboard_append(field_value)
+    if p1 == 1:
+        field_value = RecipeTitle.get()
+    if p1 == 2:
+        field_value = RecipeSource.get()
+    if p1 == 3:
+        field_value = RecipeServes.get()
+    if p1 == 4:
+        field_value = RecipeTotalTime.get()
+    if p1 == 5:
+        field_value = RecipeRating.get()
+    if p1 == 6:
+        field_value = w.stNotes.get("1.0", tk.END)
+    if p1 == 7:
+        field_value = w.Scrolledtext1.get("1.0", tk.END)
+    if p1 == 8:
+        field_value = EntryIngredient.get()
+    else:
+        pass
+    root.clipboard_clear()  # clear clipboard contents
+    root.clipboard_append(field_value)
 
 
 def on_popClear(p1):
     print(f'on_popClear - {p1}')
     global eWidgets
-    # eWidgets[p1].set('')
+    if p1 == 1:
+        RecipeTitle.set('')
+    elif p1 == 2:
+        RecipeSource.set('')
+    elif p1 == 3:
+        RecipeServes.set('')
+    elif p1 == 4:
+        RecipeTotalTime.set('')
+    elif p1 == 5:
+        RecipeRating.set('')
+    elif p1 == 6:
+        w.stNotes.delete('1.0', tk.END)
+    elif p1 == 7:
+        w.Scrolledtext1.delete('1.0', tk.END)
+    elif p1 == 8:
+        EntryIngredient.set('')
+    else:
+        pass
 
 
 def on_entryKeyPress(e):
@@ -510,7 +544,7 @@ def start_up():
     lblImage = w.Label1
     lblImage.configure(text='')
     # Set up the debug flag
-    shared.debug = True
+    shared.debug = False
     global datacheck
     datacheck = []
     shared.imagePath = ''
