@@ -1,6 +1,20 @@
 Changelog.txt
 
 ---------------
+26 January 
+
+* Editor - Version 0.2.1
+    - Added entry widget for ingredient entry
+    - Moved position of add and delete buttons to support added widget
+    - in progress - Started write to database function - Currently only New record
+    - Added add image on right click in image label
+    - Added text to image label as user prompt
+    - Some minor code cleanup
+    - in progress - Need right click support in all entry widgets and text widgets
+        - Paste - Entry Widgets only - Not text widgets
+        - Copy  - Not done
+        - Clear - Not done
+---------------
 22 January 
 
 * Main - Version updated to 3.0.3

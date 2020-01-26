@@ -5,6 +5,7 @@
 #  in conjunction with Tcl version 8.6
 #    Jan 22, 2020 05:25:22 AM CST  platform: Linux
 #    Jan 22, 2020 08:24:34 AM CST  platform: Linux
+#    Jan 26, 2020 05:36:56 AM CST  platform: Linux
 # ======================================================
 # Written by G.D. Walters
 # ------------------------------------------------------
@@ -43,8 +44,9 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
-
 def set_Tk_var():
+    global EntryIngredient
+    EntryIngredient = tk.StringVar()
     global RecipeTitle
     RecipeTitle = tk.StringVar()
     global RecipeSource
@@ -64,7 +66,6 @@ def set_Tk_var():
     SelectedCats = tk.StringVar()
     SelectedCats.set('Message')
 
-
 def on_btnExit():
     if shared.debug:
         print('formEditor_support.on_btnExit')
@@ -77,7 +78,6 @@ def on_btnExit():
     else:
         destroy_window()
 
-
 def on_btnSave():
     if shared.debug:
         print('formEditor_support.on_btnSave')
@@ -86,28 +86,33 @@ def on_btnSave():
     msg = "Sorry, but the Save functions are not yet implemented"
     messagebox.showinfo(title, msg)
 
-
 def on_chkActive():
     if shared.debug:
         print('formEditor_support.on_chkActive')
         sys.stdout.flush()
 
-
 def on_btnAdd():
     print('formEditor_support.on_btnAdd')
     sys.stdout.flush()
-
+    # Get the entry data
+    ing = EntryIngredient.get()
+    # Add to ingredients list box
+    w.Scrolledlistbox1.insert('end', str(ing))
+    # Clear Entry widget
+    EntryIngredient.set('')
 
 def on_btnDelete():
+    # TODO - Add check for selection before attempt to delete
     print('formEditor_support.on_btnDelete')
     sys.stdout.flush()
-
+    pos = w.Scrolledlistbox1.curselection()
+    # print(f'About to delete item at pos {pos} - {w.Scrolledlistbox1.get(pos)}')
+    w.Scrolledlistbox1.delete(pos)
 
 def on_customClick(s=None):
     if shared.debug:
         print('on_customClick')
     update_label()
-
 
 def on_keytab(e, which):
     print('on_keytab')
@@ -127,11 +132,69 @@ def on_keytab(e, which):
     elif which == 7:   # Scrolledtext1
         w.Scrolledlistbox1.focus_set()
 
-
 def on_focusout(e, which):
     print('on_focusout')
     print(which)
 
+def on_imageLocal(p1):
+    print('on_imageLocal')
+    global path1
+    # pth = filedialog.askopenfile()
+    pth = ''
+    pth = filedialog.askopenfilename(initialdir = path1,
+                                   title = "choose your file",
+                                   filetypes = (("jpg files","*.jpg"),
+                                                ("png files","*.png"),
+                                                ("all files","*.*")))
+    # if pth = '', user pressed cancel
+    if pth != '':
+        print(f'FilePath = {pth}')
+        shared.imagePath = pth
+    # Load the image into the label
+    load_image()
+
+def on_popPaste(p1):
+    print(f'on_popPaste - {p1}')
+    global eWidgets
+    if p1 == 1:
+        RecipeTitle.set(root.clipboard_get())
+    elif p1 == 2:
+        RecipeSource.set(root.clipboard_get())
+    elif p1 == 3:
+        RecipeServes.set(root.clipboard_get())
+    elif p1 == 4:
+        RecipeTotalTime.set(root.clipboard_get())
+    elif p1 == 5:
+        RecipeRating.set(root.clipboard_get())
+    elif p1 == 6:
+        pass
+    elif p1 == 7:
+        pass
+    elif p1 == 8:
+        EntryIngredient.set(root.clipboard_get())
+    else:
+        pass
+
+
+def on_popCopy(p1):
+    print(f'on_popCopy - {p1}')
+    global eWidgets
+    # field_value = eWidgets[p1].get()  # "1.0", 'end-1c')
+    # root.clipboard_clear()  # clear clipboard contents
+    # root.clipboard_append(field_value)
+
+
+def on_popClear(p1):
+    print(f'on_popClear - {p1}')
+    global eWidgets
+    # eWidgets[p1].set('')
+
+
+def on_entryKeyPress(e):
+    if shared.debug:
+        print('EntryKeyPress')
+    if e.keysym == 'Return':
+        on_btnAdd()
 
 def clear_labels():
     RecipeTotalTime.set('')
@@ -145,12 +208,11 @@ def clear_labels():
     w.Scrolledtext1.delete('1.0', tk.END)
     # Ingredients
     w.Scrolledlistbox1.delete(0, tk.END)
+    # Categories
     w.Custom1.clear()
-
 
 def set_labels():
     pass
-
 
 def update_label():
     dat = w.Custom1.get()
@@ -164,7 +226,6 @@ def update_label():
             lst.append(x)
     s = ", ".join(lst)
     SelectedCats.set(s)
-
 
 def load_image():
     original = Image.open(shared.imagePath)
@@ -189,7 +250,6 @@ def load_image():
     _img1 = original.resize((int(w2), int(h2)), Image.ANTIALIAS)
     _img2 = ImageTk.PhotoImage(_img1)
     w.Label1.configure(image=_img2)
-
 
 def fill_form():
     global connection, cursor, datacheck
@@ -283,10 +343,9 @@ def fill_form():
     datacheck.append(x)
     # ===================================
     shared.isDirty = False
-
-    print('Datacheck:')
-    print(datacheck)
-
+    if shared.debug:
+        print('Datacheck:')
+        print(datacheck)
 
 # ======================================================
 # function check_attr()
@@ -303,24 +362,139 @@ def check_attr(module, variable):
     else:
         return True
 
-
 def set_bindings():
     w.entryTitle.bind('<KeyPress-Tab>', lambda e: on_keytab(e, 1))
     w.entryTitle.bind('<FocusOut>', lambda e: on_focusout(e, 1))
-
+    w.entryTitle.bind('<Button-3>', lambda e: w.popup1(e, 1))
     w.entrySource.bind('<KeyPress-Tab>', lambda e: on_keytab(e, 2))
     w.entrySource.bind('<FocusOut>', lambda e: on_focusout(e, 2))
+    w.entrySource.bind('<Button-3>', lambda e: w.popup1(e, 2))
     w.entryServes.bind('<KeyPress-Tab>', lambda e: on_keytab(e, 3))
     w.entryServes.bind('<FocusOut>', lambda e: on_focusout(e, 3))
+    w.entryServes.bind('<Button-3>', lambda e: w.popup1(e, 3))
     w.entryTotalTime.bind('<KeyPress-Tab>', lambda e: on_keytab(e, 4))
     w.entryTotalTime.bind('<FocusOut>', lambda e: on_focusout(e, 4))
+    w.entryTotalTime.bind('<Button-3>', lambda e: w.popup1(e, 4))
     w.entryRating.bind('<KeyPress-Tab>', lambda e: on_keytab(e, 5))
     w.entryRating.bind('<FocusOut>', lambda e: on_focusout(e, 5))
+    w.entryRating.bind('<Button-3>', lambda e: w.popup1(e, 5))
     w.stNotes.bind('<Control-Return>', lambda e: on_keytab(e, 6))
     w.stNotes.bind('<FocusOut>', lambda e: on_focusout(e, 6))
+    w.stNotes.bind('<Button-3>', lambda e: w.popup1(e, 6))
     w.Scrolledtext1.bind('<Control-Return>', lambda e: on_keytab(e, 7))
+    w.Scrolledtext1.bind('<Button-3>', lambda e: w.popup1(e, 7))
     w.Scrolledtext1.bind('<FocusOut>', lambda e: on_focusout(e, 7))
+    # Bind image label to right click for local image load
+    w.Label1.bind('<Button-3>', on_imageLocal)
+    # Bind right click to ingredient entry widget
+    w.entIngredient.bind('<Button-3>', lambda e: w.popup1(e, 8))
+    w.entIngredient.bind('<KeyRelease>', lambda e: on_entryKeyPress(e))
+    global eWidgets
+    eWidgets = [w.entryTitle, w.entrySource, w.entryServes, w.entryTotalTime, w.entryRating, w.stNotes, w.Scrolledtext1, w.entIngredient]
 
+
+def get_ingredient_list():
+    pass
+
+def write_to_db():
+    # Get the data from the form
+    title = RecipeTitle.get()
+    source = RecipeSource.get()
+    serves = RecipeServes.get()
+    totaltime = RecipeTotalTime.get()
+    rating = RecipeRating.get()
+    # active = che49.get()
+    # descrip = R
+    # Create the sql statements and write them
+    if shared.EditMode:
+        # Use update
+        pass
+    else:
+        # Use Insert
+        sql = ("Insert into recipes "
+            "(RecipeText,RecipeSource,RecipeServes,TotalTime, RecipeRating, Notes, Active) "
+            "VALUES ({0},{1},{2},{3},{4},{5},{6});").format(
+            quote(title),
+            quote(source),
+            quote(serves),
+            quote(totaltime),
+            quote(rating),
+            quote(w.stNotes.get(1.0, tk.END)),
+            1)
+        # print(sql)
+        # Everything depends on the last_insert_rowid being available
+        # so if this fails, we have to abort and have the user try again
+        cur.execute(sql)
+        connection.commit()
+        if shared.debug:
+            print('Main Record Written')
+        # LastRecord is the last id that was saved in the recipe table
+        # We will use it to link the rest of the data to this recipe
+        LastRecord = cur.lastrowid
+        if shared.debug:
+            print(f'LastRecord inserted at {LastRecord}')
+        # -----------------------
+        # Write Instructions
+        # -----------------------
+        sql = ("Insert into instructions "
+            "(RecipeID,InstructionsData) "
+            "VALUES ({0},{1})").format(LastRecord,
+                                        quote(
+                                            w.Scrolledtext1.get(
+                                                1.0, tk.END)))
+        # print(sql)
+        # r = input('Press a key ->')
+        cur.execute(sql)
+        connection.commit()
+        if shared.debug:
+            print('Instructions written')
+        # -----------------------
+        # Write ImageURL
+        # STILL TO DO
+        sql = ('INSERT INTO images (recipeID, image) '
+            'VALUES ({0}, {1})'.format(
+                LastRecord, quote(shared.imgname)))
+        # print(sql)
+        # cur.execute(sql)
+        # connection.commit()
+        if shared.debug:
+            print('Image Written')
+
+        # -----------------------
+        # Write Ingredients
+        # -----------------------
+        # ilist = GetIngredientItems(w.Scrolledlistbox1, 'I', 3)
+        # print(ilist)
+        # r = raw_input('Press a key -> ')
+        for line in shared.ingredients:
+            sql = ("INSERT INTO ingredients "
+                "(RecipeID,Ingredientitem) "
+                "VALUES ({0},{1})").format(
+                LastRecord, quote(line))
+
+            cur.execute(sql)
+        connection.commit()
+        if shared.debug:
+            print('Ingredients Written')
+        # -----------------------
+        # Write Categories
+        # Get checked cateegories
+        checks = w.Custom1.get()
+        print(checks)
+        for c in checks:
+            sql = (
+                "INSERT INTO recipecategories (RecipeId, MainCatKey) VALUES ({1}, {0})".format(c[1], LastRecord))
+            print(sql)
+            cur.execute(sql)
+        connection.commit()
+        # -----------------------
+        # connection.commit()
+        messagebox.showinfo('Data Actions', 'Recipe Saved')
+        busyEnd()
+        #
+    msgTitle = 'Save Recipe Changes'
+    msgMsg = 'All data saved'
+    messagebox.showinfo(msgTitle, msgMsg)
 
 def start_up():
     global connection, cursor
@@ -339,6 +513,8 @@ def start_up():
     shared.debug = True
     global datacheck
     datacheck = []
+    shared.imagePath = ''
+    w.Label1.configure(text = 'Right click here to insert image...')
     # Fill the entry widget for testing purposes
     initialize_custom_widget()
     # Set the entry widgets bindings
@@ -349,7 +525,6 @@ def start_up():
     centre_screen(1139, 773)
     w.entryTitle.focus_set()
 
-
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
@@ -359,7 +534,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.1.1'
+    version = '0.2.1'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files
@@ -421,7 +596,6 @@ def init(top, gui, *args, **kwargs):
             root.title(progname + ' - New Form')
             clear_labels()
 
-
 def get_Custom_Cats():
     global connection, cursor
     sql = 'SELECT CatText, idCategoriesMain FROM categoriesmain order by CatText ASC'
@@ -431,7 +605,6 @@ def get_Custom_Cats():
     return recs
     # if len(recs) > 0:
     #     for r in recs:
-
 
 def initialize_custom_widget():
     w.Custom1.cback = on_customClick
@@ -447,8 +620,6 @@ def initialize_custom_widget():
 # =================================================================
 # cursor stuff
 # =================================================================
-
-
 def busyStart(newcursor=None):
     global preBusyCursors
 
@@ -460,7 +631,6 @@ def busyStart(newcursor=None):
         component.configure(cursor=newcursor)
         component.update_idletasks()
     preBusyCursors = (newPreBusyCursors, preBusyCursors)
-
 
 def busyEnd():
     global preBusyCursors
@@ -475,7 +645,6 @@ def busyEnd():
             pass
         component.update_idletasks()
 
-
 def centre_screen(wid, hei):
     ws = root.winfo_screenwidth()
     hs = root.winfo_screenheight()
@@ -486,17 +655,13 @@ def centre_screen(wid, hei):
 # =================================================================
 # Window stuff
 # =================================================================
-
-
 def show_me():
     root.deiconify()
     root.attributes("-topmost", True)
 
-
 def hide_me():
     cbv3Main_support.show_me()
     root.withdraw()
-
 
 def set_icon():
     # ======================================================
@@ -507,10 +672,8 @@ def set_icon():
     shared.p1 = ImageTk.PhotoImage(file='images/chef.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
 
-
 # Custom = tk.Frame  # To be updated by user with name of custom widget.
 Custom = ScrolledCheckedListBox
-
 
 def destroy_window():
     # Function which closes the window.
@@ -518,7 +681,11 @@ def destroy_window():
     top_level.destroy()
     top_level = None
 
-
 if __name__ == '__main__':
     import formEditor
     formEditor.vp_start_gui()
+
+
+
+
+

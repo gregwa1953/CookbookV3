@@ -1,27 +1,30 @@
 Still to do
 
 IN Progress
-    Partial - Main - Implement WebScrape button on Main icon bar
+    Finish New/Edit form
+        - Add Entry widget for ingredients
+        - Re-arrange form to support it
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 UI issue
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Main - Treeview - Title Display - oddly sorted.  Sort by Alpha Asc
-Main - RecipeSource WAY too big. reduce font and extend size
+Done - Treeview - Title Display - oddly sorted.  Sort by Alpha Asc
+Partial - RecipeSource WAY too big. reduce font and extend size
 Main - Hide RecordID
 
 Scraper - auto remove "local_image.png" and "pic1.jpg"?
 Main - Line 499 - instead of printing "Error", support message box
 
+ALL - Change to "Darker" theme
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 FUNCTIONALLITY:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Main - Add sort ability for Treeview
-Maint - Create database cleanup program to remove orphan records
-Main - Implement active "delete"
+Partial - Maint - Create database cleanup program to remove orphan records
+Main - Implement active "delete" of recipes
 Main - Create HTML Print functions to print recipe
-New GUI - Create New/Edit form for hand entry/editing of recipes
+Partial New GUI - Create New/Edit form for hand entry/editing of recipes
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,7 +44,7 @@ Done - Scraper - Clear cats on new scrape
 Done - Scraper - clear all form on start
 Done - Database - Add "breakfast" to cats
 Dome - Database - Add "Sweets" to cats
-
+Done - Main - Implement WebScrape button on Main icon bar
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 RELATED but not directly:

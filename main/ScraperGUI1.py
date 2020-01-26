@@ -36,14 +36,8 @@ w = None
 
 # Modified this routine per Don Rozen 1/22/20
 def create_Scraper(rt, *args, **kwargs):
-    '''Starting point when module is imported by another program.'''
-    """ global w, w_win, rt  # rt, root
-    rt = root
-    w = tk.Toplevel (root) """
- #            ^^    changed root to rt so that I could make root global.
     global w, w_win, root
-    #rt = root
-    root = rt            # Replaces commented statement above.
+    root = rt 
     w = tk.Toplevel (root)
     ScraperGUI1_support.set_Tk_var()
     top = Scraper (w)
