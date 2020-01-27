@@ -438,7 +438,7 @@ def update_label():
     for x in dat:
         if len(x) == 2:
             t = x[0]
-            k = x[1]
+            # k = x[1]
             lst.append(t)
         else:
             lst.append(x)
