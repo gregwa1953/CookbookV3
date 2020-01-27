@@ -1,0 +1,47 @@
+
+Recipe scrapers are courtesy of https://github.com/hhursev/recipe-scrapers
+Current recipe websites that the scraper will work with (39):
+
+http://101cookbooks.com/
+http://allrecipes.com/
+http://bbc.com/
+http://bbc.co.uk/
+http://bbcgoodfood.com/
+http://bettycrocker.com/
+http://bonappetit.com/
+https://www.budgetbytes.com/
+http://closetcooking.com/
+http://cookstr.com/
+https://en.wikibooks.org/
+http://epicurious.com/
+http://finedininglovers.com/
+http://foodnetwork.com/
+http://foodrepublic.com/
+https://geniuskitchen.com/
+http://giallozafferano.it/
+https://healthyeating.nhlbi.nih.gov/
+https://www.hellofresh.com/
+https://www.hellofresh.co.uk/
+https://inspiralized.com/
+http://jamieoliver.com/
+https://www.thekitchn.com/
+https://www.matprat.no/
+http://mybakingaddiction.com/
+http://paninihappy.com/
+http://realsimple.com/
+https://www.seriouseats.com/
+http://simplyrecipes.com/
+http://steamykitchen.com/
+https://www.tastesoflizzyt.com
+http://tastykitchen.com/
+http://thepioneerwoman.com/
+https://www.thespruceeats.com/
+http://thehappyfoodie.co.uk/
+http://thevintagemixer.com/
+http://twopeasandtheirpod.com/
+http://whatsgabycooking.com/
+http://yummly.com/
+
+I've added two of these sites and plan to add more as time allows.
+
+Attempting to scrape a website not on this list will probably fail.  

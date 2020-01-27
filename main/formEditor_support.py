@@ -97,12 +97,19 @@ def on_btnAdd():
     if shared.debug:
         print('formEditor_support.on_btnAdd')
     sys.stdout.flush()
-    # Get the entry data
-    ing = EntryIngredient.get()
-    # Add to ingredients list box
-    w.Scrolledlistbox1.insert('end', str(ing))
+    global ingindex
+    if ingindex != None:
+        w.Scrolledlistbox1.delete(ingindex)
+        ing = EntryIngredient.get()
+        w.Scrolledlistbox1.insert(ingindex, str(ing))
+    else:
+        # Get the entry data
+        ing = EntryIngredient.get()
+        # Add to ingredients list box
+        w.Scrolledlistbox1.insert('end', str(ing))
     # Clear Entry widget
     EntryIngredient.set('')
+    ingindex = None
 
 
 def on_btnDelete():
@@ -113,6 +120,9 @@ def on_btnDelete():
     pos = w.Scrolledlistbox1.curselection()
     # print(f'About to delete item at pos {pos} - {w.Scrolledlistbox1.get(pos)}')
     w.Scrolledlistbox1.delete(pos)
+    EntryIngredient.set('')
+    global ingindex
+    ingindex = None
 
 
 def on_customClick(s=None):
@@ -160,7 +170,7 @@ def on_imageLocal(p1):
                                                 ("all files","*.*")))
     # if pth = '', user pressed cancel
     if pth != '':
-        print(f'FilePath = {pth}')
+        # print(f'FilePath = {pth}')
         shared.imagePath = pth
     # Load the image into the label
     load_image()
@@ -247,6 +257,18 @@ def on_entryKeyPress(e):
         on_btnAdd()
 
 
+def on_listboxSelect(e):
+    # print('on_listboxSelect')
+    indx = w.Scrolledlistbox1.curselection()
+    itm = w.Scrolledlistbox1.get(indx[0])
+    # print(f'Index selected: {indx} - {itm}')
+    EntryIngredient.set(itm)
+    global ingindex
+    ingindex = indx
+
+
+
+
 def clear_labels():
     RecipeTotalTime.set('')
     RecipeSource.set('')
@@ -323,10 +345,9 @@ def fill_form():
     clear_labels()
     # Get the recipe basics
     sql = f'SELECT * FROM recipes WHERE idRecipes = {shared.rectouse}'
-    print(sql)
     mainrec = list(cursor.execute(sql))
     if len(mainrec) > 0:
-        print(mainrec)
+        # print(mainrec)
         r = mainrec[0]
     RecordNumber.set(shared.rectouse)
     RecipeTitle.set(r[1])
@@ -346,7 +367,7 @@ def fill_form():
         che49.set(0)
         shared.IsActive = False
     datacheck.append(shared.IsActive)
-    print(r[8])
+    # print(r[8])
     if r[8] != None:
         w.stNotes.insert(tk.END, r[8])
         datacheck.append(r[8])
@@ -405,9 +426,9 @@ def fill_form():
     datacheck.append(x)
     # ===================================
     shared.isDirty = False
-    if shared.debug:
-        print('Datacheck:')
-        print(datacheck)
+    # if shared.debug:
+        # print('Datacheck:')
+        # print(datacheck)
 
 
 # ======================================================
@@ -453,6 +474,7 @@ def set_bindings():
     # Bind right click to ingredient entry widget
     w.entIngredient.bind('<Button-3>', lambda e: w.popup1(e, 8))
     w.entIngredient.bind('<KeyRelease>', lambda e: on_entryKeyPress(e))
+    w.Scrolledlistbox1.bind('<<ListboxSelect>>', on_listboxSelect)
     global eWidgets
     eWidgets = [w.entryTitle, w.entrySource, w.entryServes, w.entryTotalTime, w.entryRating, w.stNotes, w.Scrolledtext1, w.entIngredient]
 
@@ -608,7 +630,7 @@ def write_to_db():
             # Write Categories
             # Get checked cateegories
             checks = w.Custom1.get()
-            print(checks)
+            # print(checks)
             for c in checks:
                 sql = (
                     "INSERT INTO recipecategories (RecipeId, MainCatKey) VALUES ({1}, {0})".format(c[1], LastRecord))
@@ -622,8 +644,6 @@ def write_to_db():
             msgTitle = 'Save Recipe Changes'
             msgMsg = 'An error occured writing data'
             messagebox.showerror(msgTitle, msgMsg)
-        # -----------------------
-        # connection.commit()
 
         busyEnd()
         # -----------------------
@@ -670,7 +690,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.4.1'
+    version = '0.5.3'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files
@@ -701,6 +721,9 @@ def init(top, gui, *args, **kwargs):
         else:
             shared.EditMode = 'New'
             root.title(progname + " - Standalone mode - TEST New MODE")
+            w.chkActive.configure(state='disabled')
+            w.lblRecNumber.configure(state='disabled')
+            w.Label11.configure(state='disabled')
             clear_labels()
     else:
         is_child = True
@@ -710,6 +733,9 @@ def init(top, gui, *args, **kwargs):
             fill_form()
         else:
             root.title(progname + ' - New Form')
+            w.chkActive.configure(state='disabled')
+            w.lblRecNumber.configure(state='disabled')
+            w.Label11.configure(state='disabled')
             clear_labels()
 
 
