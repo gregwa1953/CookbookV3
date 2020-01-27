@@ -305,11 +305,17 @@ def load_image():
     _img2 = ImageTk.PhotoImage(_img1)
     src = shared.imagePath
     w.Label1.configure(image=_img2)
-    d1 = RecipeTitle.replace(" ", "")
-    dst = './database/recipeimages/' + d1 + ".png"
+    ti = RecipeTitle.get()
+    d1 = ti.replace(" ", "")
+    ext = src[-3:]
+    dst = './database/recipeimages/' + d1 + "." + ext
     shared.imgname = dst
     print(f'Attemptying to copy {src} to {dst}')
-    shutil.copyfile(src, dst)
+    try:
+        shutil.copyfile(src, dst)
+        os.remove(src)
+    except Exception:
+        pass
 
 
 def fill_form():
@@ -387,9 +393,8 @@ def fill_form():
             "(recipecategories.MainCatKey=categoriesmain.idCategoriesMain) "
             "WHERE recipes.idRecipes = {0}").format(shared.rectouse)
     cats = list(cursor.execute(sql2))
+    tlist = []
     if len(cats):
-        # print(cats)
-        tlist = []
         for r in cats:
             tlist.append(r[1])
 
@@ -465,10 +470,91 @@ def write_to_db():
     totaltime = RecipeTotalTime.get()
     rating = RecipeRating.get()
     notes = w.stNotes.get('1.0', tk.END)
+    active = che49.get()
     # Create the sql statements and write them
     if shared.EditMode == 'Edit':
-        # Use update
-        pass
+        # Use update for recipes, image and instructions tables
+        # Delete and replace for ingredients and cats tables
+        try:
+            sql = ("UPDATE recipes SET "
+                "RecipeText = {0}, RecipeSource = {1}, "
+                "RecipeServes = {2}, TotalTime = {3}, "
+                "RecipeRating = {4}, Notes = {5}, "
+                "Active = {6} WHERE idRecipes = {7}").format(
+                    quote(title),
+                    quote(source),
+                    quote(serves),
+                    quote(totaltime),
+                    quote(rating),
+                    quote(notes),
+                    active, shared.rectouse)
+            # print(sql)
+            isok = cursor.execute(sql)
+            connection.commit()
+            # ========================
+            # Instructions
+            # ========================
+            sql = ("UPDATE instructions SET "
+                   "InstructionsData = {0} WHERE RecipeID = {1}").format(
+                   quote(w.Scrolledtext1.get(1.0, tk.END)),
+                   shared.rectouse)
+            # print(sql)
+            isok = cursor.execute(sql)
+            connection.commit()
+            # ========================
+            #  Image
+            # ========================
+            sql = ("UPDATE images SET image = {1} WHERE recipeID = {0}").format(
+                        shared.rectouse, quote(shared.imagePath))
+            # print(sql)
+            isok = cursor.execute(sql)
+            connection.commit()
+            # ========================
+            #  Ingredients
+            # For ingredients and categories, we first need to delete the existing records
+            # and then insert the new ones, since it would be alot of code to verify existance and positions
+            # of any new records.
+            # ========================
+            sql = (f"DELETE FROM ingredients WHERE RecipeID = {shared.rectouse}")
+            # print(sql)
+            isok = cursor.execute(sql)
+            connection.commit()
+            # ========================
+            # Now, write the records back in.
+            ilist = w.Scrolledlistbox1.get(0, tk.END)
+            for line in ilist:
+                sql = ("INSERT INTO ingredients "
+                    "(RecipeID,Ingredientitem) "
+                    "VALUES ({0},{1})").format(
+                    shared.rectouse, quote(line))
+                # print(sql)
+                cursor.execute(sql)
+            connection.commit()
+
+            # ========================
+            #  Cats
+            # ========================
+            # Like ingredients, delete existing records, then insert the "new" ones.
+            sql = (f"DELETE FROM images WHERE recipeID = {shared.rectouse}")
+            # print(sql)
+            cursor.execute(sql)
+            connection.commit()
+            checks = w.Custom1.get()
+            # print(checks)
+            for c in checks:
+                sql = (
+                    "INSERT INTO recipecategories (RecipeId, MainCatKey) VALUES ({1}, {0})".format(c[1], shared.rectouse))
+                # print(sql)
+                cursor.execute(sql)
+            connection.commit()
+            msgTitle = 'Save Recipe Changes'
+            msgMsg = 'All data saved'
+            messagebox.showinfo(msgTitle, msgMsg)
+        except Exception:
+            print('write fail')
+            msgTitle = 'Save Recipe Changes'
+            msgMsg = 'An error occured writing data'
+            messagebox.showerror(msgTitle, msgMsg)
     else:
         # Use Insert
         try:
@@ -584,7 +670,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.3.1'
+    version = '0.4.1'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files
@@ -599,29 +685,8 @@ def init(top, gui, *args, **kwargs):
     # At this point, we want to check to see if the program was called
     # remotely or from the command line...
     # ======================================================
-    isok = check_attr(shared, 'remote')
-    if isok:   # Cookbook main will set 'remote' to True
-        # Check to see if we are starting in Edit mode or New Recipe mode...
-        if shared.EditMode == 'Edit':
-            # shared.rectouse
-            root.title(progname + ' - Edit Mode')
-            fill_form()
-        else:
-            root.title(progname + ' - New Form')
-            clear_labels()
-    else:
-        # We are running in standalone mode.
-        # Record to use for testing/development
-        testrec = 118
-    isok = check_attr(shared, 'rectouse')
-    # attr = getattr(shared, 'rectouse', False)
-    # if isok is False:
-    #     shared.rectouse = testrec
-    #     testmode = True
-    # else:
-    testmode = False
-    # shared.rectouse = 118  # 108
     global is_child
+    testmode = True
     # Use the following check to see if we are running as a child or standalone
     # attr = getattr(shared, 'remote', False)
     isok = check_attr(shared, 'remote')
@@ -630,6 +695,7 @@ def init(top, gui, *args, **kwargs):
         if testmode == True:
             shared.testmode = True
             shared.EditMode = 'Edit'
+            shared.rectouse = 118  # 108
             root.title(progname + " - Standalone mode - TEST Edit MODE!")
             fill_form()
         else:
@@ -639,6 +705,7 @@ def init(top, gui, *args, **kwargs):
     else:
         is_child = True
         if shared.EditMode == 'Edit':
+            isok = check_attr(shared, 'rectouse')
             root.title(progname + ' - Edit Mode')
             fill_form()
         else:

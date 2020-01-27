@@ -115,6 +115,7 @@ def get_image_from_web(url):
 
         jpgfile = Image.open('pic1.jpg')
         jpgfile.save('local_image.png')
+        os.remove(jpfile)
         original = Image.open('local_image.png')
         wid, hei = original.size
         if shared.debug:
@@ -142,6 +143,7 @@ def get_image_from_web(url):
         shared.imgname = dst
         print(f'Attemptying to copy {src} to {dst}')
         shutil.copyfile(src, dst)
+        os.remove(original)
         # os.rename(src, dst)
     except Exception:
         boxTitle = "Image Error"

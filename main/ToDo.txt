@@ -5,6 +5,9 @@ IN Progress
         - Add Entry widget for ingredients
         - Re-arrange form to support it
 
+Editor - Images not copying to database/recipeimages/ folder
+       - When running in stand alone mode, show dialog asking if new or edit and if edit, ask which record.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 UI issue
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

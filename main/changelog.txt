@@ -1,6 +1,15 @@
 Changelog.txt
 
 ---------------
+27 January 0630
+* Main - Version 0.4.1
+* Cleared bug I-4 Editor
+  Also fixed same issue in Scraper
+* Cleaned up init function
+* Editor - finished write_to_db routines.  Should work now for edits or new recipes.
+* Editor - Need to create code to allow edit of a single ingredient entry.
+
+---------------
 26 January - 1920
 
 * Main - Cleared bug I-3
