@@ -2,9 +2,17 @@ Bugs
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug number: I-3
+Date 26 January 2020
+Status: Closed - GDW
+
+Main - Description not filling in from recipe record (when one exists)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug number: I-2
 Date:21 January 2020
-Status: Verified
+Status: Closed - GDW
 
 Treeview - Title fill.  Filled in some random order.  Needs at minimum to be sorted Alpha Asc.
 
@@ -12,7 +20,7 @@ Treeview - Title fill.  Filled in some random order.  Needs at minimum to be sor
 Bug number: I-1 
 Date: 21 January 2020
 Status: Workaround applied
-Status: Closed
+Status: Closed - GDW
 
 When scraper is called from main, right click in entry causes error message and no popup...
 Exception in Tkinter callback

@@ -11,6 +11,7 @@
 #    Jan 19, 2020 07:01:49 PM CST  platform: Linux
 #    Jan 19, 2020 08:00:03 PM CST  platform: Linux
 #    Jan 21, 2020 03:05:04 PM CST  platform: Linux
+#    Jan 22, 2020 02:57:49 AM CST  platform: Linux
 # ======================================================
 # Written by G.D. Walters
 # ------------------------------------------------------
@@ -34,6 +35,9 @@ from PIL import ImageTk, Image
 from dbutils import quote
 import ScraperGUI1_support
 import ScraperGUI1
+import formEditor
+import formEditor_support
+
 
 # try:
 #     import Tkinter as tk
@@ -61,6 +65,10 @@ except ImportError:
 
 
 def set_Tk_var():
+    global RecipeRating
+    RecipeRating = tk.StringVar()
+    RecipeRating.set('Label')
+
     global RecipeTotalTime
     RecipeTotalTime = tk.StringVar()
     RecipeTotalTime.set('Label')
@@ -109,6 +117,7 @@ def on_btnScrape():
     # if shared.debug:
     print('cbv3Main_support.on_btnScrape')
         # sys.stdout.flush()
+    shared.remote = True
     ScraperGUI1.create_Scraper(root)
     hide_me()
 
@@ -129,9 +138,11 @@ def on_btnAdd():
     if shared.debug:
         print('test3_support.on_btnAdd')
         sys.stdout.flush()
-    title = "Add New Recipe"
-    msg = "Sorry, but the Add New Recipe function is not yet complete"
-    messagebox.showinfo(title, msg)
+        shared.rectouse = CurrentID
+    shared.remote = True
+    shared.EditMode = 'New'
+    hide_me()
+    formEditor.create_formEditor(root)
 
 
 def on_btnDelete():
@@ -144,12 +155,15 @@ def on_btnDelete():
 
 
 def on_btnEdit():
+    global CurrentID
     if shared.debug:
         print('test3_support.on_btnEdit')
         sys.stdout.flush()
-    title = "Edit Recipe"
-    msg = "Sorry, but the Edit Recipe function is not yet complete"
-    messagebox.showinfo(title, msg)
+    shared.remote = True
+    shared.rectouse = CurrentID
+    shared.EditMode = 'Edit'
+    hide_me()
+    formEditor.create_formEditor(root)
 
 
 def on_btnExit():
@@ -261,6 +275,7 @@ def clear_form():
     RecipeServings.set('')
     RecipeCategories.set('')
     RecipeTotalTime.set('')
+    RecipeRating.set('')
     # Instructions
     w.Scrolledtext1.delete('1.0', tk.END)
     # Ingredients
@@ -284,6 +299,12 @@ def load_form(id):
         RecipeSource.set(r[2])
         RecipeServings.set(r[3])
         RecipeTotalTime.set(r[4])
+        RecipeRating.set(r[5])
+        # active = r[6]
+        # photoid = r[7]
+        print(r[8])
+        w.msgNotes.configure(text=r[8])
+        # RecipeNotes.set(r[8])
     # ======================================================
     # Load the ingredients
     # if int(id) < 90:
@@ -302,7 +323,6 @@ def load_form(id):
     #     sql = (f'SELECT IngredientItem, recipes.Active from ingredients WHERE RecipeID = {id} and recipes.Active = 1')
     # else:
         sql = (f'SELECT IngredientItem from ingredients WHERE RecipeID = {id}')
-
 
     ingreds = list(cursor.execute(sql))
     # ingreds = cursor.execute(sql)
@@ -647,7 +667,7 @@ def init(top, gui, *args, **kwargs):
     # My init code here...
     # ======================================================
     global version
-    version = '3.0.3'
+    version = '3.0.4'
     global progname
     progname = "Cookbook"
     startup()
@@ -702,3 +722,4 @@ def destroy_window():
 if __name__ == '__main__':
     import cbv3Main
     cbv3Main.vp_start_gui()
+
