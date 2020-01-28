@@ -1,6 +1,15 @@
 Changelog.txt
 
 ---------------
+28 January 0400
+
+* Main - Version 3.2.0
+       - Added support for printing recipe to HTML.
+       - Minor cleanup
+* Scraper - Version 0.3.0
+          - Minor changes to try to minimize web pages that don't properly return images.
+
+---------------
 27 January 0745
 
 * Added text file showing currently supported recipe websites for scraping (CurrentlySupportedRecipeSitesForScraping.txt)

@@ -329,9 +329,13 @@ def load_image():
     w.Label1.configure(image=_img2)
     ti = RecipeTitle.get()
     d1 = ti.replace(" ", "")
-    ext = src[-3:]
-    dst = './database/recipeimages/' + d1 + "." + ext
-    shared.imgname = dst
+    pos = d1.rfind(".")
+
+    ext = src[pos:]
+    if ext == '.jpeg':
+        ext = '.jpg'
+    dst = './database/recipeimages/' + d1 + ext
+    shared.imagePath = dst
     print(f'Attemptying to copy {src} to {dst}')
     try:
         shutil.copyfile(src, dst)
@@ -669,6 +673,8 @@ def start_up():
     global datacheck
     datacheck = []
     shared.imagePath = ''
+    global ingindex
+    ingindex = None
     w.Label1.configure(text = 'Right click here to insert image...')
     # Fill the entry widget for testing purposes
     initialize_custom_widget()
@@ -706,7 +712,7 @@ def init(top, gui, *args, **kwargs):
     # remotely or from the command line...
     # ======================================================
     global is_child
-    testmode = True
+    testmode = False
     # Use the following check to see if we are running as a child or standalone
     # attr = getattr(shared, 'remote', False)
     isok = check_attr(shared, 'remote')

@@ -161,16 +161,17 @@ def on_btnGo():
     if shared.debug:
         print(f'Attempting to contact {EntryWebsite.get()}')
     sys.stdout.flush()
-    # try:
+
     scraper = scrape_me(url_to_get)
     shared.title = scraper.title()
     shared.total_time = scraper.total_time()
     shared.yields = scraper.yields()
-
     shared.ingredients = scraper.ingredients()
     shared.instructions = scraper.instructions()
-    shared.image = scraper.image()
-    # links = scraper.links()
+    imgpath = scraper.image()
+    if imgpath != None:
+        shared.image = scraper.image()
+
     if shared.debug:
         print(shared.title)
         print(shared.total_time)
@@ -228,8 +229,12 @@ def fill_form():
     sTotalTime.set(f'{shared.total_time} minutes')
     sYields.set(shared.yields)
     sImageURL.set(shared.image)
-    get_image_from_web(shared.image)
-
+    if shared.image != None:
+        get_image_from_web(shared.image)
+    else:
+        titl = 'Image issue'
+        msg = 'The scraper was not able to get the image.'
+        messagebox.showerror(titl,msg)
     # ingredients
     load_ingredients()
     # instructions
@@ -264,13 +269,6 @@ def testdb():
 def WriteToDb():
     global connection, cursor
 
-    # print('NewRecipe = {0}'.format(NewRecipe))
-    # resp = AskQuestion(
-    #                    'Save Changes',
-    #                    'About to save data. Are you sure you wish to continue?')
-    # print(resp)
-    # if resp is True:
-
     busyStart()
     try:
         cur = cursor
@@ -287,7 +285,7 @@ def WriteToDb():
                 quote(sYields.get()),
                 quote(sTotalTime.get()),
                 1)
-            # print(sql)
+
             # Everything depends on the last_insert_rowid being available
             # so if this fails, we have to abort and have the user try again
             cur.execute(sql)
@@ -308,8 +306,7 @@ def WriteToDb():
                                             quote(
                                                 w.Scrolledtext1.get(
                                                     1.0, tk.END)))
-            # print(sql)
-            # r = input('Press a key ->')
+
             cur.execute(sql)
             connection.commit()
             if shared.debug:
@@ -320,7 +317,7 @@ def WriteToDb():
             sql = ('INSERT INTO images (recipeID, image) '
                 'VALUES ({0}, {1})'.format(
                     LastRecord, quote(shared.imgname)))
-            # print(sql)
+
             cur.execute(sql)
             connection.commit()
             if shared.debug:
@@ -329,9 +326,7 @@ def WriteToDb():
             # -----------------------
             # Write Ingredients
             # -----------------------
-            # ilist = GetIngredientItems(w.Scrolledlistbox1, 'I', 3)
-            # print(ilist)
-            # r = raw_input('Press a key -> ')
+
             for line in shared.ingredients:
                 sql = ("INSERT INTO ingredients "
                     "(RecipeID,Ingredientitem) "
@@ -346,7 +341,7 @@ def WriteToDb():
             # Write Categories
             # Get checked cateegories
             checks = w.Custom1.get()
-            print(checks)
+
             for c in checks:
                 sql = (
                     "INSERT INTO recipecategories (RecipeId, MainCatKey) VALUES ({1}, {0})".format(c[1], LastRecord))
@@ -401,13 +396,12 @@ def start_up():
     # Fill the entry widget for testing purposes
     initialize_custom_widget()
     EntryWebsite.set('Right click here to paste a website URL from the clipboard')
-    #     'https://www.allrecipes.com/recipe/9616/grandma-ms-raisin-cookies/')
-    #     'https://www.allrecipes.com/recipe/219936/spicy-chicken-thai-soup/')
 
     shared.debug = False
     if shared.debug:
         print('calling testdb')
-    testdb()
+#     testdb()
+
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
@@ -418,7 +412,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.2.4'
+    version = '0.3.0'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files

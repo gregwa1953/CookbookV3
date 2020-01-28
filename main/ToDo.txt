@@ -1,12 +1,18 @@
 Still to do
 
-IN Progress
-    Finish New/Edit form
-        - Add Entry widget for ingredients
-        - Re-arrange form to support it
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+HIGH priority
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Editor - Images not copying to database/recipeimages/ folder
        - When running in stand alone mode, show dialog asking if new or edit and if edit, ask which record.
+
+Main   - Delete selected recipe
+       - Support printing of recipe (and add button for printing)
+
+README - Add acknowledgement section
+         Add link to supported scraper sites
+         Add warning about potential bugs
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 UI issue
@@ -25,9 +31,7 @@ FUNCTIONALLITY:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Main - Add sort ability for Treeview
 Partial - Maint - Create database cleanup program to remove orphan records
-Main - Implement active "delete" of recipes
-Main - Create HTML Print functions to print recipe
-Partial New GUI - Create New/Edit form for hand entry/editing of recipes
+
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -48,6 +52,8 @@ Done - Scraper - clear all form on start
 Done - Database - Add "breakfast" to cats
 Dome - Database - Add "Sweets" to cats
 Done - Main - Implement WebScrape button on Main icon bar
+Done -  New GUI - Create New/Edit form for hand entry/editing of recipes
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 RELATED but not directly:
