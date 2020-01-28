@@ -37,7 +37,7 @@ w = None
 # Modified this routine per Don Rozen 1/22/20
 def create_Scraper(rt, *args, **kwargs):
     global w, w_win, root
-    root = rt 
+    root = rt
     w = tk.Toplevel (root)
     ScraperGUI1_support.set_Tk_var()
     top = Scraper (w)

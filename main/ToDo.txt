@@ -4,11 +4,12 @@ Still to do
 HIGH priority
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Editor - Images not copying to database/recipeimages/ folder
+Editor - Partially fixed - Images not copying to database/recipeimages/ folder
        - When running in stand alone mode, show dialog asking if new or edit and if edit, ask which record.
 
 Main   - Delete selected recipe
-       - Support printing of recipe (and add button for printing)
+       - Done - Support printing of recipe (and add button for printing)
+       - When returning from scraper or New/Edit, open the last record in main form and set treeview to that record.
 
 README - Add acknowledgement section
          Add link to supported scraper sites

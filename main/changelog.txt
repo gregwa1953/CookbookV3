@@ -1,5 +1,20 @@
 Changelog.txt
 
+---------------
+28 January
+
+* Scraper - Version 0.3.3
+          - Added routine to check URL domain against supported scrapers before attempting to scrape.
+          - Added beginnings of "darker" theme
+
+* Main - Version 3.2.2
+       - Removed code that made form on top of all others upon deiconify.
+       - Fixed CurrentID not set on startup
+       - Added beginnings of "darker" theme
+
+* Editor - Version 0.5.4
+         - Added beginnings of "darker" theme 
+* Database - categories - Added chicken, turkey, duck, Latin American, Side Dish, Marinade
 
 ---------------
 28 January 1130

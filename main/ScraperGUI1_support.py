@@ -13,7 +13,7 @@
 # Last modification date: 20 January, 2020
 # ======================================================
 import sys
-from recipe_scrapers import scrape_me
+from recipe_scrapers import scrape_me, SCRAPERS
 from PIL import Image, ImageTk
 import os
 import platform
@@ -25,6 +25,7 @@ from dbutils import quote
 from ScrolledCheckedListBox import ScrolledCheckedListBox
 import cbv3Main
 import cbv3Main_support
+from urllib.parse import urlparse
 
 try:
     import Tkinter as tk
@@ -159,39 +160,62 @@ def get_image_from_web(url):
 
 
 def on_btnGo():
-    busyStart()
-    print('ScraperGUI1_support.on_btnGo')
     url_to_get = EntryWebsite.get()
-    clear_form()
-    if shared.debug:
-        print(f'Attempting to contact {EntryWebsite.get()}')
-    sys.stdout.flush()
-
-    scraper = scrape_me(url_to_get)
-    shared.title = scraper.title()
-    shared.total_time = scraper.total_time()
-    shared.yields = scraper.yields()
-    shared.ingredients = scraper.ingredients()
-    shared.instructions = scraper.instructions()
-    imgpath = scraper.image()
-    if imgpath != None:
-        shared.image = scraper.image()
-
-    if shared.debug:
-        print(shared.title)
-        print(shared.total_time)
-        print(shared.yields)
-        print(shared.ingredients)
-        print(shared.instructions)
-        print(shared.image)
-    # get_image_from_web(image)
     # ======================================================
-    # Fill in the GUI widgets
+    # Check the url to see if it is currently supported by scraper
+    #    Hopefully, this will save the user frustration
+    # ------------------------------------------------------------
+    # GDW 28 January 2020
     # ======================================================
-    fill_form()
-    # except Exception:
-    #     print('oh-oh')
-    busyEnd()
+    domain = urlparse(url_to_get).netloc
+    domain = domain.replace("www.", "")
+    oktorun = True
+    # for l in SCRAPERS:
+    #     print(l)
+    if domain in SCRAPERS:
+        print('ok to run')
+    else:
+        print('domain not supported')
+        oktorun = False
+    # ======================================================
+    if oktorun:
+        busyStart()
+        print('ScraperGUI1_support.on_btnGo')
+        url_to_get = EntryWebsite.get()
+        clear_form()
+        if shared.debug:
+            print(f'Attempting to contact {EntryWebsite.get()}')
+        sys.stdout.flush()
+
+        scraper = scrape_me(url_to_get)
+        shared.title = scraper.title()
+        shared.total_time = scraper.total_time()
+        shared.yields = scraper.yields()
+        shared.ingredients = scraper.ingredients()
+        shared.instructions = scraper.instructions()
+        imgpath = scraper.image()
+        if imgpath != None:
+            shared.image = scraper.image()
+
+        if shared.debug:
+            print(shared.title)
+            print(shared.total_time)
+            print(shared.yields)
+            print(shared.ingredients)
+            print(shared.instructions)
+            print(shared.image)
+        # get_image_from_web(image)
+        # ======================================================
+        # Fill in the GUI widgets
+        # ======================================================
+        fill_form()
+        # except Exception:
+        #     print('oh-oh')
+        busyEnd()
+    else:
+        titl = 'Cookbook Scraper'
+        msg = f'{domain} is not currently supported by the recipe scraper.'
+        messagebox.showerror(titl, msg)
 
 
 def on_popPaste():
@@ -415,11 +439,9 @@ def start_up():
     # Fill the entry widget for testing purposes
     initialize_custom_widget()
     EntryWebsite.set('Right click here to paste a website URL from the clipboard')
-
+    set_mode()
+    clear_form()
     shared.debug = False
-    if shared.debug:
-        print('calling testdb')
-#     testdb()
 
 
 def init(top, gui, *args, **kwargs):
@@ -431,7 +453,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.3.0'
+    version = '0.3.3'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files
@@ -523,6 +545,17 @@ def centre_screen(wid, hei):
     x = (ws/2) - (wid/2)
     y = (hs/2) - (hei/2)
     root.geometry('%dx%d+%d+%d' % (wid, hei, x, y))
+
+
+def set_mode():
+
+    widgetlist = [root, w.btnExit, w.Label1, w.Entry1, w.lblTitle, w.lblTotalTime, w.lblYields, w.lblImageURL, w.btnGo, w.Label2, w.Label3, w.Label4, w.Label5, w.lblImage, w.Label7, w.Label8, w.btnSaveToDB, w.Label8, w.frameCustomWidget, w.Message1]
+    l = len(widgetlist)
+    for widg in widgetlist:
+        widg.configure(background="#919191")
+    print('finished applying backgrounds')
+    w.Scrolledlistbox1.configure(background=tbcolour)
+    w.Scrolledtext1.configure(background=tbcolour)
 
 
 # =================================================================

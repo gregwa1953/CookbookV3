@@ -430,7 +430,7 @@ def tree_open(e):
         load_form(CurrentID)
 
 def populate_tree(tree, node):
-    global first
+    global first, CurrentID
     if shared.tv_mode == 1:
         recs = load_base_recipes()
     elif shared.tv_mode == 3:
@@ -669,6 +669,7 @@ def startup():
     setup_treeview()
     set_btn_labels()
     set_icon()
+    set_mode()
     root.title("Greg's Cookbook V3")
     centre_screen(1270,861)
     shared.debug = False
@@ -682,9 +683,9 @@ def init(top, gui, *args, **kwargs):
     # My init code here...
     # ======================================================
     global version
-    version = '3.2.1'
+    version = '3.2.2'
     global progname
-    progname = "Cookbook"
+    progname = "Cookbook V3"
     startup()
 
 def centre_screen(wid, hei):
@@ -705,6 +706,19 @@ def set_icon():
     # p1 = tk.Image("photo", file='images/chef.png')
     shared.p1 = ImageTk.PhotoImage(file='images/chef.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
+
+def set_mode():
+    tbcolour = 'NavajoWhite3'
+    widgetlist = [root, w.frameToolbar, w.frameStatus, w.lblTimeDisplay, w.frameNavigate, w.Frame2, w.Label1, w.rbTitle, w.rbCategories, w.rbIngredients, w.Checkbutton1, w.Frame3, w.Frame1, w.lblTitle, w.lblImage, w.lblSource, w.lblServings, w.msgCategories, w.lblID, w.Label2, w.Label3, w.Label4, w.lblTotalTime, w.Label5, w.Label6, w.Label7]
+    l = len(widgetlist)
+
+    for widg in widgetlist:
+        widg.configure(background="#919191")
+    w.stNotes.configure(background=tbcolour)
+    w.Scrolledlistbox1.configure(background=tbcolour)
+    w.Scrolledtext1.configure(background=tbcolour)
+    print('finished applying backgrounds')
+
 
 # =================================================================
 # Window stuff

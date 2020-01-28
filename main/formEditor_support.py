@@ -698,6 +698,7 @@ def start_up():
     initialize_custom_widget()
     # Set the entry widgets bindings
     set_bindings()
+    set_mode()
     # set the window icon
     set_icon()
     # Centre the screen
@@ -714,7 +715,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.5.3'
+    version = '0.5.4'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files
@@ -779,6 +780,17 @@ def initialize_custom_widget():
     ListInfo2 = get_Custom_Cats()
     w.Custom1.load(ListInfo2)
     w.Custom1.clear()
+
+
+def set_mode():
+
+    tbcolour = 'NavajoWhite3'
+    w.stNotes.configure(background=tbcolour)
+    w.Scrolledlistbox1.configure(background=tbcolour)
+    w.Scrolledtext1.configure(background=tbcolour)
+    widgetlist = [w.entryTitle, w.entrySource, w.entryServes, w.entryTotalTime, w.entryRating, w.entIngredient]
+    for widg in widgetlist:
+        widg.configure(background=tbcolour)
 
 
 # =================================================================
