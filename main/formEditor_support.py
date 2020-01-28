@@ -329,19 +329,24 @@ def load_image():
     w.Label1.configure(image=_img2)
     ti = RecipeTitle.get()
     d1 = ti.replace(" ", "")
-    pos = d1.rfind(".")
+    pos = src.rfind(".")
 
     ext = src[pos:]
+    # fnstart = pos(src.rfind('/'))
+
     if ext == '.jpeg':
         ext = '.jpg'
     dst = './database/recipeimages/' + d1 + ext
     shared.imagePath = dst
-    print(f'Attemptying to copy {src} to {dst}')
-    try:
-        shutil.copyfile(src, dst)
-        os.remove(src)
-    except Exception:
+    if os.path.exists(dst):
         pass
+    else:
+        print(f'Attemptying to copy {src} to {dst}')
+        try:
+            shutil.copyfile(src, dst)
+            os.remove(src)
+        except Exception:
+            pass
 
 
 def fill_form():
@@ -527,14 +532,7 @@ def write_to_db():
             # print(sql)
             isok = cursor.execute(sql)
             connection.commit()
-            # ========================
-            #  Image
-            # ========================
-            sql = ("UPDATE images SET image = {1} WHERE recipeID = {0}").format(
-                        shared.rectouse, quote(shared.imagePath))
-            # print(sql)
-            isok = cursor.execute(sql)
-            connection.commit()
+
             # ========================
             #  Ingredients
             # For ingredients and categories, we first need to delete the existing records
@@ -573,6 +571,26 @@ def write_to_db():
                 # print(sql)
                 cursor.execute(sql)
             connection.commit()
+            # ========================
+            #  Image
+            # ========================
+            sql = (f'SELECT * FROM images WHERE recipeID = {shared.rectouse}')
+            resp = list(cursor.execute(sql))
+            # print(resp)
+            if len(resp) > 0:
+
+                sql = ("UPDATE images SET image = {1} WHERE recipeID = {0}").format(
+                        shared.rectouse, quote(shared.imagePath))
+            else:
+                sql = ('INSERT INTO images (recipeID, image) '
+                       'VALUES ({0}, {1})'.format(
+                        shared.rectouse, quote(shared.imagePath)))
+            print(sql)
+            cursor.execute(sql)
+            result = cursor.rowcount
+            print(f'Result: {result}')
+            connection.commit()
+
             msgTitle = 'Save Recipe Changes'
             msgMsg = 'All data saved'
             messagebox.showinfo(msgTitle, msgMsg)
@@ -712,7 +730,7 @@ def init(top, gui, *args, **kwargs):
     # remotely or from the command line...
     # ======================================================
     global is_child
-    testmode = False
+    testmode = True
     # Use the following check to see if we are running as a child or standalone
     # attr = getattr(shared, 'remote', False)
     isok = check_attr(shared, 'remote')

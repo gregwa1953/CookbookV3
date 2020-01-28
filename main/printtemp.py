@@ -9,6 +9,11 @@
 #          a HTML file.  That file will then be sent to
 #          the default web browser for printing.
 # ======================================================
+# To be perfectly honest, this module is an absolute mess
+#    and I'm not happy with it.  However, it's been so many
+#    years since I've done HTML, it's a good start.  Many
+#    hours of cleanup still do do.
+# ======================================================
 
 import webbrowser
 import sqlite3

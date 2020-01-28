@@ -1,5 +1,17 @@
 Changelog.txt
 
+
+---------------
+28 January 1130
+
+All Modules - minor code cleanup
+Main - Version 3.2.1
+     - Removed button image assignment in Page and make assignments in code
+
+Entered bug I-6 (images not scraping properly on SOME supported web site recipe pages)
+Fixed bug I-5 
+Created workaround for bug I-6
+
 ---------------
 28 January 0400
 

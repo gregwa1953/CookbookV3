@@ -64,7 +64,6 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
-
 def set_Tk_var():
     global RecipeRating
     RecipeRating = tk.StringVar()
@@ -113,7 +112,6 @@ def set_Tk_var():
     Notes = tk.StringVar()
     Notes.set('Message')
 
-
 def on_btnScrape():
     # if shared.debug:
     print('cbv3Main_support.on_btnScrape')
@@ -121,7 +119,6 @@ def on_btnScrape():
     shared.remote = True
     ScraperGUI1.create_Scraper(root)
     hide_me()
-
 
 def on_chkClick():
     if shared.debug:
@@ -134,7 +131,6 @@ def on_chkClick():
         activeonly = True
     # print(activeonly)
 
-
 def on_btnAdd():
     if shared.debug:
         print('test3_support.on_btnAdd')
@@ -145,7 +141,6 @@ def on_btnAdd():
     hide_me()
     formEditor.create_formEditor(root)
 
-
 def on_btnDelete():
     if shared.debug:
         print('test3_support.on_btnDelete')
@@ -153,7 +148,6 @@ def on_btnDelete():
     title = "Delete Recipe"
     msg = "Sorry, but the Delete Recipe function is not yet complete"
     messagebox.showinfo(title, msg)
-
 
 def on_btnEdit():
     global CurrentID
@@ -166,7 +160,6 @@ def on_btnEdit():
     hide_me()
     formEditor.create_formEditor(root)
 
-
 def on_btnExit():
     if shared.debug:
         print('cbv3Main_support.on_btnExit')
@@ -175,7 +168,6 @@ def on_btnExit():
     _img3 = None
     _img2 = None
     destroy_window()
-
 
 def on_rbClick():
     # ======================================================
@@ -203,7 +195,6 @@ def on_rbClick():
 
     else:
         pass
-
 
 def on_TV_Click(e):
     if shared.debug:
@@ -234,7 +225,6 @@ def on_TV_Click(e):
             # set_labels()
             load_form(CurrentID)
 
-
 def on_time_update():
     # ======================================================
     # Callback function for the Time display
@@ -244,7 +234,6 @@ def on_time_update():
     TimeDisp.set(nowstring)
     timer_id = root.after(500, on_time_update)
 
-
 def on_Entry_Return(e):
     if e.keysym == 'Return':
         if shared.debug:
@@ -252,14 +241,12 @@ def on_Entry_Return(e):
             print(f'Text entered = {EntryText.get()}')
         tv_fill_ingreds(EntryText.get())
 
-
 def on_btnPrint():
     if shared.debug:
         print('cbv3Main_support.on_btnPrint')
         sys.stdout.flush()
     global CurrentID
     printtemp.main(CurrentID)
-
 
 def update_tree(e):
     if shared.debug:
@@ -273,12 +260,10 @@ def update_tree(e):
     # print(f'Title: {title} CurrentID: {CurrentID}')
     # # fill_form
 
-
 def clear_main_treeview():
     for i in w.Scrolledtreeview1.get_children():
         w.Scrolledtreeview1.delete(i)
     # clear_labels()
-
 
 def clear_form():
     # Main recipe info
@@ -294,7 +279,6 @@ def clear_form():
     # Ingredients
     w.Scrolledlistbox1.delete(0, tk.END)
     # Image
-
 
 def load_form(id):
     global connection, cursor, activeonly
@@ -413,14 +397,12 @@ def load_form(id):
         w.lblImage.configure(image=_img3)
     RecipeNotes.set('No description available')
 
-
 def clear_labels():
     w.Label2.configure(text='')
     w.Label3.configure(text='')
     w.Label5.configure(text='')
     w.Label5.configure(text='')
     w.Label7.configure(text='')
-
 
 def set_labels():
     w.Label2.configure(text='''Recipe Source:''')
@@ -429,12 +411,10 @@ def set_labels():
     w.Label5.configure(text='''Instructions:''')
     w.Label7.configure(text='''Categories''')
 
-
 def tree_close(e):
     # clear_labels()
     pass
     # print('Tree_close')
-
 
 def tree_open(e):
     # print('Tree_open')
@@ -448,7 +428,6 @@ def tree_open(e):
         CurrentID = w.Scrolledtreeview1.set(first, 1)
         # set_labels()
         load_form(CurrentID)
-
 
 def populate_tree(tree, node):
     global first
@@ -478,7 +457,6 @@ def populate_tree(tree, node):
     #     sort_by(tree, 'Recipe', 0)
     load_form(CurrentID)
 
-
 def load_base_recipes():
     global connection, cursor, activeonly
     if activeonly:
@@ -488,7 +466,6 @@ def load_base_recipes():
     recs = list(cursor.execute(sql))
     if len(recs):
         return(recs)
-
 
 def init_tree(tree):
     # global folder
@@ -503,7 +480,6 @@ def init_tree(tree):
     node = tree.insert('', 1, text='', image=shared.folder)
     populate_tree(tree, node)
 
-
 def setup_treeview():
     w.Scrolledtreeview1.bind('<<TreeviewSelect>>',
                              lambda e: update_tree(e))
@@ -514,12 +490,10 @@ def setup_treeview():
     w.Scrolledtreeview1.bind('<Button-1>', lambda e: on_TV_Click(e))
     init_tree(w.Scrolledtreeview1)
 
-
 def tv_fill_title():
     clear_main_treeview()
     shared.tv_mode = 1
     setup_treeview()
-
 
 def tv_fill_cats():
     tree = w.Scrolledtreeview1
@@ -579,7 +553,6 @@ def tv_fill_cats():
         # TODO - Support messagebox here!
         print('ERROR!!!')
 
-
 def tv_fill_ingreds(text):
     if shared.debug:
         print(f'Into tv_fill_ingredients - searchfor: {text}')
@@ -591,7 +564,6 @@ def tv_fill_ingreds(text):
 
     init_tree(w.Scrolledtreeview1)
     # populate_tree(w.Scrolledtreeview1,node)
-
 
 def load_ingredient_list():
     global activeonly
@@ -624,7 +596,6 @@ def load_ingredient_list():
     recs = list(cursor.execute(sql))
     return recs
 
-
 # ======================================================
 # Sorts the treeview
 # ======================================================
@@ -643,12 +614,36 @@ def sort_by(tree, col, descending):
     tree.heading(col, command=lambda col=col: sort_by(tree, col,
                  int(not descending)))
 
-
 def set_btn_labels():
     global printButton
     img = Image.open('./images/32/document-print.png')
     printButton = ImageTk.PhotoImage(img)
     w.btnPrint.configure(image=printButton)
+
+    global exitButton
+    img = Image.open('./images/32/app-exit.png')
+    exitButton = ImageTk.PhotoImage(img)
+    w.btnExit.configure(image=exitButton)
+
+    global addButton
+    img = Image.open('./images/32/list-add.png')
+    addButton = ImageTk.PhotoImage(img)
+    w.btnAdd.configure(image=addButton)
+
+    global deleteButton
+    img = Image.open('./images/32/list-remove.png')
+    deleteButton = ImageTk.PhotoImage(img)
+    w.btnDelete.configure(image=deleteButton)
+
+    global editButton
+    img = Image.open('./images/32/edit-paste.png')
+    editButton = ImageTk.PhotoImage(img)
+    w.btnEdit.configure(image=editButton)
+
+    global scrapeButton
+    img = Image.open('./images/32/internet.png')
+    scrapeButton = ImageTk.PhotoImage(img)
+    w.btnScrape.configure(image=scrapeButton)
 
 
 def startup():
@@ -678,7 +673,6 @@ def startup():
     centre_screen(1270,861)
     shared.debug = False
 
-
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
@@ -688,11 +682,10 @@ def init(top, gui, *args, **kwargs):
     # My init code here...
     # ======================================================
     global version
-    version = '3.2.0'
+    version = '3.2.1'
     global progname
     progname = "Cookbook"
     startup()
-
 
 def centre_screen(wid, hei):
     # ======================================================
@@ -704,7 +697,6 @@ def centre_screen(wid, hei):
     y = (hs/2) - (hei/2)
     root.geometry('%dx%d+%d+%d' % (wid, hei, x, y))
 
-
 def set_icon():
     # ======================================================
     # Sets the application icon...
@@ -714,25 +706,21 @@ def set_icon():
     shared.p1 = ImageTk.PhotoImage(file='images/chef.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
 
-
 # =================================================================
 # Window stuff
 # =================================================================
 def show_me():
     global root
     root.deiconify()
-    root.attributes("-topmost", True)
+    # root.attributes("-topmost", True)
     centre_screen(1270,861)
     # reload treeview here
     shared.tv_mode = 1
     tv_fill_title()
 
-
 def hide_me():
     global root
     root.withdraw()
-
-
 
 def destroy_window():
     # Function which closes the window.
@@ -740,8 +728,11 @@ def destroy_window():
     top_level.destroy()
     top_level = None
 
-
 if __name__ == '__main__':
     import cbv3Main
     cbv3Main.vp_start_gui()
+
+
+
+
 

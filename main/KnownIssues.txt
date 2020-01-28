@@ -1,8 +1,19 @@
 Bugs
 
+Bug number: I-6
+Date: 28 January 2020
+Status: workaround - GDW
+
+Some supported website recipe pages don't properly provide images.
+This is an issue with the recipe_scrapers library and the specific web pages.
+Don't think I can do anything except try to catch issues in code.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug number: I-5
 Date: 27 January 2020
-Status: Verified - GDW
+Status: Closed - GDW
+Version: Main 3.2.1
 
 Main - Getting:
 Traceback (most recent call last):
