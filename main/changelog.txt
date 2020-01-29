@@ -1,7 +1,7 @@
 Changelog.txt
 
 ---------------
-28 January
+29 January
 
 * Scraper - Version 0.3.3
           - Added routine to check URL domain against supported scrapers before attempting to scrape.
@@ -11,6 +11,7 @@ Changelog.txt
        - Removed code that made form on top of all others upon deiconify.
        - Fixed CurrentID not set on startup
        - Added beginnings of "darker" theme
+       - Added support for viewing active records only or all records
 
 * Editor - Version 0.5.4
          - Added beginnings of "darker" theme 

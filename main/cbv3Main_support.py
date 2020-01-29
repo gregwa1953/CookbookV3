@@ -125,11 +125,14 @@ def on_chkClick():
         print('cbv3Main_support.on_chkClick')
         sys.stdout.flush()
     global activeonly
+    print(f'ChkValue: {che46.get()} AO: {activeonly}')
     if che46.get() == 0:
-        activeonly = False
-    else:
         activeonly = True
-    # print(activeonly)
+        init_tree(w.Scrolledtreeview1)
+    else:
+        activeonly = False
+        init_tree(w.Scrolledtreeview1)
+
 
 def on_btnAdd():
     if shared.debug:
@@ -464,11 +467,15 @@ def load_base_recipes():
     else:
         sql = "SELECT * from recipes order by RecipeText ASC"
     recs = list(cursor.execute(sql))
+    titl = shared.formTitle + f" - {len(recs)} Recipes"
+    root.title(titl)
+    print(f'{len(recs)} Records)')
     if len(recs):
         return(recs)
 
 def init_tree(tree):
     # global folder
+    clear_treeview()
     tree["columns"] = ("Recipe", "Recid")
     tree.column('#0', width=40, stretch=tk.NO)
     tree.column('Recipe', width=400, stretch=tk.NO)
@@ -489,6 +496,11 @@ def setup_treeview():
                              lambda e: tree_close(e))
     w.Scrolledtreeview1.bind('<Button-1>', lambda e: on_TV_Click(e))
     init_tree(w.Scrolledtreeview1)
+
+
+def clear_treeview():
+    w.Scrolledtreeview1.delete(*w.Scrolledtreeview1.get_children())
+
 
 def tv_fill_title():
     clear_main_treeview()
@@ -662,15 +674,17 @@ def startup():
     connection = sqlite3.Connection("./database/cookbook-original.db")
     cursor = connection.cursor()
     shared.folder = ImageTk.PhotoImage(file='./images/document.png')
+    root.title("Greg's Cookbook V3")
+    shared.formTitle = "Greg's Cookbook V3"
     global activeonly
-    che46.set(0)
+    w.Checkbutton1.configure(state='normal')
+    che46.set(1)
     activeonly = False
     shared.tv_mode = 1
     setup_treeview()
     set_btn_labels()
     set_icon()
     set_mode()
-    root.title("Greg's Cookbook V3")
     centre_screen(1270,861)
     shared.debug = False
 
@@ -683,7 +697,7 @@ def init(top, gui, *args, **kwargs):
     # My init code here...
     # ======================================================
     global version
-    version = '3.2.2'
+    version = '3.2.3'
     global progname
     progname = "Cookbook V3"
     startup()
