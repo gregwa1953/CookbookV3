@@ -548,7 +548,7 @@ def centre_screen(wid, hei):
 
 
 def set_mode():
-
+    tbcolour = 'NavajoWhite3'
     widgetlist = [root, w.btnExit, w.Label1, w.Entry1, w.lblTitle, w.lblTotalTime, w.lblYields, w.lblImageURL, w.btnGo, w.Label2, w.Label3, w.Label4, w.Label5, w.lblImage, w.Label7, w.Label8, w.btnSaveToDB, w.Label8, w.frameCustomWidget, w.Message1]
     l = len(widgetlist)
     for widg in widgetlist:

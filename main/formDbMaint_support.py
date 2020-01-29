@@ -54,9 +54,24 @@ def set_Tk_var():
 def on_btnDupes():
     print('formDbMaint_support.on_btnDupes')
     sys.stdout.flush()
-    title = "Duplicate Recipe Check"
-    txt = "Sorry, but the Duplicate Check function is not implemented yet."
-    messagebox.showinfo(title, txt)
+    # title = "Duplicate Recipe Check"
+    # txt = "Sorry, but the Duplicate Check function is not implemented yet."
+    # messagebox.showinfo(title, txt)
+    w.Scrolledtext1.delete(1.0, tk.END)
+    w.Scrolledtext1.insert(tk.END, "Duplicate Recipe Check\n")
+    global connection, cursor
+    sql = "SELECT RecipeText, COUNT(*) c FROM recipes GROUP BY RecipeText HAVING c > 1"
+    results = list(cursor.execute(sql))
+    if len(results) > 0:
+        for r in results:
+            w.Scrolledtext1.insert(
+                tk.END, f'RecipeText: {r[0]} - Count: {r[1]} - Records: ')
+            sql2 = f'SELECT idRecipes FROM recipes where RecipeText like "%{r[0]}%"'
+            ids = list(cursor.execute(sql2))
+            if len(ids) > 0:
+                w.Scrolledtext1.insert(tk.END, f'{ids}\n')
+    else:
+        w.Scrolledtext1.insert(tk.END, 'No duplicate records found...')
 
 
 def on_btnExit():
@@ -73,9 +88,41 @@ def on_btnExit():
 def on_btnOrphans():
     print('formDbMaint_support.on_btnOrphans')
     sys.stdout.flush()
-    title = "Orphan Record Check"
-    txt = "Sorry, but the Orphan Record Check function is not implemented yet."
-    messagebox.showinfo(title, txt)
+    # title = "Orphan Record Check"
+    # txt = "Sorry, but the Orphan Record Check function is not implemented yet."
+    # messagebox.showinfo(title, txt)
+    w.Scrolledtext1.delete(1.0, tk.END)
+    w.Scrolledtext1.insert(tk.END, "Orphan Check\n")
+    global connection, cursor
+    sql = 'SELECT idRecipes, RecipeText FROM recipes'
+    recipes = list(cursor.execute(sql))
+    if len(recipes) > 0:
+        orphIngs = []
+        orphInst = []
+        for r in recipes:
+            working = r[0]
+            WorkingRecord.set(working)
+            sql2 = f"SELECT * FROM ingredients WHERE RecipeID = {working}"
+            ings = list(cursor.execute(sql2))
+            if len(ings) == 0:
+                orphIngs.append(f'Recipe: {working} - {r[1]}')
+            sql2 = f"SELECT * FROM instructions WHERE RecipeID = {working}"
+            inst = list(cursor.execute(sql2))
+            if len(inst) == 0:
+                orphInst.append(f'Recipe: {working} - {r[1]}')
+    w.Scrolledtext1.insert(tk.END, 'Finished\n\n')
+    # print(f'Recipes with no ingredients: {len(orphIngs)}\n')
+    w.Scrolledtext1.insert(
+        tk.END, f'Recipes with no ingredients: {len(orphIngs)}\n')
+    for i in orphIngs:
+        # print(i)
+        w.Scrolledtext1.insert(tk.END, f'    {i}\n')
+    # print(f'Recipes with no instructions: {len(orphInst)}\n')
+    w.Scrolledtext1.insert(
+        tk.END, f'\nRecipes with no instructions: {len(orphInst)}\n')
+    for i in orphInst:
+        # print(i)
+        w.Scrolledtext1.insert(tk.END, f'    {i}\n')
 
 
 def on_btnMigrate():

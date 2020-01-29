@@ -1,6 +1,13 @@
 Changelog.txt
 
 ---------------
+29 January 1215
+
+* Several small tweeks
+* Many new recipes
+* Beginning work on database utility form
+
+---------------
 29 January
 
 * Scraper - Version 0.3.3
