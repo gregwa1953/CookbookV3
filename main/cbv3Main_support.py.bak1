@@ -767,12 +767,14 @@ def on_btnConfig():
     txt = "Sorry, but the Configuration Utility is not implemented yet."
     messagebox.showinfo(title, txt)
 
+
 def on_btnUtils():
     print('cbv3Main_support.on_btnUtils')
     sys.stdout.flush()
     shared.remote = True
     formDbMaint.create_formDbMaint(root)
     hide_me()
+
 
 def destroy_window():
     # Function which closes the window.

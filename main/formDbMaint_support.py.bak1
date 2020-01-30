@@ -6,7 +6,6 @@
 #    Jan 25, 2020 03:59:42 AM CST  platform: Linux
 #    Jan 25, 2020 04:09:27 AM CST  platform: Linux
 #    Jan 25, 2020 05:15:04 AM CST  platform: Linux
-#    Jan 29, 2020 03:24:16 PM CST  platform: Linux
 
 import sys
 from PIL import Image, ImageTk
@@ -43,14 +42,6 @@ except ImportError:
 
 
 def set_Tk_var():
-    global RecsNoImages
-    RecsNoImages = tk.StringVar()
-    RecsNoImages.set('Label')
-
-    global CatCount
-    CatCount = tk.StringVar()
-    CatCount.set('Label')
-
     global WorkingRecord
     WorkingRecord = tk.StringVar()
     WorkingRecord.set('Label')
@@ -141,6 +132,7 @@ def on_btnMigrate():
     txt = "Sorry, but the Migrate Database function is not implemented yet."
     messagebox.showinfo(title, txt)
 
+
 # ======================================================
 # function check_attr()
 # ------------------------------------------------------
@@ -149,8 +141,6 @@ def on_btnMigrate():
 # hasn't bee defined, it will crash the program with an error.
 # This attemps to make it safe.
 # ======================================================
-
-
 def check_attr(module, variable):
     attr = getattr(module, variable, False)
     if attr is False:
@@ -167,24 +157,8 @@ def db_start():
     rcnt = len(recs)
     RecipeCount.set(f'# of Recipes: {rcnt}')
     # Get number of categories
-    sql = "SELECT idCategoriesMain FROM categoriesmain"
-    recs = list(cursor.execute(sql))
-    numCats = len(recs)
-    CatCount.set(numCats)
+
     # Get number of images
-    sql = "SELECT idRecipes, RecipeText FROM recipes"
-    recip = list(cursor.execute(sql))
-    noimg = 0
-    if len(recip) > 0:
-        for r in recip:
-            rec = r[0]
-            sql2 = f"SELECT pkID FROM images WHERE recipeID = {r[0]}"
-            images = list(cursor.execute(sql2))
-            if len(images) > 0:
-                pass
-            else:
-                noimg += 1
-    RecsNoImages.set(noimg)
 
 
 def start_up():
@@ -200,7 +174,7 @@ def start_up():
 
     set_icon()
     # Centre the screen
-    centre_screen(677, 689)
+    centre_screen(1139, 773)
     db_start()
 
 
@@ -225,11 +199,10 @@ def init(top, gui, *args, **kwargs):
     root.title(progname)
     start_up()
 
+
 # =================================================================
 # cursor stuff
 # =================================================================
-
-
 def busyStart(newcursor=None):
     global preBusyCursors
 
@@ -264,14 +237,13 @@ def centre_screen(wid, hei):
     y = (hs/2) - (hei/2)
     root.geometry('%dx%d+%d+%d' % (wid, hei, x, y))
 
+
 # =================================================================
 # Window stuff
 # =================================================================
-
-
 def show_me():
     root.deiconify()
-    # root.attributes("-topmost", True)
+    root.attributes("-topmost", True)
 
 
 def hide_me():
@@ -283,6 +255,8 @@ def set_icon():
     # ======================================================
     # Sets the application icon...
     # ======================================================
+    # global p1
+    # p1 = tk.Image("photo", file='images/chef.png')
     shared.p1 = ImageTk.PhotoImage(file='images/chef.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
 

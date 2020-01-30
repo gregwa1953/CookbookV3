@@ -1,5 +1,15 @@
 Changelog.txt
 
+
+---------------
+29 January Evening
+
+* Main - 3.4.0
+       - Added config button and db maint button
+* DBUtils - 0.1.1
+          - Initial release - NO migrate function
+
+
 ---------------
 29 January 1215
 

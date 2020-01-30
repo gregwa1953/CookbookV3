@@ -13,7 +13,6 @@
 #    Jan 21, 2020 03:05:04 PM CST  platform: Linux
 #    Jan 22, 2020 02:57:49 AM CST  platform: Linux
 #    Jan 28, 2020 03:30:01 AM CST  platform: Linux
-#    Jan 29, 2020 03:45:53 PM CST  platform: Linux
 # ======================================================
 # Written by G.D. Walters
 # ------------------------------------------------------
@@ -39,10 +38,6 @@ import ScraperGUI1_support
 import ScraperGUI1
 import formEditor
 import formEditor_support
-import formDbMaint
-import formDbMaint_support
-# import formConfig
-# import formConfig_support
 import printtemp
 
 # try:
@@ -137,6 +132,7 @@ def on_chkClick():
     else:
         activeonly = False
         init_tree(w.Scrolledtreeview1)
+
 
 def on_btnAdd():
     if shared.debug:
@@ -501,8 +497,10 @@ def setup_treeview():
     w.Scrolledtreeview1.bind('<Button-1>', lambda e: on_TV_Click(e))
     init_tree(w.Scrolledtreeview1)
 
+
 def clear_treeview():
     w.Scrolledtreeview1.delete(*w.Scrolledtreeview1.get_children())
+
 
 def tv_fill_title():
     clear_main_treeview()
@@ -659,15 +657,6 @@ def set_btn_labels():
     scrapeButton = ImageTk.PhotoImage(img)
     w.btnScrape.configure(image=scrapeButton)
 
-    global dbMaintButton
-    img = Image.open('./images/32/utilities.png')
-    dbMaintButton = ImageTk.PhotoImage(img)
-    w.btnUtils.configure(image=dbMaintButton)
-
-    global configButton
-    img = Image.open('./images/32/system-run.png')
-    configButton = ImageTk.PhotoImage(img)
-    w.btnConfig.configure(image=configButton)
 
 def startup():
     global version, path1, progname
@@ -708,7 +697,7 @@ def init(top, gui, *args, **kwargs):
     # My init code here...
     # ======================================================
     global version
-    version = '3.4.0'
+    version = '3.2.3'
     global progname
     progname = "Cookbook V3"
     startup()
@@ -744,6 +733,7 @@ def set_mode():
     w.Scrolledtext1.configure(background=tbcolour)
     print('finished applying backgrounds')
 
+
 # =================================================================
 # Window stuff
 # =================================================================
@@ -759,20 +749,6 @@ def show_me():
 def hide_me():
     global root
     root.withdraw()
-
-def on_btnConfig():
-    print('cbv3Main_support.on_btnConfig')
-    sys.stdout.flush()
-    title = "Configuration Utility"
-    txt = "Sorry, but the Configuration Utility is not implemented yet."
-    messagebox.showinfo(title, txt)
-
-def on_btnUtils():
-    print('cbv3Main_support.on_btnUtils')
-    sys.stdout.flush()
-    shared.remote = True
-    formDbMaint.create_formDbMaint(root)
-    hide_me()
 
 def destroy_window():
     # Function which closes the window.

@@ -848,9 +848,7 @@ def set_icon():
     # ======================================================
     # Sets the application icon...
     # ======================================================
-    # global p1
-    # p1 = tk.Image("photo", file='images/chef.png')
-    shared.p1 = ImageTk.PhotoImage(file='images/chef.png')
+    shared.p1 = ImageTk.PhotoImage(file='images/32/edit-paste.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
 
 

@@ -572,6 +572,16 @@ def hide_me():
     root.withdraw()
 
 
+def set_icon():
+    # ======================================================
+    # Sets the application icon...
+    # ======================================================
+    # global p1
+    # p1 = tk.Image("photo", file='images/chef.png')
+    shared.p1 = ImageTk.PhotoImage(file='images/chef.png')
+    root.tk.call('wm', 'iconphoto', root._w, shared.p1)
+
+
 def destroy_window():
     # Function which closes the window.
     global top_level
