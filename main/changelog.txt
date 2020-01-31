@@ -1,5 +1,13 @@
 Changelog.txt
 
+31 January 1730
+
+Some minor changes to UI for Main and Scraper.
+
+---------------
+31 January 1215
+Multiple fixes for images/database caused by new file structure
+
 ---------------
 31 January 0600
 Updated README.md

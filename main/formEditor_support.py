@@ -785,7 +785,7 @@ def initialize_custom_widget():
 
 def set_mode():
 
-    tbcolour = 'NavajoWhite3'
+    tbcolour = 'gray72'
     w.stNotes.configure(background=tbcolour)
     w.Scrolledlistbox1.configure(background=tbcolour)
     w.Scrolledtext1.configure(background=tbcolour)

@@ -684,7 +684,6 @@ def fix_path():
     else:
         path1 = path1 + "/main"
 
-
 def startup():
     global version, path1, progname
     pv = platform.python_version()
@@ -735,7 +734,7 @@ def init(top, gui, *args, **kwargs):
     # My init code here...
     # ======================================================
     global version
-    version = '3.4.0'
+    version = '3.4.1'
     global progname
     progname = "Cookbook V3"
     startup()
