@@ -204,6 +204,14 @@ def start_up():
     db_start()
 
 
+def fix_path():
+    global path1
+    if "main" in path1:
+        pass
+    else:
+        path1 = path1 + "/main"
+
+
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
@@ -219,6 +227,7 @@ def init(top, gui, *args, **kwargs):
     # Set the path for the icon files
     global path1
     path1 = os.getcwd()
+    fix_path()
     print(path1)
     print(f"Version: {version}")
     progname = 'Db Maint v' + version
@@ -283,7 +292,7 @@ def set_icon():
     # ======================================================
     # Sets the application icon...
     # ======================================================
-    shared.p1 = ImageTk.PhotoImage(file='images/chef.png')
+    shared.p1 = ImageTk.PhotoImage(file=path1 + '/images/chef.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
 
 

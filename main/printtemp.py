@@ -14,7 +14,8 @@
 #    years since I've done HTML, it's a good start.  Many
 #    hours of cleanup still do do.
 # ======================================================
-
+import os
+import platform
 import webbrowser
 import sqlite3
 
@@ -69,9 +70,27 @@ def getCatData(rectouse):
         return cats
 
 
+def fix_path():
+    global path1
+    if "main" in path1:
+        pass
+    else:
+        path1 = path1 + "/main"
+
+
 def main(inrec=None):
+    global version
+    version = '0.1.1'
+    pv = platform.python_version()
+    print(f"Running under Python {pv}")
+    # Set the path for the icon files
+    global path1
+    path1 = os.getcwd()
+    fix_path()
+    print(path1)
+    print(f"Version: {version}")
     global connection, cursor
-    connection = sqlite3.Connection("./database/cookbook-original.db")
+    connection = sqlite3.Connection(path1 + "/database/cookbook-original.db")
     cursor = connection.cursor()
     # ======================================================
     # Set the filename and open the file for writing
@@ -110,7 +129,7 @@ def main(inrec=None):
         imgdata = getImageData(reciperec)
         # print(imgdata)
         if imgdata != None:
-            line = f'<img src="{imgdata[0][2]}">'
+            line = f'<img src="{path1 + imgdata[0][2]}">'
             f.write(line)
         # ======================================================
         # Write description information

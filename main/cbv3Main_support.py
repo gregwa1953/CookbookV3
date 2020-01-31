@@ -288,7 +288,7 @@ def clear_form():
     # Image
 
 def load_form(id):
-    global connection, cursor, activeonly
+    global connection, cursor, activeonly, imgpath, path1
     clear_form()
     # set_labels()
     IdLableShow.set(id)
@@ -376,7 +376,7 @@ def load_form(id):
             path = r[2]
             if shared.debug:
                 print(path)
-            original = Image.open(path)
+            original = Image.open(path1 + path)
             wid, hei = original.size
             if shared.debug:
                 print(f'Width: {wid} - Height: {hei}')
@@ -399,10 +399,10 @@ def load_form(id):
             w.lblImage.configure(image=_img2)
     else:
         global _img3
-        img = Image.open('./images/NoImage.png')
+        img = Image.open(path1 + '/images/NoImage.png')
         _img3 = ImageTk.PhotoImage(img)
         w.lblImage.configure(image=_img3)
-    RecipeNotes.set('No description available')
+    # RecipeNotes.set('No description available')
 
 def clear_labels():
     w.Label2.configure(text='')
@@ -629,45 +629,61 @@ def sort_by(tree, col, descending):
                  int(not descending)))
 
 def set_btn_labels():
-    global printButton
-    img = Image.open('./images/32/document-print.png')
+    global printButton, imgpath
+    img = Image.open(path1 + '/images/32/document-print.png')
+    # img = Image.open(imgpath + '/32/document-print.png')
     printButton = ImageTk.PhotoImage(img)
     w.btnPrint.configure(image=printButton)
 
     global exitButton
-    img = Image.open('./images/32/app-exit.png')
+    img = Image.open(path1 + '/images/32/app-exit.png')
+    # img = Image.open(imgpath + '/32/app-exit.png')
     exitButton = ImageTk.PhotoImage(img)
     w.btnExit.configure(image=exitButton)
 
     global addButton
-    img = Image.open('./images/32/list-add.png')
+    img = Image.open(path1 + '/images/32/list-add.png')
+    # img = Image.open(imgpath + '/32/list-add.png')
     addButton = ImageTk.PhotoImage(img)
     w.btnAdd.configure(image=addButton)
 
     global deleteButton
-    img = Image.open('./images/32/list-remove.png')
+    img = Image.open(path1 + '/images/32/list-remove.png')
+    # img = Image.open(imgpath + '/32/list-remove.png')
     deleteButton = ImageTk.PhotoImage(img)
     w.btnDelete.configure(image=deleteButton)
 
     global editButton
-    img = Image.open('./images/32/edit-paste.png')
+    img = Image.open(path1 + '/images/32/edit-paste.png')
+    # img = Image.open(imgpath + '/32/edit-paste.png')
     editButton = ImageTk.PhotoImage(img)
     w.btnEdit.configure(image=editButton)
 
     global scrapeButton
-    img = Image.open('./images/32/internet.png')
+    img = Image.open(path1 + '/images/32/internet.png')
+    # img = Image.open(imgpath + '/32/internet.png')
     scrapeButton = ImageTk.PhotoImage(img)
     w.btnScrape.configure(image=scrapeButton)
 
     global dbMaintButton
-    img = Image.open('./images/32/utilities.png')
+    img = Image.open(path1 + '/images/32/utilities.png')
+    # img = Image.open(imgpath + '/32/utilities.png')
     dbMaintButton = ImageTk.PhotoImage(img)
     w.btnUtils.configure(image=dbMaintButton)
 
     global configButton
-    img = Image.open('./images/32/system-run.png')
+    img = Image.open(path1 + '/images/32/system-run.png')
+    # img = Image.open(imgpath + '/32/system-run.png')
     configButton = ImageTk.PhotoImage(img)
     w.btnConfig.configure(image=configButton)
+
+def fix_path():
+    global path1
+    if "main" in path1:
+        pass
+    else:
+        path1 = path1 + "/main"
+
 
 def startup():
     global version, path1, progname
@@ -675,16 +691,27 @@ def startup():
     print(f"Running under Python {pv}")
     # Set the path for the icon files
     path1 = os.getcwd()
+    fix_path()
     print(path1)
+
     print(f'Progam Name: {progname}')
     print(f"Version: {version}")
     shared.debug = False
     global timer_id
     timer_id = root.after(0, on_time_update)
     global connection, cursor
-    connection = sqlite3.Connection("./database/cookbook-original.db")
+    dbpath = path1 + "/database/cookbook-original.db"
+    print(dbpath)
+    global imgpath
+    imgpath = path1 + "/images/"
+    # print(dbpath)
+    # connection = sqlite3.Connection("/database/cookbook-original.db")
+    connection = sqlite3.Connection(dbpath)
+    # connection = sqlite3.Connection(dbpath)
     cursor = connection.cursor()
-    shared.folder = ImageTk.PhotoImage(file='./images/document.png')
+    img = Image.open(path1 + '/images/document.png')
+    # img = Image.open(imgpath + 'document.png')
+    shared.folder = ImageTk.PhotoImage(img)    # file='./images/document.png')
     root.title("Greg's Cookbook V3")
     shared.formTitle = "Greg's Cookbook V3"
     global activeonly
@@ -729,11 +756,13 @@ def set_icon():
     # ======================================================
     # global p1
     # p1 = tk.Image("photo", file='images/chef.png')
-    shared.p1 = ImageTk.PhotoImage(file='images/chef.png')
+    global imgpath
+    # shared.p1 = ImageTk.PhotoImage(file='images/chef.png')
+    shared.p1 = ImageTk.PhotoImage(file=imgpath + '/chef.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
 
 def set_mode():
-    tbcolour = 'NavajoWhite3'
+    tbcolour = 'gray72'
     widgetlist = [root, w.frameToolbar, w.frameStatus, w.lblTimeDisplay, w.frameNavigate, w.Frame2, w.Label1, w.rbTitle, w.rbCategories, w.rbIngredients, w.Checkbutton1, w.Frame3, w.Frame1, w.lblTitle, w.lblImage, w.lblSource, w.lblServings, w.msgCategories, w.lblID, w.Label2, w.Label3, w.Label4, w.lblTotalTime, w.Label5, w.Label6, w.Label7]
     l = len(widgetlist)
 

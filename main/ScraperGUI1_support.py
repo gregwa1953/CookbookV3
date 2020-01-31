@@ -143,8 +143,8 @@ def get_image_from_web(url):
         w.lblImage.configure(image=_img2)
         src = 'local_image.png'
         d1 = shared.title.replace(" ", "")
-        dst = './database/recipeimages/' + d1 + ".png"
-        shared.imgname = dst
+        dst = path1 + '/database/recipeimages/' + d1 + ".png"
+        shared.imgname = '/database/recipeimages/' + d1 + '.png'
         print(f'Attemptying to copy {src} to {dst}')
         shutil.copyfile(src, dst)
         # os.remove(original)
@@ -415,12 +415,19 @@ def check_attr(module, variable):
     else:
         return True
 
+def fix_path():
+    global path1
+    if "main" in path1:
+        pass
+    else:
+        path1 = path1 + "/main"
+
 
 def start_up():
     global connection
     global cursor
 
-    connection = sqlite3.Connection("./database/cookbook-original.db")
+    connection = sqlite3.Connection(path1 + "/database/cookbook-original.db")
     cursor = connection.cursor()
     # Setup binding for entry widget
     w.Entry1.bind('<Button-3>', lambda e: w.popup1(e, 1))
@@ -459,6 +466,7 @@ def init(top, gui, *args, **kwargs):
     # Set the path for the icon files
     global path1
     path1 = os.getcwd()
+    fix_path()
     print(path1)
     print(f"Version: {version}")
     start_up()
@@ -578,7 +586,8 @@ def set_icon():
     # ======================================================
     # global p1
     # p1 = tk.Image("photo", file='images/chef.png')
-    shared.p1 = ImageTk.PhotoImage(file='images/chef.png')
+    global path1
+    shared.p1 = ImageTk.PhotoImage(file=path1 + 'images/chef.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
 
 

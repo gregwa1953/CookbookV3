@@ -1,5 +1,9 @@
 Changelog.txt
 
+---------------
+31 January 
+
+Rewrote multiple parts of code in all modules to support new structure
 
 ---------------
 29 January Evening
