@@ -284,8 +284,12 @@ def update_label():
     SelectedCats.set(s)
 
 def load_image():
-    img = path1 + shared.imagePath
-    original = Image.open(img)
+    # This might be an issue...
+    img = shared.imagePath
+    if '/home/' in img:
+        original = Image.open(img)
+    else:
+        original = Image.open(path1 + img)
     wid, hei = original.size
     if shared.debug:
         print(f'Width: {wid} - Height: {hei}')
@@ -319,6 +323,7 @@ def load_image():
         ext = '.jpg'
     dst = '/database/recipeimages/' + d1 + ext
     shared.imagePath = dst
+    dst = path1 + dst
     if os.path.exists(dst):
         pass
     else:
@@ -362,16 +367,7 @@ def fill_form():
         datacheck.append(r[8])
     else:
         datacheck.append('')
-    # Now fill in the image, if there is one.
-    shared.imagePath = ''
-    sql = (f'SELECT * FROM images WHERE recipeID = {shared.rectouse}')
-    imgrec = list(cursor.execute(sql))
-    if len(imgrec) > 0:
-        r = imgrec[0]
-        shared.imagePath = r[2]
-    datacheck.append(shared.imagePath)
-    if shared.imagePath != '':
-        load_image()
+
     # ===================================
     # Fill in the ingredients
     # ===================================
@@ -411,8 +407,19 @@ def fill_form():
     w.Custom1.set(tlist)
     update_label()
     x = w.Custom1.get()
-
-    datacheck.append(x)
+    # ======================================================
+    # Now load the image...
+    # ======================================================
+    shared.imagePath = ''
+    sql = (f'SELECT * FROM images WHERE recipeID = {shared.rectouse}')
+    imgrec = list(cursor.execute(sql))
+    if len(imgrec) > 0:
+        r = imgrec[0]
+        shared.imagePath = r[2]
+    # datacheck.append(shared.imagePath)
+    if shared.imagePath != '':
+        load_image()
+    # datacheck.append(x)
     # ===================================
     shared.isDirty = False
     # if shared.debug:
@@ -737,7 +744,7 @@ def init(top, gui, *args, **kwargs):
         if testmode == True:
             shared.testmode = True
             shared.EditMode = 'Edit'
-            shared.rectouse = 118  # 108
+            shared.rectouse = 196   # 118  # 108
             root.title(progname + " - Standalone mode - TEST Edit MODE!")
             fill_form()
         else:
