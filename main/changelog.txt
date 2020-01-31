@@ -1,6 +1,10 @@
 Changelog.txt
 
 ---------------
+31 January 0600
+Updated README.md
+
+---------------
 31 January 
 
 Rewrote multiple parts of code in all modules to support new structure
