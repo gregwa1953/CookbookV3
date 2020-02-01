@@ -191,9 +191,9 @@ def db_start():
 
 
 def start_up():
-    global connection, cursor
+    global connection, cursor, path1
 
-    connection = sqlite3.Connection("./database/cookbook-original.db")
+    connection = sqlite3.Connection(path1 + "/database/cookbook-original.db")
     cursor = connection.cursor()
     # set up for cursors
     global busyCursor, preBusyCursors, busyWidgets
@@ -224,7 +224,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.1.3'
+    version = '0.1.4'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files
