@@ -1,5 +1,13 @@
 Changelog.txt
 
+
+31 January 1815
+
+DB Utility - Version 0.1.3
+           - Added ability to add new categories
+
+---------------
+
 31 January 1730
 
 Some minor changes to UI for Main and Scraper.

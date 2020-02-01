@@ -7,7 +7,6 @@
 #    Jan 25, 2020 04:09:27 AM CST  platform: Linux
 #    Jan 25, 2020 05:15:04 AM CST  platform: Linux
 #    Jan 29, 2020 03:24:16 PM CST  platform: Linux
-#    Jan 31, 2020 05:23:26 PM CST  platform: Linux
 
 import sys
 from PIL import Image, ImageTk
@@ -44,8 +43,6 @@ except ImportError:
 
 
 def set_Tk_var():
-    global NewCat
-    NewCat = tk.StringVar()
     global RecsNoImages
     RecsNoImages = tk.StringVar()
     RecsNoImages.set('Label')
@@ -224,7 +221,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.1.3'
+    version = '0.1.1'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files
@@ -297,28 +294,6 @@ def set_icon():
     # ======================================================
     shared.p1 = ImageTk.PhotoImage(file=path1 + '/images/chef.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
-
-
-def on_btnAdd():
-    global connection, cursor
-    print('formDbMaint_support.on_btnAdd')
-    sys.stdout.flush()
-    CatToAdd = NewCat.get()
-    sql = f"SELECT CatText FROM categoriesmain where CatText like '%{CatToAdd}%'"
-    recs = list(cursor.execute(sql))
-    if len(recs) > 0:
-        titl = "Add Category"
-        msg = "The category you are trying to add already exists"
-        messagebox.showerror(titl, msg)
-        NewCat.set('')
-    else:
-        sql = f"INSERT INTO categoriesmain (CatText) VALUES ({quote(CatToAdd)})"
-        cursor.execute(sql)
-        connection.commit
-        titl = "Add Category"
-        msg = f"{CatToAdd} added successfully."
-        messagebox.showinfo(titl, msg)
-        NewCat.set('')
 
 
 def destroy_window():
