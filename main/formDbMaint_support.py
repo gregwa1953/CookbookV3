@@ -313,8 +313,9 @@ def on_btnAdd():
         NewCat.set('')
     else:
         sql = f"INSERT INTO categoriesmain (CatText) VALUES ({quote(CatToAdd)})"
+        print(sql)
         cursor.execute(sql)
-        connection.commit
+        connection.commit()
         titl = "Add Category"
         msg = f"{CatToAdd} added successfully."
         messagebox.showinfo(titl, msg)
