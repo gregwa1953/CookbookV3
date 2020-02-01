@@ -1,6 +1,9 @@
 Changelog.txt
 
-
+31 January 1830
+DB Utility - Version 0.1.4
+           - Minor fix to allow standalone execution
+---------------
 31 January 1815
 
 DB Utility - Version 0.1.3
