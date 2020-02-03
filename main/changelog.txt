@@ -1,5 +1,11 @@
 Changelog.txt
 
+3 February 1100
+
+Main - 3.4.2
+     - Fixed small problem with running main program from a folder not within main folder.
+
+---------------
 31 January 1830
 DB Utility - Version 0.1.4
            - Minor fix to allow standalone execution

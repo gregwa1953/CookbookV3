@@ -42,15 +42,17 @@ All of the required libraries can be installed via Pip
 _**The screen shots are not yet complete...**_
 
 ### Main Screen
-
+![The main cookbook screen](./assets/Cookbook-Main.png)
 
 ### New Recipe Screen
 
 
 ### Edit Recipe Screen
+![Edit Recipe Screen](./assets/Editor.png)
 
 
 ### Web Scraper Screen
+![Recipe Scraper](./assets/Recipe-Scraper.png)
 
 
 
@@ -70,6 +72,41 @@ $ ./cookbook3.py
 ```
 
 From there, you will be presented with the main screen.
+
+![](./assets/Cookbook-Main.png)
+
+Along the top, is the tool bar.
+![](./assets/Toolbar.png)
+
+From left to right, the buttons are:
+* Add a new recipe
+* Delete the current recipe
+* Edit the current recipe
+* Scrape a recipe web page
+* Print the current recipe
+* Database Utility
+* Configuration Utility (coming soon)
+* Exit the program
+
+Along the left side of the form is the navigation bar
+
+![](./assets/Navigation.png)
+
+This portion of the screen will change based on the search options you select.
+
+The rest of the screen is dedicated to the details of the recipe.
+
+![](./assets/Details.png)
+
+## The Recipe Scraper
+
+
+## The Edit Screen
+
+
+## The New Recipe Screen
+
+
 
 _**Yet to be completed**_
 
