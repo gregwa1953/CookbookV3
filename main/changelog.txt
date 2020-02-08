@@ -1,5 +1,11 @@
 Changelog.txt
 
+8 February 0600
+
+Main - Version 3.4.4
+       Modified form - replaced label widget with message widget for Source to better support longer URLs
+
+----------------
 3 February 1100
 
 Main - 3.4.2

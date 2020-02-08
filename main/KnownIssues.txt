@@ -1,5 +1,14 @@
 Bugs
 
+Bug number: I-7
+Date: 5 February 2020
+Status: Fixed, but not rolled into scraper yet - GDW
+
+Recipe site scraper for tine.no/oppskrifter that I wrote is having problem with some pages pulling ingredient information...
+
+https://www.tine.no/oppskrifter/middag-og-hovedretter/kjott/kremet-elggryte
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Bug number: I-6
 Date: 28 January 2020
 Status: workaround - GDW

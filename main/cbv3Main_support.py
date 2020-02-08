@@ -69,6 +69,7 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+
 def set_Tk_var():
     global RecipeRating
     RecipeRating = tk.StringVar()
@@ -117,13 +118,15 @@ def set_Tk_var():
     Notes = tk.StringVar()
     Notes.set('Message')
 
+
 def on_btnScrape():
     # if shared.debug:
     print('cbv3Main_support.on_btnScrape')
-        # sys.stdout.flush()
+    # sys.stdout.flush()
     shared.remote = True
     ScraperGUI1.create_Scraper(root)
     hide_me()
+
 
 def on_chkClick():
     if shared.debug:
@@ -138,6 +141,7 @@ def on_chkClick():
         activeonly = False
         init_tree(w.Scrolledtreeview1)
 
+
 def on_btnAdd():
     if shared.debug:
         print('test3_support.on_btnAdd')
@@ -147,6 +151,7 @@ def on_btnAdd():
     shared.EditMode = 'New'
     hide_me()
     formEditor.create_formEditor(root)
+
 
 def on_btnDelete():
     global connection, cursor
@@ -162,6 +167,7 @@ def on_btnDelete():
         connection.commit()
         init_tree(w.Scrolledtreeview1)
 
+
 def on_btnEdit():
     global CurrentID
     if shared.debug:
@@ -173,6 +179,7 @@ def on_btnEdit():
     hide_me()
     formEditor.create_formEditor(root)
 
+
 def on_btnExit():
     if shared.debug:
         print('cbv3Main_support.on_btnExit')
@@ -181,6 +188,7 @@ def on_btnExit():
     _img3 = None
     _img2 = None
     destroy_window()
+
 
 def on_rbClick():
     # ======================================================
@@ -208,6 +216,7 @@ def on_rbClick():
 
     else:
         pass
+
 
 def on_TV_Click(e):
     if shared.debug:
@@ -238,6 +247,7 @@ def on_TV_Click(e):
             # set_labels()
             load_form(CurrentID)
 
+
 def on_time_update():
     # ======================================================
     # Callback function for the Time display
@@ -247,6 +257,7 @@ def on_time_update():
     TimeDisp.set(nowstring)
     timer_id = root.after(500, on_time_update)
 
+
 def on_Entry_Return(e):
     if e.keysym == 'Return':
         if shared.debug:
@@ -254,12 +265,14 @@ def on_Entry_Return(e):
             print(f'Text entered = {EntryText.get()}')
         tv_fill_ingreds(EntryText.get())
 
+
 def on_btnPrint():
     if shared.debug:
         print('cbv3Main_support.on_btnPrint')
         sys.stdout.flush()
     global CurrentID
     printtemp.main(CurrentID)
+
 
 def update_tree(e):
     if shared.debug:
@@ -273,10 +286,12 @@ def update_tree(e):
     # print(f'Title: {title} CurrentID: {CurrentID}')
     # # fill_form
 
+
 def clear_main_treeview():
     for i in w.Scrolledtreeview1.get_children():
         w.Scrolledtreeview1.delete(i)
     # clear_labels()
+
 
 def clear_form():
     # Main recipe info
@@ -293,13 +308,15 @@ def clear_form():
     w.Scrolledlistbox1.delete(0, tk.END)
     # Image
 
+
 def load_form(id):
     global connection, cursor, activeonly, imgpath, path1
     clear_form()
     # set_labels()
     IdLableShow.set(id)
     if activeonly:
-        sql = (f"SELECT * FROM recipes WHERE recipes.idRecipes = {id} and recipes.Active = 1")
+        sql = (
+            f"SELECT * FROM recipes WHERE recipes.idRecipes = {id} and recipes.Active = 1")
     else:
         sql = (f"SELECT * FROM recipes WHERE recipes.idRecipes = {id}")
     recs = list(cursor.execute(sql))
@@ -410,12 +427,14 @@ def load_form(id):
         w.lblImage.configure(image=_img3)
     # RecipeNotes.set('No description available')
 
+
 def clear_labels():
     w.Label2.configure(text='')
     w.Label3.configure(text='')
     w.Label5.configure(text='')
     w.Label5.configure(text='')
     w.Label7.configure(text='')
+
 
 def set_labels():
     w.Label2.configure(text='''Recipe Source:''')
@@ -424,10 +443,12 @@ def set_labels():
     w.Label5.configure(text='''Instructions:''')
     w.Label7.configure(text='''Categories''')
 
+
 def tree_close(e):
     # clear_labels()
     pass
     # print('Tree_close')
+
 
 def tree_open(e):
     # print('Tree_open')
@@ -441,6 +462,7 @@ def tree_open(e):
         CurrentID = w.Scrolledtreeview1.set(first, 1)
         # set_labels()
         load_form(CurrentID)
+
 
 def populate_tree(tree, node):
     global first, CurrentID
@@ -470,6 +492,7 @@ def populate_tree(tree, node):
     #     sort_by(tree, 'Recipe', 0)
     load_form(CurrentID)
 
+
 def load_base_recipes():
     global connection, cursor, activeonly
     if activeonly:
@@ -482,6 +505,7 @@ def load_base_recipes():
     print(f'{len(recs)} Records)')
     if len(recs):
         return(recs)
+
 
 def init_tree(tree):
     # global folder
@@ -497,6 +521,7 @@ def init_tree(tree):
     node = tree.insert('', 1, text='', image=shared.folder)
     populate_tree(tree, node)
 
+
 def setup_treeview():
     w.Scrolledtreeview1.bind('<<TreeviewSelect>>',
                              lambda e: update_tree(e))
@@ -507,13 +532,16 @@ def setup_treeview():
     w.Scrolledtreeview1.bind('<Button-1>', lambda e: on_TV_Click(e))
     init_tree(w.Scrolledtreeview1)
 
+
 def clear_treeview():
     w.Scrolledtreeview1.delete(*w.Scrolledtreeview1.get_children())
+
 
 def tv_fill_title():
     clear_main_treeview()
     shared.tv_mode = 1
     setup_treeview()
+
 
 def tv_fill_cats():
     tree = w.Scrolledtreeview1
@@ -532,7 +560,8 @@ def tv_fill_cats():
     tree.heading('Recid', text='Recid', anchor=tk.W)
     tree["displaycolumns"] = ("Recipe")
 
-    shared.pic = ImageTk.PhotoImage(file=path1+'/images/applications-science.png')
+    shared.pic = ImageTk.PhotoImage(
+        file=path1+'/images/applications-science.png')
     parent = tree.insert('', 0, text='', image=shared.pic, open=True)
     global activeonly
     sql = ("""SELECT \
@@ -573,6 +602,7 @@ def tv_fill_cats():
         # TODO - Support messagebox here!
         print('ERROR!!!')
 
+
 def tv_fill_ingreds(text):
     if shared.debug:
         print(f'Into tv_fill_ingredients - searchfor: {text}')
@@ -580,37 +610,38 @@ def tv_fill_ingreds(text):
     clear_form()
     # clear_labels()
     shared.tv_mode = 3
-    shared.searchfor=text
+    shared.searchfor = text
 
     init_tree(w.Scrolledtreeview1)
     # populate_tree(w.Scrolledtreeview1,node)
+
 
 def load_ingredient_list():
     global activeonly
     if activeonly:
         sql = ("SELECT recipes.idRecipes, "
-            "recipes.RecipeText, "
-            "recipes.RecipeSource, "
-            "recipes.RecipeServes, "
-            "recipes.RecipeRating, "
-            "ingredients.IngredientItem "
-            "FROM ingredients "
-            "INNER JOIN recipes ON "
-            "(ingredients.RecipeID = recipes.idRecipes) "
-            "WHERE recipes.Active = 1 ingredients.IngredientItem "
-            "like '%{0}%'").format(str(shared.searchfor))
+               "recipes.RecipeText, "
+               "recipes.RecipeSource, "
+               "recipes.RecipeServes, "
+               "recipes.RecipeRating, "
+               "ingredients.IngredientItem "
+               "FROM ingredients "
+               "INNER JOIN recipes ON "
+               "(ingredients.RecipeID = recipes.idRecipes) "
+               "WHERE recipes.Active = 1 ingredients.IngredientItem "
+               "like '%{0}%'").format(str(shared.searchfor))
     else:
-            sql = ("SELECT recipes.idRecipes, "
-            "recipes.RecipeText, "
-            "recipes.RecipeSource, "
-            "recipes.RecipeServes, "
-            "recipes.RecipeRating, "
-            "ingredients.IngredientItem "
-            "FROM ingredients "
-            "INNER JOIN recipes ON "
-            "(ingredients.RecipeID = recipes.idRecipes) "
-            "WHERE ingredients.IngredientItem "
-            "like '%{0}%'").format(str(shared.searchfor))
+        sql = ("SELECT recipes.idRecipes, "
+               "recipes.RecipeText, "
+               "recipes.RecipeSource, "
+               "recipes.RecipeServes, "
+               "recipes.RecipeRating, "
+               "ingredients.IngredientItem "
+               "FROM ingredients "
+               "INNER JOIN recipes ON "
+               "(ingredients.RecipeID = recipes.idRecipes) "
+               "WHERE ingredients.IngredientItem "
+               "like '%{0}%'").format(str(shared.searchfor))
     if shared.debug:
         print(sql)
     recs = list(cursor.execute(sql))
@@ -619,6 +650,8 @@ def load_ingredient_list():
 # ======================================================
 # Sorts the treeview
 # ======================================================
+
+
 def sort_by(tree, col, descending):
     # grab values to
     print('into sort_by')
@@ -632,7 +665,8 @@ def sort_by(tree, col, descending):
         tree.move(item[1], '', ix)
     # switch the heading so it will sort in the opposite direction
     tree.heading(col, command=lambda col=col: sort_by(tree, col,
-                 int(not descending)))
+                                                      int(not descending)))
+
 
 def set_btn_labels():
     global printButton, imgpath
@@ -683,12 +717,14 @@ def set_btn_labels():
     configButton = ImageTk.PhotoImage(img)
     w.btnConfig.configure(image=configButton)
 
+
 def fix_path():
     global path1
     if "main" in path1:
         pass
     else:
         path1 = path1 + "/main"
+
 
 def startup():
     global version, path1, progname
@@ -731,8 +767,9 @@ def startup():
     set_btn_labels()
     set_icon()
     set_mode()
-    centre_screen(1270,861)
+    centre_screen(1270, 861)
     shared.debug = False
+
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
@@ -743,10 +780,11 @@ def init(top, gui, *args, **kwargs):
     # My init code here...
     # ======================================================
     global version
-    version = '3.4.2'
+    version = '3.4.4'
     global progname
     progname = "Cookbook V3"
     startup()
+
 
 def centre_screen(wid, hei):
     # ======================================================
@@ -757,6 +795,7 @@ def centre_screen(wid, hei):
     x = (ws/2) - (wid/2)
     y = (hs/2) - (hei/2)
     root.geometry('%dx%d+%d+%d' % (wid, hei, x, y))
+
 
 def set_icon():
     # ======================================================
@@ -769,9 +808,11 @@ def set_icon():
     shared.p1 = ImageTk.PhotoImage(file=imgpath + '/chef.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
 
+
 def set_mode():
     tbcolour = 'gray72'
-    widgetlist = [root, w.frameToolbar, w.frameStatus, w.lblTimeDisplay, w.frameNavigate, w.Frame2, w.Label1, w.rbTitle, w.rbCategories, w.rbIngredients, w.Checkbutton1, w.Frame3, w.Frame1, w.lblTitle, w.lblImage, w.lblSource, w.lblServings, w.msgCategories, w.lblID, w.Label2, w.Label3, w.Label4, w.lblTotalTime, w.Label5, w.Label6, w.Label7]
+    widgetlist = [root, w.frameToolbar, w.frameStatus, w.lblTimeDisplay, w.frameNavigate, w.Frame2, w.Label1, w.rbTitle, w.rbCategories, w.rbIngredients, w.Checkbutton1,
+                  w.Frame3, w.Frame1, w.lblTitle, w.lblImage, w.lblSource, w.lblServings, w.msgCategories, w.lblID, w.Label2, w.Label3, w.Label4, w.lblTotalTime, w.Label5, w.Label6, w.Label7]
     l = len(widgetlist)
 
     for widg in widgetlist:
@@ -784,18 +825,22 @@ def set_mode():
 # =================================================================
 # Window stuff
 # =================================================================
+
+
 def show_me():
     global root
     root.deiconify()
     # root.attributes("-topmost", True)
-    centre_screen(1270,861)
+    centre_screen(1270, 861)
     # reload treeview here
     shared.tv_mode = 1
     tv_fill_title()
 
+
 def hide_me():
     global root
     root.withdraw()
+
 
 def on_btnConfig():
     print('cbv3Main_support.on_btnConfig')
@@ -804,6 +849,7 @@ def on_btnConfig():
     txt = "Sorry, but the Configuration Utility is not implemented yet."
     messagebox.showinfo(title, txt)
 
+
 def on_btnUtils():
     print('cbv3Main_support.on_btnUtils')
     sys.stdout.flush()
@@ -811,17 +857,14 @@ def on_btnUtils():
     formDbMaint.create_formDbMaint(root)
     hide_me()
 
+
 def destroy_window():
     # Function which closes the window.
     global top_level
     top_level.destroy()
     top_level = None
 
+
 if __name__ == '__main__':
     import cbv3Main
     cbv3Main.vp_start_gui()
-
-
-
-
-

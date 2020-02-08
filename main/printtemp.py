@@ -129,7 +129,7 @@ def main(inrec=None):
         imgdata = getImageData(reciperec)
         # print(imgdata)
         if imgdata != None:
-            line = f'<img src="{path1 + imgdata[0][2]}">'
+            line = f'<img src="{path1 + imgdata[0][2]}" height="300" width="300">'
             f.write(line)
         # ======================================================
         # Write description information
