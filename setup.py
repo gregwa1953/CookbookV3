@@ -12,7 +12,8 @@ setup(
     author="Greg Walters",
     author_email="r+thedesignatedgeek@gmail.com",
     description="Python package, Cookbook program",
-    keywords="python recipes scraper cookbook recipes",
+    keywords="python recipes scraper cookbook recipes tkinter ttk",
+    scripts=['cookbook3.py'],
     long_description=README,
     install_requires=[
         "recipe_scrapers>=5.6.0",

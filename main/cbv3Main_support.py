@@ -726,6 +726,34 @@ def fix_path():
         path1 = path1 + "/main"
 
 
+def setup_styles():
+    from ttkthemes import ThemedStyle
+    s = ThemedStyle()
+    s.set_theme("default")
+    style = ttk.Style()
+    style.theme_use('elegance')
+    # style.configure('Treeview', fieldbackground="#919191")
+    style.configure('Treeview', fieldbackground="#595959")
+    style.configure('.', background='#919191')
+    style.configure('.', foreground='#111111')
+    # style.configure('Treeview', font=('DejaVu Sans Mono', 11, 'bold'))
+    style.configure('Treeview', font=('DejaVu Sans', 11, 'bold'))
+    # ======================================================
+    # This is the theme setting for the treeview from the elegance ttk code...
+    # Hopefully I can modify it to provide a better background/foreground
+    # for the treeview object
+    # ======================================================
+    # # -----------------------------------------------------------------
+    # # Tree
+    # #
+    # ::ttk::style element create Treeheading.cell \
+    #     image [list $I(list-header) pressed $I(list-header-prelight)] \
+    #     -border {4 10} -padding 4 -sticky ewns
+    # ::ttk::style map Treeview \
+    #     -background [list selected $colors(-selectbg)] \
+    #     -foreground [list selected $colors(-selectfg)]
+
+
 def startup():
     global version, path1, progname
     pv = platform.python_version()
@@ -769,6 +797,7 @@ def startup():
     set_mode()
     centre_screen(1270, 861)
     shared.debug = False
+    setup_styles()
 
 
 def init(top, gui, *args, **kwargs):
@@ -811,8 +840,11 @@ def set_icon():
 
 def set_mode():
     tbcolour = 'gray72'
-    widgetlist = [root, w.frameToolbar, w.frameStatus, w.lblTimeDisplay, w.frameNavigate, w.Frame2, w.Label1, w.rbTitle, w.rbCategories, w.rbIngredients, w.Checkbutton1,
-                  w.Frame3, w.Frame1, w.lblTitle, w.lblImage, w.lblSource, w.lblServings, w.msgCategories, w.lblID, w.Label2, w.Label3, w.Label4, w.lblTotalTime, w.Label5, w.Label6, w.Label7]
+    widgetlist = [root, w.frameToolbar, w.frameStatus, w.lblTimeDisplay, w.frameNavigate,
+                  w.Frame2, w.Label1, w.rbTitle, w.rbCategories, w.rbIngredients, w.Checkbutton1,
+                  w.Frame3, w.Frame1, w.lblTitle, w.lblImage, w.lblSource, w.lblServings,
+                  w.msgCategories, w.lblID, w.Label2, w.Label3, w.Label4, w.lblTotalTime,
+                  w.Label5, w.Label6, w.Label7]
     l = len(widgetlist)
 
     for widg in widgetlist:
@@ -820,6 +852,14 @@ def set_mode():
     w.stNotes.configure(background=tbcolour)
     w.Scrolledlistbox1.configure(background=tbcolour)
     w.Scrolledtext1.configure(background=tbcolour)
+    w.rbTitle.configure(highlightbackground="#919191")
+    w.rbCategories.configure(highlightbackground='#919191')
+    w.rbIngredients.configure(highlightbackground='#919191')
+    w.Checkbutton1.configure(highlightbackground='#919191')
+    w.rbTitle.configure(activebackground="#818181")
+    w.rbCategories.configure(activebackground='#818181')
+    w.rbIngredients.configure(activebackground='#818181')
+    w.Checkbutton1.configure(activebackground='#818181')
     print('finished applying backgrounds')
 
 # =================================================================

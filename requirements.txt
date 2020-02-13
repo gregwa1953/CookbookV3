@@ -1,0 +1,5 @@
+ttkthemes>=3.0.0
+pillow
+requrests
+recipe_scrapers
+tkcolorpicker

@@ -30,6 +30,7 @@ At the moment, there are three libraries that will need to be installed before y
 * requests
 * recipe_scrapers
 * tkcolorpicker
+* _*ttkthemes >= 3.0.0 (new requirement as of 11 February 2020)*_
 
 
 All of these libraries can be installed using the Python pip installer.  As an example, to install the requests library, for Python 2.x you would use:
