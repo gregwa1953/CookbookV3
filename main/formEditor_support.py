@@ -165,7 +165,7 @@ def on_imageLocal(p1):
     # pth = filedialog.askopenfile()
     pth = ''
     if shared.defaultImagePath != '':
-        pat = shared.defaultImagePath
+        pat = os.path.expanduser(shared.defaultImagePath)
     else:
         pat = path1
     pth = filedialog.askopenfilename(initialdir=pat,
