@@ -44,6 +44,7 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+
 def set_Tk_var():
     global EntryIngredient
     EntryIngredient = tk.StringVar()
@@ -66,6 +67,7 @@ def set_Tk_var():
     SelectedCats = tk.StringVar()
     SelectedCats.set('Message')
 
+
 def on_btnExit():
     if shared.debug:
         print('formEditor_support.on_btnExit')
@@ -78,16 +80,19 @@ def on_btnExit():
     else:
         destroy_window()
 
+
 def on_btnSave():
     if shared.debug:
         print('formEditor_support.on_btnSave')
         sys.stdout.flush()
     write_to_db()
 
+
 def on_chkActive():
     if shared.debug:
         print('formEditor_support.on_chkActive')
         sys.stdout.flush()
+
 
 def on_btnAdd():
     if shared.debug:
@@ -107,6 +112,7 @@ def on_btnAdd():
     EntryIngredient.set('')
     ingindex = None
 
+
 def on_btnDelete():
     # TODO - Add check for selection before attempt to delete
     if shared.debug:
@@ -119,10 +125,12 @@ def on_btnDelete():
     global ingindex
     ingindex = None
 
+
 def on_customClick(s=None):
     if shared.debug:
         print('on_customClick')
     update_label()
+
 
 def on_keytab(e, which):
     if shared.debug:
@@ -143,10 +151,12 @@ def on_keytab(e, which):
     elif which == 7:   # Scrolledtext1
         w.Scrolledlistbox1.focus_set()
 
+
 def on_focusout(e, which):
     if shared.debug:
         print('on_focusout')
         print(which)
+
 
 def on_imageLocal(p1):
     if shared.debug:
@@ -154,17 +164,22 @@ def on_imageLocal(p1):
     global path1
     # pth = filedialog.askopenfile()
     pth = ''
-    pth = filedialog.askopenfilename(initialdir = path1,
-                                   title = "choose your file",
-                                   filetypes = (("jpg files","*.jpg"),
-                                                ("png files","*.png"),
-                                                ("all files","*.*")))
+    if shared.defaultImagePath != '':
+        pat = shared.defaultImagePath
+    else:
+        pat = path1
+    pth = filedialog.askopenfilename(initialdir=pat,
+                                     title="choose your file",
+                                     filetypes=(("jpg files", "*.jpg"),
+                                                ("png files", "*.png"),
+                                                ("all files", "*.*")))
     # if pth = '', user pressed cancel
     if pth != '':
         # print(f'FilePath = {pth}')
         shared.imagePath = pth
     # Load the image into the label
     load_image()
+
 
 def on_popPaste(p1):
     if shared.debug:
@@ -188,6 +203,7 @@ def on_popPaste(p1):
         EntryIngredient.set(root.clipboard_get())
     else:
         pass
+
 
 def on_popCopy(p1):
     if shared.debug:
@@ -214,6 +230,7 @@ def on_popCopy(p1):
     root.clipboard_clear()  # clear clipboard contents
     root.clipboard_append(field_value)
 
+
 def on_popClear(p1):
     if shared.debug:
         print(f'on_popClear - {p1}')
@@ -237,11 +254,13 @@ def on_popClear(p1):
     else:
         pass
 
+
 def on_entryKeyPress(e):
     if shared.debug:
         print('EntryKeyPress')
     if e.keysym == 'Return':
         on_btnAdd()
+
 
 def on_listboxSelect(e):
     # print('on_listboxSelect')
@@ -251,6 +270,7 @@ def on_listboxSelect(e):
     EntryIngredient.set(itm)
     global ingindex
     ingindex = indx
+
 
 def clear_labels():
     RecipeTotalTime.set('')
@@ -267,8 +287,10 @@ def clear_labels():
     # Categories
     w.Custom1.clear()
 
+
 def set_labels():
     pass
+
 
 def update_label():
     dat = w.Custom1.get()
@@ -282,6 +304,7 @@ def update_label():
             lst.append(x)
     s = ", ".join(lst)
     SelectedCats.set(s)
+
 
 def load_image():
     # This might be an issue...
@@ -333,6 +356,7 @@ def load_image():
             os.remove(src)
         except Exception:
             pass
+
 
 def fill_form():
     global connection, cursor, datacheck
@@ -423,8 +447,8 @@ def fill_form():
     # ===================================
     shared.isDirty = False
     # if shared.debug:
-        # print('Datacheck:')
-        # print(datacheck)
+    # print('Datacheck:')
+    # print(datacheck)
 
 # ======================================================
 # function check_attr()
@@ -434,12 +458,15 @@ def fill_form():
 # hasn't bee defined, it will crash the program with an error.
 # This attemps to make it safe.
 # ======================================================
+
+
 def check_attr(module, variable):
     attr = getattr(module, variable, False)
     if attr is False:
         return False
     else:
         return True
+
 
 def set_bindings():
     w.entryTitle.bind('<KeyPress-Tab>', lambda e: on_keytab(e, 1))
@@ -470,10 +497,13 @@ def set_bindings():
     w.entIngredient.bind('<KeyRelease>', lambda e: on_entryKeyPress(e))
     w.Scrolledlistbox1.bind('<<ListboxSelect>>', on_listboxSelect)
     global eWidgets
-    eWidgets = [w.entryTitle, w.entrySource, w.entryServes, w.entryTotalTime, w.entryRating, w.stNotes, w.Scrolledtext1, w.entIngredient]
+    eWidgets = [w.entryTitle, w.entrySource, w.entryServes, w.entryTotalTime,
+                w.entryRating, w.stNotes, w.Scrolledtext1, w.entIngredient]
+
 
 def get_ingredient_list():
     pass
+
 
 def write_to_db():
     global connection, cursor
@@ -491,27 +521,41 @@ def write_to_db():
         # Delete and replace for ingredients and cats tables
         try:
             sql = ("UPDATE recipes SET "
-                "RecipeText = {0}, RecipeSource = {1}, "
-                "RecipeServes = {2}, TotalTime = {3}, "
-                "RecipeRating = {4}, Notes = {5}, "
-                "Active = {6} WHERE idRecipes = {7}").format(
-                    quote(title),
-                    quote(source),
-                    quote(serves),
-                    quote(totaltime),
-                    quote(rating),
-                    quote(notes),
-                    active, shared.rectouse)
+                   "RecipeText = {0}, RecipeSource = {1}, "
+                   "RecipeServes = {2}, TotalTime = {3}, "
+                   "RecipeRating = {4}, Notes = {5}, "
+                   "Active = {6} WHERE idRecipes = {7}").format(
+                quote(title),
+                quote(source),
+                quote(serves),
+                quote(totaltime),
+                quote(rating),
+                quote(notes),
+                active, shared.rectouse)
             # print(sql)
             isok = cursor.execute(sql)
             connection.commit()
             # ========================
             # Instructions
             # ========================
-            sql = ("UPDATE instructions SET "
-                   "InstructionsData = {0} WHERE RecipeID = {1}").format(
-                   quote(w.Scrolledtext1.get(1.0, tk.END)),
-                   shared.rectouse)
+            sql = f"SELECT InstructionsData from instructions WHERE RecipeID = {shared.rectouse}"
+            print(sql)
+
+            rec = list(cursor.execute(sql))
+            if len(rec) > 0:
+                sql = ("UPDATE instructions SET "
+                       "InstructionsData = {0} WHERE RecipeID = {1}").format(
+                    quote(w.Scrolledtext1.get(1.0, tk.END)),
+                    shared.rectouse)
+            else:
+                sql = ("Insert into instructions "
+                       "(RecipeID,InstructionsData) "
+                       "VALUES ({0},{1})").format(shared.rectouse,
+                                                  quote(
+                                                      w.Scrolledtext1.get(
+                                                          1.0, tk.END)))
+            cursor.execute(sql)
+            connection.commit()
             # print(sql)
             isok = cursor.execute(sql)
             connection.commit()
@@ -522,7 +566,8 @@ def write_to_db():
             # and then insert the new ones, since it would be alot of code to verify existance and positions
             # of any new records.
             # ========================
-            sql = (f"DELETE FROM ingredients WHERE RecipeID = {shared.rectouse}")
+            sql = (
+                f"DELETE FROM ingredients WHERE RecipeID = {shared.rectouse}")
             # print(sql)
             isok = cursor.execute(sql)
             connection.commit()
@@ -531,8 +576,8 @@ def write_to_db():
             ilist = w.Scrolledlistbox1.get(0, tk.END)
             for line in ilist:
                 sql = ("INSERT INTO ingredients "
-                    "(RecipeID,Ingredientitem) "
-                    "VALUES ({0},{1})").format(
+                       "(RecipeID,Ingredientitem) "
+                       "VALUES ({0},{1})").format(
                     shared.rectouse, quote(line))
                 # print(sql)
                 cursor.execute(sql)
@@ -542,7 +587,8 @@ def write_to_db():
             #  Cats
             # ========================
             # Like ingredients, delete existing records, then insert the "new" ones.
-            sql = (f"DELETE FROM recipecategories WHERE recipeID = {shared.rectouse}")
+            sql = (
+                f"DELETE FROM recipecategories WHERE recipeID = {shared.rectouse}")
             # print(sql)
             cursor.execute(sql)
             connection.commit()
@@ -561,18 +607,21 @@ def write_to_db():
             resp = list(cursor.execute(sql))
             # print(resp)
             if len(resp) > 0:
-
-                sql = ("UPDATE images SET image = {1} WHERE recipeID = {0}").format(
+                if shared.imagePath != '':
+                    sql = ("UPDATE images SET image = {1} WHERE recipeID = {0}").format(
                         shared.rectouse, quote(shared.imagePath))
+                else:
+                    sql = ''
             else:
                 sql = ('INSERT INTO images (recipeID, image) '
                        'VALUES ({0}, {1})'.format(
-                        shared.rectouse, quote(shared.imagePath)))
+                           shared.rectouse, quote(shared.imagePath)))
             print(sql)
-            cursor.execute(sql)
-            result = cursor.rowcount
-            print(f'Result: {result}')
-            connection.commit()
+            if sql != '':
+                cursor.execute(sql)
+                result = cursor.rowcount
+                print(f'Result: {result}')
+                connection.commit()
 
             msgTitle = 'Save Recipe Changes'
             msgMsg = 'All data saved'
@@ -586,8 +635,8 @@ def write_to_db():
         # Use Insert
         try:
             sql = ("Insert into recipes "
-                "(RecipeText,RecipeSource,RecipeServes,TotalTime, RecipeRating, Notes, Active) "
-                "VALUES ({0},{1},{2},{3},{4},{5},{6});").format(
+                   "(RecipeText,RecipeSource,RecipeServes,TotalTime, RecipeRating, Notes, Active) "
+                   "VALUES ({0},{1},{2},{3},{4},{5},{6});").format(
                 quote(title),
                 quote(source),
                 quote(serves),
@@ -606,18 +655,18 @@ def write_to_db():
             # Write Instructions
             # -----------------------
             sql = ("Insert into instructions "
-                    "(RecipeID,InstructionsData) "
-                    "VALUES ({0},{1})").format(LastRecord,
-                                                quote(
-                                                    w.Scrolledtext1.get(
-                                                        1.0, tk.END)))
+                   "(RecipeID,InstructionsData) "
+                   "VALUES ({0},{1})").format(LastRecord,
+                                              quote(
+                                                  w.Scrolledtext1.get(
+                                                      1.0, tk.END)))
             cursor.execute(sql)
             connection.commit()
             # -----------------------
             # Write ImageURL
             sql = ('INSERT INTO images (recipeID, image) '
-                    'VALUES ({0}, {1})'.format(
-                        LastRecord, quote(shared.imagePath)))
+                   'VALUES ({0}, {1})'.format(
+                       LastRecord, quote(shared.imagePath)))
             cursor.execute(sql)
             connection.commit()
             # -----------------------
@@ -626,8 +675,8 @@ def write_to_db():
             ilist = w.Scrolledlistbox1.get(0, tk.END)
             for line in ilist:
                 sql = ("INSERT INTO ingredients "
-                    "(RecipeID,Ingredientitem) "
-                    "VALUES ({0},{1})").format(
+                       "(RecipeID,Ingredientitem) "
+                       "VALUES ({0},{1})").format(
                     LastRecord, quote(line))
                 cursor.execute(sql)
             connection.commit()
@@ -669,12 +718,14 @@ def set_images():
     dButton = ImageTk.PhotoImage(img)
     w.btnDelete.configure(image=dButton)
 
+
 def fix_path():
     global path1
     if "main" in path1:
         pass
     else:
         path1 = path1 + "/main"
+
 
 def start_up():
     global connection, cursor
@@ -697,7 +748,7 @@ def start_up():
     shared.imagePath = ''
     global ingindex
     ingindex = None
-    w.Label1.configure(text = 'Right click here to insert image...')
+    w.Label1.configure(text='Right click here to insert image...')
     # Fill the entry widget for testing purposes
     initialize_custom_widget()
     # Set the entry widgets bindings
@@ -708,6 +759,7 @@ def start_up():
     # Centre the screen
     centre_screen(1139, 773)
     w.entryTitle.focus_set()
+
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
@@ -767,6 +819,7 @@ def init(top, gui, *args, **kwargs):
             w.Label11.configure(state='disabled')
             clear_labels()
 
+
 def get_Custom_Cats():
     global connection, cursor
     sql = 'SELECT CatText, idCategoriesMain FROM categoriesmain order by CatText ASC'
@@ -774,6 +827,7 @@ def get_Custom_Cats():
     if shared.debug:
         print(recs)
     return recs
+
 
 def initialize_custom_widget():
     w.Custom1.cback = on_customClick
@@ -783,19 +837,23 @@ def initialize_custom_widget():
     w.Custom1.load(ListInfo2)
     w.Custom1.clear()
 
+
 def set_mode():
 
     tbcolour = 'gray72'
     w.stNotes.configure(background=tbcolour)
     w.Scrolledlistbox1.configure(background=tbcolour)
     w.Scrolledtext1.configure(background=tbcolour)
-    widgetlist = [w.entryTitle, w.entrySource, w.entryServes, w.entryTotalTime, w.entryRating, w.entIngredient]
+    widgetlist = [w.entryTitle, w.entrySource, w.entryServes,
+                  w.entryTotalTime, w.entryRating, w.entIngredient]
     for widg in widgetlist:
         widg.configure(background=tbcolour)
 
 # =================================================================
 # cursor stuff
 # =================================================================
+
+
 def busyStart(newcursor=None):
     global preBusyCursors
 
@@ -807,6 +865,7 @@ def busyStart(newcursor=None):
         component.configure(cursor=newcursor)
         component.update_idletasks()
     preBusyCursors = (newPreBusyCursors, preBusyCursors)
+
 
 def busyEnd():
     global preBusyCursors
@@ -821,6 +880,7 @@ def busyEnd():
             pass
         component.update_idletasks()
 
+
 def centre_screen(wid, hei):
     ws = root.winfo_screenwidth()
     hs = root.winfo_screenheight()
@@ -831,13 +891,17 @@ def centre_screen(wid, hei):
 # =================================================================
 # Window stuff
 # =================================================================
+
+
 def show_me():
     root.deiconify()
     root.attributes("-topmost", True)
 
+
 def hide_me():
     cbv3Main_support.show_me()
     root.withdraw()
+
 
 def set_icon():
     # ======================================================
@@ -846,8 +910,10 @@ def set_icon():
     shared.p1 = ImageTk.PhotoImage(file=path1 + '/images/32/edit-paste.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
 
+
 # Custom = tk.Frame  # To be updated by user with name of custom widget.
 Custom = ScrolledCheckedListBox
+
 
 def destroy_window():
     # Function which closes the window.
@@ -855,10 +921,7 @@ def destroy_window():
     top_level.destroy()
     top_level = None
 
+
 if __name__ == '__main__':
     import formEditor
     formEditor.vp_start_gui()
-
-
-
-

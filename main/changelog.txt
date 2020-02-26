@@ -1,5 +1,14 @@
 Changelog.txt
 
+26 February -
+
+Main - Added support for config file
+Scraper - Added support for scraper sites that require agent 
+Editor - (in progress) Modified code to support a default path for image rather than /home
+TODO - Modify configuration utility to support the config file.
+
+-----------------
+
 8 February 0600
 
 Main - Version 3.4.4

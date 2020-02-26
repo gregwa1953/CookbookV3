@@ -41,6 +41,7 @@ import formEditor
 import formEditor_support
 import formDbMaint
 import formDbMaint_support
+import configparser
 # import formConfig
 # import formConfig_support
 import printtemp
@@ -754,6 +755,17 @@ def setup_styles():
     #     -foreground [list selected $colors(-selectfg)]
 
 
+def read_config():
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    csections = config.sections()
+    print(csections)
+    if 'DEFAULT' in config:
+        shared.defaultImagePath = config['DEFAULT']['defaultImagePath']
+    if 'Themes' in config:
+        shared.defaultTheme = config['Themes']['defaultTheme']
+
+
 def startup():
     global version, path1, progname
     pv = platform.python_version()
@@ -797,6 +809,7 @@ def startup():
     set_mode()
     centre_screen(1270, 861)
     shared.debug = False
+    read_config()
     setup_styles()
 
 

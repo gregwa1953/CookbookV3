@@ -47,6 +47,7 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+
 def on_btnSaveToDB():
     if shared.debug:
         print('ScraperGUI1_support.on_btnSaveToDB')
@@ -62,6 +63,7 @@ def on_btnSaveToDB():
         resp = messagebox.askyesno(title, txt)
         if resp:
             WriteToDb()
+
 
 def set_Tk_var():
     global msgCategories
@@ -83,6 +85,7 @@ def set_Tk_var():
     sImageURL = tk.StringVar()
     sImageURL.set('Label')
 
+
 def on_btnExit():
     if shared.debug:
         print('ScraperGUI1_support.on_btnExit')
@@ -94,6 +97,7 @@ def on_btnExit():
     else:
         destroy_window()
 
+
 def get_image_from_web(url):
     # Attempt to get image from url and place it in w.lblImage
     global _img2
@@ -101,17 +105,17 @@ def get_image_from_web(url):
     if shared.debug:
         print(f'Attempting to get {url}')
     try:
+
         with open('pic1.jpg', 'wb') as handle:
-            response = requests.get(pic_url, stream=True)
+            user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
+            headers = {'User-Agent': user_agent}
+            response = requests.get(pic_url, headers=headers, stream=True)
 
-            if not response.ok:
-                print(response)
+        for block in response.iter_content(1024):
+            if not block:
+                break
 
-            for block in response.iter_content(1024):
-                if not block:
-                    break
-
-                handle.write(block)
+            handle.write(block)
 
         jpgfile = Image.open('pic1.jpg')
         jpgfile.save('local_image.png')
@@ -139,6 +143,7 @@ def get_image_from_web(url):
         w.lblImage.configure(image=_img2)
         src = 'local_image.png'
         d1 = shared.title.replace(" ", "")
+        d1 = d1.replace("!", '')
         dst = path1 + '/database/recipeimages/' + d1 + ".png"
         shared.imgname = '/database/recipeimages/' + d1 + '.png'
         print(f'Attemptying to copy {src} to {dst}')
@@ -153,6 +158,7 @@ def get_image_from_web(url):
         print("An error occured getting the image")
         _img2 = None
         w.lblImage.configure(image=_img2)
+
 
 def on_btnGo():
     url_to_get = EntryWebsite.get()
@@ -181,7 +187,8 @@ def on_btnGo():
         if shared.debug:
             print(f'Attempting to contact {EntryWebsite.get()}')
         sys.stdout.flush()
-
+        # user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
+        # headers = {'User-Agent': user_agent}
         scraper = scrape_me(url_to_get)
         shared.title = scraper.title()
         shared.total_time = scraper.total_time()
@@ -218,6 +225,7 @@ def on_btnGo():
         msg = f'{domain} is not currently supported by the recipe scraper.'
         messagebox.showerror(titl, msg)
 
+
 def on_popPaste(p1):
     # if shared.debug:
     #     print('PopPaste')
@@ -230,6 +238,7 @@ def on_popPaste(p1):
     elif p1 == 2:
         w.stDescription.insert(tk.END, root.clipboard_get())
 
+
 def on_popClear(p1):
     if shared.debug:
         print('PopClear')
@@ -237,6 +246,7 @@ def on_popClear(p1):
         EntryWebsite.set('')
     elif p1 == 2:
         w.stDescription.delete('1.0', tk.END)
+
 
 def on_popCopy(p1):
     if shared.debug:
@@ -249,17 +259,20 @@ def on_popCopy(p1):
     elif p1 == 2:
         field_value = w.stDescription.get('1.0', tk.END)
 
+
 def on_entryKeyPress(e):
     if shared.debug:
         print('EntryKeyPress')
     if e.keysym == 'Return':
         on_btnGo()
 
+
 def on_customClick(s=None):
     if shared.debug:
         print('on_customClick')
     update_label()
     # keep a list for updating database
+
 
 def fill_form():
     if shared.debug:
@@ -280,6 +293,7 @@ def fill_form():
     # instructions
     load_instructions()
 
+
 def clear_form():
     w.Scrolledtext1.delete('1.0', tk.END)
     w.Scrolledlistbox1.delete(0, tk.END)
@@ -291,12 +305,15 @@ def clear_form():
     sYields.set('')
     sImageURL.set('')
 
+
 def load_ingredients():
     for line in shared.ingredients:
         w.Scrolledlistbox1.insert('end', line)
 
+
 def load_instructions():
     w.Scrolledtext1.insert('end', shared.instructions)
+
 
 def testdb():
     global cursor
@@ -306,6 +323,7 @@ def testdb():
     recs = list(cursor.execute(sql))
     if len(recs):
         print(len(recs))
+
 
 def WriteToDb():
     global connection, cursor
@@ -319,8 +337,8 @@ def WriteToDb():
             # Write Title,Source and Servings - Retain Record Number
             # -----------------------
             sql = ("Insert into recipes "
-                "(RecipeText,RecipeSource,RecipeServes,TotalTime,Notes,Active) "
-                "VALUES ({0},{1},{2},{3},{4},{5});").format(
+                   "(RecipeText,RecipeSource,RecipeServes,TotalTime,Notes,Active) "
+                   "VALUES ({0},{1},{2},{3},{4},{5});").format(
                 quote(sRecipeTitle.get()),
                 quote(EntryWebsite.get()),
                 quote(sYields.get()),
@@ -336,18 +354,18 @@ def WriteToDb():
                 print('Main Record Written')
             # LastRecord is the last id that was saved in the recipe table
             # We will use it to link the rest of the data to this recipe
-            LastRecord=cur.lastrowid
+            LastRecord = cur.lastrowid
             if shared.debug:
                 print(f'LastRecord inserted at {LastRecord}')
             # -----------------------
             # Write Instructions
             # -----------------------
-            sql=("Insert into instructions "
-                "(RecipeID,InstructionsData) "
-                "VALUES ({0},{1})").format(LastRecord,
-                                            quote(
-                                                w.Scrolledtext1.get(
-                                                    1.0, tk.END)))
+            sql = ("Insert into instructions "
+                   "(RecipeID,InstructionsData) "
+                   "VALUES ({0},{1})").format(LastRecord,
+                                              quote(
+                                                  w.Scrolledtext1.get(
+                                                      1.0, tk.END)))
 
             cur.execute(sql)
             connection.commit()
@@ -359,9 +377,9 @@ def WriteToDb():
             # -----------------------
 
             for line in shared.ingredients:
-                sql=("INSERT INTO ingredients "
-                    "(RecipeID,Ingredientitem) "
-                    "VALUES ({0},{1})").format(
+                sql = ("INSERT INTO ingredients "
+                       "(RecipeID,Ingredientitem) "
+                       "VALUES ({0},{1})").format(
                     LastRecord, quote(line))
 
                 cur.execute(sql)
@@ -371,10 +389,10 @@ def WriteToDb():
             # -----------------------
             # Write Categories
             # Get checked cateegories
-            checks=w.Custom1.get()
+            checks = w.Custom1.get()
 
             for c in checks:
-                sql=(
+                sql = (
                     "INSERT INTO recipecategories (RecipeId, MainCatKey) VALUES ({1}, {0})".format(c[1], LastRecord))
                 print(sql)
                 cur.execute(sql)
@@ -385,9 +403,9 @@ def WriteToDb():
             if shared.imgname == None:
                 pass
             else:
-                sql=('INSERT INTO images (recipeID, image) '
-                    'VALUES ({0}, {1})'.format(
-                        LastRecord, quote(shared.imgname)))
+                sql = ('INSERT INTO images (recipeID, image) '
+                       'VALUES ({0}, {1})'.format(
+                           LastRecord, quote(shared.imgname)))
                 cur.execute(sql)
                 connection.commit()
                 if shared.debug:
@@ -398,7 +416,8 @@ def WriteToDb():
             busyEnd()
     except:
         busyEnd()
-        messagebox.showerror('Error', 'Something went wrong when trying to write to database!')
+        messagebox.showerror(
+            'Error', 'Something went wrong when trying to write to database!')
 
 # ======================================================
 # function check_attr()
@@ -408,6 +427,8 @@ def WriteToDb():
 # hasn't bee defined, it will crash the program with an error.
 # This attemps to make it safe.
 # ======================================================
+
+
 def check_attr(module, variable):
     attr = getattr(module, variable, False)
     if attr is False:
@@ -415,12 +436,14 @@ def check_attr(module, variable):
     else:
         return True
 
+
 def fix_path():
     global path1
     if "main" in path1:
         pass
     else:
         path1 = path1 + "/main"
+
 
 def start_up():
     global connection
@@ -445,10 +468,12 @@ def start_up():
     shared.debug = False
     # Fill the entry widget for testing purposes
     initialize_custom_widget()
-    EntryWebsite.set('Right click here to paste a website URL from the clipboard')
+    EntryWebsite.set(
+        'Right click here to paste a website URL from the clipboard')
     set_mode()
     clear_form()
     shared.debug = False
+
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
@@ -470,11 +495,14 @@ def init(top, gui, *args, **kwargs):
     print(f"Version: {version}")
     start_up()
 
+
 def clear_label():
     msgCategories.set('')
 
+
 def set_labels():
     pass
+
 
 def update_label():
     dat = w.Custom1.get()
@@ -489,6 +517,7 @@ def update_label():
     s = ", ".join(lst)
     msgCategories.set(s)
 
+
 def get_Custom_Cats():
     global connection, cursor
     sql = 'SELECT CatText, idCategoriesMain FROM categoriesmain order by CatText ASC'
@@ -498,6 +527,7 @@ def get_Custom_Cats():
     return recs
     # if len(recs) > 0:
     #     for r in recs:
+
 
 def initialize_custom_widget():
     w.Custom1.cback = on_customClick
@@ -513,6 +543,8 @@ def initialize_custom_widget():
 # =================================================================
 # cursor stuff
 # =================================================================
+
+
 def busyStart(newcursor=None):
     global preBusyCursors
 
@@ -524,6 +556,7 @@ def busyStart(newcursor=None):
         component.configure(cursor=newcursor)
         component.update_idletasks()
     preBusyCursors = (newPreBusyCursors, preBusyCursors)
+
 
 def busyEnd():
     global preBusyCursors
@@ -538,12 +571,14 @@ def busyEnd():
             pass
         component.update_idletasks()
 
+
 def centre_screen(wid, hei):
     ws = root.winfo_screenwidth()
     hs = root.winfo_screenheight()
     x = (ws/2) - (wid/2)
     y = (hs/2) - (hei/2)
     root.geometry('%dx%d+%d+%d' % (wid, hei, x, y))
+
 
 def set_mode():
     tbcolour = 'gray72'
@@ -562,14 +597,18 @@ def set_mode():
 # =================================================================
 # Window stuff
 # =================================================================
+
+
 def show_me():
     root.deiconify()
     root.attributes("-topmost", True)
     # reload treeview here
 
+
 def hide_me():
     cbv3Main_support.show_me()
     root.withdraw()
+
 
 def set_icon():
     # ======================================================
@@ -581,11 +620,13 @@ def set_icon():
     shared.p1 = ImageTk.PhotoImage(file=path1 + 'images/chef.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
 
+
 def destroy_window():
     # Function which closes the window.
     global top_level
     top_level.destroy()
     top_level = None
+
 
 # Custom = tk.Frame  # To be updated by user with name of custom widget.
 Custom = ScrolledCheckedListBox
@@ -593,8 +634,3 @@ Custom = ScrolledCheckedListBox
 if __name__ == '__main__':
     import ScraperGUI1
     ScraperGUI1.vp_start_gui()
-
-
-
-
-
