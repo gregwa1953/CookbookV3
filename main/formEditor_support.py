@@ -662,13 +662,7 @@ def write_to_db():
                                                       1.0, tk.END)))
             cursor.execute(sql)
             connection.commit()
-            # -----------------------
-            # Write ImageURL
-            sql = ('INSERT INTO images (recipeID, image) '
-                   'VALUES ({0}, {1})'.format(
-                       LastRecord, quote(shared.imagePath)))
-            cursor.execute(sql)
-            connection.commit()
+
             # -----------------------
             # Write Ingredients
             # -----------------------
@@ -682,6 +676,7 @@ def write_to_db():
             connection.commit()
             # -----------------------
             # Write Categories
+            # -----------------------
             # Get checked cateegories
             checks = w.Custom1.get()
             # print(checks)
@@ -693,6 +688,14 @@ def write_to_db():
             msgTitle = 'Save Recipe Changes'
             msgMsg = 'All data saved'
             messagebox.showinfo(msgTitle, msgMsg)
+            # -----------------------
+            # Write ImageURL
+            # -----------------------
+            sql = ('INSERT INTO images (recipeID, image) '
+                   'VALUES ({0}, {1})'.format(
+                       LastRecord, quote(shared.imagePath)))
+            cursor.execute(sql)
+            connection.commit()
         except Exception:
             print('Write Failed')
             msgTitle = 'Save Recipe Changes'
@@ -770,7 +773,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.5.4'
+    version = '0.5.6'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files

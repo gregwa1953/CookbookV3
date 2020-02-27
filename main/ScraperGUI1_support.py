@@ -484,7 +484,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.3.5'
+    version = '0.3.7'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files

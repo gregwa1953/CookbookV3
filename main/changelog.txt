@@ -1,5 +1,14 @@
 Changelog.txt
 
+27 February -
+Editor - 0.5.6
+       - rearranged some statements in write_to_db
+Scraper - 0.3.7
+        - minor fixes
+Main    - 0.3.7
+        - minor fixes
+-----------------
+
 26 February -
 
 Main - Added support for config file
