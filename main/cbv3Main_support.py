@@ -130,11 +130,12 @@ def on_btnScrape():
 
 
 def on_chkClick():
+    global activeonly
     if shared.debug:
         print('cbv3Main_support.on_chkClick')
         sys.stdout.flush()
-    global activeonly
-    print(f'ChkValue: {che46.get()} AO: {activeonly}')
+    AO = activeonly
+    print(f'ChkValue: {che46.get()} AO: {AO}')
     if che46.get() == 0:
         activeonly = True
         init_tree(w.Scrolledtreeview1)
@@ -205,6 +206,7 @@ def on_rbClick():
         # Title
         w.Entry1.configure(state='disabled')
         tv_fill_title()
+        find_in_treeview()
 
     elif which == 1:
         # Ingredient
@@ -226,10 +228,10 @@ def on_TV_Click(e):
     if (shared.tv_mode == 1) or (shared.tv_mode == 3):
         row = w.Scrolledtreeview1.identify_row(e.y)
         col = w.Scrolledtreeview1.identify_column(e.x)
-        # print(f'Row: {row}  Col: {col}')
-        # title = w.Scrolledtreeview1.set(row, 0)
+        print(f'Row: {row}  Col: {col}')
+        title = w.Scrolledtreeview1.set(row, 0)
         CurrentID = w.Scrolledtreeview1.set(row, 1)
-        # print(f'Title: {title} CurrentID: {CurrentID}')
+        print(f'Title: {title} CurrentID: {CurrentID}')
         load_form(CurrentID)
     elif shared.tv_mode == 2:
         row = w.Scrolledtreeview1.identify_row(e.y)
@@ -518,7 +520,7 @@ def init_tree(tree):
     tree.heading('#0', text='', anchor=tk.W)
     tree.heading('Recipe', text='Recipe', anchor=tk.W)
     tree.heading('Recid', text='Recid', anchor=tk.W)
-
+    global node
     node = tree.insert('', 1, text='', image=shared.folder)
     populate_tree(tree, node)
 
@@ -602,6 +604,7 @@ def tv_fill_cats():
     else:
         # TODO - Support messagebox here!
         print('ERROR!!!')
+    find_in_treeview()
 
 
 def tv_fill_ingreds(text):
@@ -761,9 +764,9 @@ def read_config():
     csections = config.sections()
     print(csections)
     if 'DEFAULT' in config:
-        shared.defaultImagePath = config['DEFAULT']['defaultImagePath']
+        shared.defaultImagePath = config['DEFAULT']['defaultimagepath']
     if 'Themes' in config:
-        shared.defaultTheme = config['Themes']['defaultTheme']
+        shared.defaultTheme = config['Themes']['defaulttheme']
 
 
 def startup():
@@ -813,6 +816,29 @@ def startup():
     setup_styles()
 
 
+def find_in_treeview():
+    global node, CurrentID
+    print('Into find_in_treeview()')
+    kids = w.Scrolledtreeview1.get_children(node)
+    isok = False
+    # print(kids)
+    print(f'RecToUse = {shared.rectouse}')
+    for i in kids:
+        title = w.Scrolledtreeview1.set(i, 0)
+        ID = w.Scrolledtreeview1.set(i, 1)
+        # print(f'{i} - {title} - {ID}')
+        # print(f'CurrentID = {CurrentID}')
+        if int(shared.rectouse) == int(ID):
+            print(f'Found {ID}')
+            w.Scrolledtreeview1.selection_set(i)
+            load_form(ID)
+            isok = True
+            # w.Scrolledtreeview1.see(i)
+            break
+    if isok:
+        w.Scrolledtreeview1.see(i)
+
+
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
@@ -822,7 +848,7 @@ def init(top, gui, *args, **kwargs):
     # My init code here...
     # ======================================================
     global version
-    version = '3.4.6'
+    version = '3.4.8'
     global progname
     progname = "Cookbook V3"
     startup()
@@ -888,6 +914,7 @@ def show_me():
     # reload treeview here
     shared.tv_mode = 1
     tv_fill_title()
+    find_in_treeview()
 
 
 def hide_me():

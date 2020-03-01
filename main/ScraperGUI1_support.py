@@ -105,17 +105,28 @@ def get_image_from_web(url):
     if shared.debug:
         print(f'Attempting to get {url}')
     try:
-
         with open('pic1.jpg', 'wb') as handle:
-            user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
-            headers = {'User-Agent': user_agent}
-            response = requests.get(pic_url, headers=headers, stream=True)
+            response = requests.get(pic_url, stream=True)
 
-        for block in response.iter_content(1024):
-            if not block:
-                break
+            if not response.ok:
+                print(response)
 
-            handle.write(block)
+            for block in response.iter_content(1024):
+                if not block:
+                    break
+
+                handle.write(block)
+        # with open('pic1.jpg', 'wb') as handle:
+        #     user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
+        #     headers = {'User-Agent': user_agent}
+        #     # response = requests.get(pic_url, headers=headers, stream=True)
+        #     response = requests.get(pic_url, stream=True)
+
+        # for block in response.iter_content(1024):
+        #     if not block:
+        #         break
+
+        #     handle.write(block)
 
         jpgfile = Image.open('pic1.jpg')
         jpgfile.save('local_image.png')
@@ -199,10 +210,12 @@ def on_btnGo():
             shared.description = scraper.description()
         except Exception:
             shared.description = ''
-
-        imgpath = scraper.image()
-        if imgpath != None:
-            shared.image = scraper.image()
+        try:
+            imgpath = scraper.image()
+            if imgpath != None:
+                shared.image = scraper.image()
+        except:
+            shared.image = None
 
         if shared.debug:
             print(shared.title)
@@ -355,6 +368,7 @@ def WriteToDb():
             # LastRecord is the last id that was saved in the recipe table
             # We will use it to link the rest of the data to this recipe
             LastRecord = cur.lastrowid
+            shared.rectouse = LastRecord
             if shared.debug:
                 print(f'LastRecord inserted at {LastRecord}')
             # -----------------------
@@ -484,7 +498,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.3.7'
+    version = '0.3.9'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files

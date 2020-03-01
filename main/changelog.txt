@@ -1,11 +1,36 @@
 Changelog.txt
 
+1 March - 
+
+Main - 3.4.8
+     - Added logic to return treeview and form to recipe selected when new recipe was entered or recipe was scraped.
+     - Still ToDo - Treeview still not focusing on returned recipe name, but is being "selected"
+
+Scraper - 0.3.9
+        - Support for return to new recipe in Main
+-----------------
+
+28 February - 
+
+Main - 3.4.7
+     - Added logic to return treeview and form to recipe selected when edit was clicked.
+
+TODO - Add logic to do same when returning from new recipe entry and scape
+
+Scraper - 0.3.8
+        - fixed issue that was keeping image from being retrieved
+TODO    - Verify and/or fix when response is 400
+
+Config - 0.0.1
+       - Added first blush of config utility and support to Main
+
+-----------------
 27 February -
 Editor - 0.5.6
        - rearranged some statements in write_to_db
 Scraper - 0.3.7
         - minor fixes
-Main    - 0.3.7
+Main    - 3.4.6
         - minor fixes
 -----------------
 

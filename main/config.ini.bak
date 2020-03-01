@@ -1,0 +1,6 @@
+[DEFAULT]
+defaultImagePath = ~/Desktop
+
+[Themes]
+defaultTheme = Dark2
+

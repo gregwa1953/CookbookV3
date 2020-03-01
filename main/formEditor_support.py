@@ -651,6 +651,7 @@ def write_to_db():
             # LastRecord is the last id that was saved in the recipe table
             # We will use it to link the rest of the data to this recipe
             LastRecord = cursor.lastrowid
+            shared.rectouse = LastRecord
             # -----------------------
             # Write Instructions
             # -----------------------
