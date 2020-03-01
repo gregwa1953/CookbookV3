@@ -2,6 +2,14 @@ Changelog.txt
 
 1 March - 
 
+Main - 3.4.8.1
+     - Fixed Treeview focus issue
+
+
+-----------------
+
+1 March - 
+
 Main - 3.4.8
      - Added logic to return treeview and form to recipe selected when new recipe was entered or recipe was scraped.
      - Still ToDo - Treeview still not focusing on returned recipe name, but is being "selected"

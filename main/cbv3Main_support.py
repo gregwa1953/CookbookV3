@@ -837,6 +837,7 @@ def find_in_treeview():
             break
     if isok:
         w.Scrolledtreeview1.see(i)
+        root.update()
 
 
 def init(top, gui, *args, **kwargs):
@@ -848,7 +849,7 @@ def init(top, gui, *args, **kwargs):
     # My init code here...
     # ======================================================
     global version
-    version = '3.4.8'
+    version = '3.4.8.1'
     global progname
     progname = "Cookbook V3"
     startup()
