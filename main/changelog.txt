@@ -1,5 +1,11 @@
 Changelog.txt
 
+2 March - 
+Main - 3.4.8.2
+     - Fixed bug I-8
+
+-----------------
+
 1 March - 
 
 Main - 3.4.8.1

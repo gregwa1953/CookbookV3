@@ -632,7 +632,7 @@ def load_ingredient_list():
                "FROM ingredients "
                "INNER JOIN recipes ON "
                "(ingredients.RecipeID = recipes.idRecipes) "
-               "WHERE recipes.Active = 1 ingredients.IngredientItem "
+               "WHERE recipes.Active = 1 AND ingredients.IngredientItem "
                "like '%{0}%'").format(str(shared.searchfor))
     else:
         sql = ("SELECT recipes.idRecipes, "
@@ -849,7 +849,7 @@ def init(top, gui, *args, **kwargs):
     # My init code here...
     # ======================================================
     global version
-    version = '3.4.8.1'
+    version = '3.4.8.2'
     global progname
     progname = "Cookbook V3"
     startup()

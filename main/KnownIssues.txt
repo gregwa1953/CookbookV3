@@ -1,5 +1,13 @@
 Bugs
 
+Bug number: I-8
+Date: 2 March 2020
+Status: Open - Confirmed
+
+When searching for Ingredients, no results show unless "Show All" is checked.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug number: I-7
 Date: 5 February 2020
 Status: Fixed, but not rolled into scraper yet - GDW
