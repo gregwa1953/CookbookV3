@@ -5,6 +5,7 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 28, 2020 04:58:15 AM CST  platform: Linux
 #    Feb 28, 2020 08:46:14 AM CST  platform: Linux
+#    Mar 03, 2020 05:52:16 AM CST  platform: Linux
 
 import sys
 import cbv3Main
@@ -33,6 +34,10 @@ except ImportError:
 
 
 def set_Tk_var():
+    global chkShowAllRecs
+    chkShowAllRecs = tk.IntVar()
+    global combobox
+    combobox = tk.StringVar()
     global defImagePath
     defImagePath = tk.StringVar()
 
@@ -46,7 +51,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version, path1, progname
-    version = '0.1.1'
+    version = '0.1.2'
     global progname
     progname = "Cookbook V3 Configuration"
     startup()

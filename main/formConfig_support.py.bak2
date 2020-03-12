@@ -9,6 +9,7 @@ import sys
 import cbv3Main
 import cbv3Main_support
 import os
+from os import path
 import platform
 import datetime
 import sqlite3
@@ -79,9 +80,39 @@ def on_btnFilePath():
     sys.stdout.flush()
 
 
+def read_config():
+    config = configparser.ConfigParser()
+    if path.exists('config.ini'):
+        config.read('config.ini')
+        csections = config.sections()
+        print(csections)
+        if 'DEFAULT' in config:
+            shared.defaultImagePath = config['DEFAULT']['defaultImagePath']
+        if 'Themes' in config:
+            shared.defaultTheme = config['Themes']['defaultTheme']
+        fill_form()
+    else:
+        defaultConfigWrite('config.ini')
+    csections = config.sections()
+    print(csections)
+    if 'DEFAULT' in config:
+        shared.defaultImagePath = config['DEFAULT']['defaultImagePath']
+    if 'Themes' in config:
+        shared.defaultTheme = config['Themes']['defaultTheme']
+
+
+def fill_form():
+    pass
+
+
+def defaultConfigWrite('config.ini'):
+    pass
+
 # =================================================================
 # Window stuff
 # =================================================================
+
+
 def show_me():
     root.deiconify()
     # root.attributes("-topmost", True)

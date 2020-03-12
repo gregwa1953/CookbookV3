@@ -1,5 +1,22 @@
 Changelog.txt
 
+12 March -
+Print - 0.1.2 
+      - Fixed bug where recipe title was not printing at top
+Scraper - 0.4.0
+        - Changed form title to "Greg's Recipe Website Scraper"
+
+------------------
+
+3 March -
+Main - 3.4.8.3
+     - 
+Config - 0.1.3
+       - Added ShowAllRecords default to config.
+       - Added combo box for default theme.
+
+------------------
+
 2 March - 
 Main - 3.4.8.2
      - Fixed bug I-8

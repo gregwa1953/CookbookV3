@@ -849,7 +849,7 @@ def init(top, gui, *args, **kwargs):
     # My init code here...
     # ======================================================
     global version
-    version = '3.4.8.2'
+    version = '3.4.8.3'
     global progname
     progname = "Cookbook V3"
     startup()

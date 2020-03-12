@@ -80,7 +80,7 @@ def fix_path():
 
 def main(inrec=None):
     global version
-    version = '0.1.1'
+    version = '0.1.2'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files
@@ -115,7 +115,8 @@ def main(inrec=None):
         f.write(line)
         line = '<link rel="stylesheet" href="style.css">'
         f.write(line)
-        line = f"Greg's Cookbook - Air Fryer Apple Pies - Recipe {reciperec}"
+        # line = f"Greg's Cookbook - Air Fryer Apple Pies - Recipe {reciperec}"
+        line = f"Greg's Cookbook - {mainrecs[0][1]} - Recipe ID {reciperec}"
         f.write(line)
         line = '</head>'
         f.write(line)

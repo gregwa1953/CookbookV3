@@ -1,8 +1,8 @@
 Bugs
 
 Bug number: I-8
-Date: 2 March 2020
-Status: Open - Confirmed
+Date: 3 March 2020
+Status: Closed - Fixed
 
 When searching for Ingredients, no results show unless "Show All" is checked.
 
@@ -81,7 +81,7 @@ NameError: name 'root' is not defined
 
 Bug number: I-2
 Date:21 January 2020
-Status: Verified
+Status: Fixed
 
 Treeview - Title fill.  Filled in some random order.  Needs at minimum to be sorted Alpha Asc.
 

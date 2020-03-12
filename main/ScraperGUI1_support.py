@@ -498,7 +498,7 @@ def init(top, gui, *args, **kwargs):
     # My init code starts...
     # ======================================================
     global version
-    version = '0.3.9'
+    version = '0.4.0'
     pv = platform.python_version()
     print(f"Running under Python {pv}")
     # Set the path for the icon files
@@ -508,6 +508,7 @@ def init(top, gui, *args, **kwargs):
     print(path1)
     print(f"Version: {version}")
     start_up()
+    root.title("Greg's Recipe Website Scraper")
 
 
 def clear_label():
