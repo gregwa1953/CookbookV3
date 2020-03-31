@@ -1,0 +1,12 @@
+Database changes for recipe database
+
+03/31/2020 10:40am
+
+database table 'tips'
+schema:
+
+idTips - integer, pk, ae, notnull
+source - text
+dateadded - text
+information - text
+active - integer (boolean 1 = active, 0 = inactive)

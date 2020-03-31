@@ -1,5 +1,10 @@
 Changelog.txt
 
+31 March -
+Database - 0.2
+         - Added support for tips datatable
+         - Added support for system table (saves version number
+
 12 March -
 Print - 0.1.2 
       - Fixed bug where recipe title was not printing at top
