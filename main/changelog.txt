@@ -1,5 +1,10 @@
 Changelog.txt
 
+1 April 2020 -
+Main - 3.4.8.4
+     - Started support for tips form.  Currently shows "under construction" messagebox.
+
+-------------------
 31 March -
 Database - 0.2
          - Added support for tips datatable

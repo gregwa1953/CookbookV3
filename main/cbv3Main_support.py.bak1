@@ -70,7 +70,6 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
-
 def set_Tk_var():
     global RecipeRating
     RecipeRating = tk.StringVar()
@@ -119,7 +118,6 @@ def set_Tk_var():
     Notes = tk.StringVar()
     Notes.set('Message')
 
-
 def on_btnScrape():
     # if shared.debug:
     print('cbv3Main_support.on_btnScrape')
@@ -127,7 +125,6 @@ def on_btnScrape():
     shared.remote = True
     ScraperGUI1.create_Scraper(root)
     hide_me()
-
 
 def on_chkClick():
     global activeonly
@@ -143,7 +140,6 @@ def on_chkClick():
         activeonly = False
         init_tree(w.Scrolledtreeview1)
 
-
 def on_btnAdd():
     if shared.debug:
         print('test3_support.on_btnAdd')
@@ -153,7 +149,6 @@ def on_btnAdd():
     shared.EditMode = 'New'
     hide_me()
     formEditor.create_formEditor(root)
-
 
 def on_btnDelete():
     global connection, cursor
@@ -169,7 +164,6 @@ def on_btnDelete():
         connection.commit()
         init_tree(w.Scrolledtreeview1)
 
-
 def on_btnEdit():
     global CurrentID
     if shared.debug:
@@ -181,7 +175,6 @@ def on_btnEdit():
     hide_me()
     formEditor.create_formEditor(root)
 
-
 def on_btnExit():
     if shared.debug:
         print('cbv3Main_support.on_btnExit')
@@ -190,7 +183,6 @@ def on_btnExit():
     _img3 = None
     _img2 = None
     destroy_window()
-
 
 def on_rbClick():
     # ======================================================
@@ -219,7 +211,6 @@ def on_rbClick():
 
     else:
         pass
-
 
 def on_TV_Click(e):
     if shared.debug:
@@ -250,7 +241,6 @@ def on_TV_Click(e):
             # set_labels()
             load_form(CurrentID)
 
-
 def on_time_update():
     # ======================================================
     # Callback function for the Time display
@@ -260,7 +250,6 @@ def on_time_update():
     TimeDisp.set(nowstring)
     timer_id = root.after(500, on_time_update)
 
-
 def on_Entry_Return(e):
     if e.keysym == 'Return':
         if shared.debug:
@@ -268,14 +257,12 @@ def on_Entry_Return(e):
             print(f'Text entered = {EntryText.get()}')
         tv_fill_ingreds(EntryText.get())
 
-
 def on_btnPrint():
     if shared.debug:
         print('cbv3Main_support.on_btnPrint')
         sys.stdout.flush()
     global CurrentID
     printtemp.main(CurrentID)
-
 
 def update_tree(e):
     if shared.debug:
@@ -289,12 +276,10 @@ def update_tree(e):
     # print(f'Title: {title} CurrentID: {CurrentID}')
     # # fill_form
 
-
 def clear_main_treeview():
     for i in w.Scrolledtreeview1.get_children():
         w.Scrolledtreeview1.delete(i)
     # clear_labels()
-
 
 def clear_form():
     # Main recipe info
@@ -310,7 +295,6 @@ def clear_form():
     # Ingredients
     w.Scrolledlistbox1.delete(0, tk.END)
     # Image
-
 
 def load_form(id):
     global connection, cursor, activeonly, imgpath, path1
@@ -430,14 +414,12 @@ def load_form(id):
         w.lblImage.configure(image=_img3)
     # RecipeNotes.set('No description available')
 
-
 def clear_labels():
     w.Label2.configure(text='')
     w.Label3.configure(text='')
     w.Label5.configure(text='')
     w.Label5.configure(text='')
     w.Label7.configure(text='')
-
 
 def set_labels():
     w.Label2.configure(text='''Recipe Source:''')
@@ -446,12 +428,10 @@ def set_labels():
     w.Label5.configure(text='''Instructions:''')
     w.Label7.configure(text='''Categories''')
 
-
 def tree_close(e):
     # clear_labels()
     pass
     # print('Tree_close')
-
 
 def tree_open(e):
     # print('Tree_open')
@@ -465,7 +445,6 @@ def tree_open(e):
         CurrentID = w.Scrolledtreeview1.set(first, 1)
         # set_labels()
         load_form(CurrentID)
-
 
 def populate_tree(tree, node):
     global first, CurrentID
@@ -495,7 +474,6 @@ def populate_tree(tree, node):
     #     sort_by(tree, 'Recipe', 0)
     load_form(CurrentID)
 
-
 def load_base_recipes():
     global connection, cursor, activeonly
     if activeonly:
@@ -508,7 +486,6 @@ def load_base_recipes():
     print(f'{len(recs)} Records)')
     if len(recs):
         return(recs)
-
 
 def init_tree(tree):
     # global folder
@@ -524,7 +501,6 @@ def init_tree(tree):
     node = tree.insert('', 1, text='', image=shared.folder)
     populate_tree(tree, node)
 
-
 def setup_treeview():
     w.Scrolledtreeview1.bind('<<TreeviewSelect>>',
                              lambda e: update_tree(e))
@@ -535,16 +511,13 @@ def setup_treeview():
     w.Scrolledtreeview1.bind('<Button-1>', lambda e: on_TV_Click(e))
     init_tree(w.Scrolledtreeview1)
 
-
 def clear_treeview():
     w.Scrolledtreeview1.delete(*w.Scrolledtreeview1.get_children())
-
 
 def tv_fill_title():
     clear_main_treeview()
     shared.tv_mode = 1
     setup_treeview()
-
 
 def tv_fill_cats():
     tree = w.Scrolledtreeview1
@@ -606,7 +579,6 @@ def tv_fill_cats():
         print('ERROR!!!')
     find_in_treeview()
 
-
 def tv_fill_ingreds(text):
     if shared.debug:
         print(f'Into tv_fill_ingredients - searchfor: {text}')
@@ -618,7 +590,6 @@ def tv_fill_ingreds(text):
 
     init_tree(w.Scrolledtreeview1)
     # populate_tree(w.Scrolledtreeview1,node)
-
 
 def load_ingredient_list():
     global activeonly
@@ -655,7 +626,6 @@ def load_ingredient_list():
 # Sorts the treeview
 # ======================================================
 
-
 def sort_by(tree, col, descending):
     # grab values to
     print('into sort_by')
@@ -670,7 +640,6 @@ def sort_by(tree, col, descending):
     # switch the heading so it will sort in the opposite direction
     tree.heading(col, command=lambda col=col: sort_by(tree, col,
                                                       int(not descending)))
-
 
 def set_btn_labels():
     global printButton, imgpath
@@ -721,14 +690,12 @@ def set_btn_labels():
     configButton = ImageTk.PhotoImage(img)
     w.btnConfig.configure(image=configButton)
 
-
 def fix_path():
     global path1
     if "main" in path1:
         pass
     else:
         path1 = path1 + "/main"
-
 
 def setup_styles():
     from ttkthemes import ThemedStyle
@@ -757,7 +724,6 @@ def setup_styles():
     #     -background [list selected $colors(-selectbg)] \
     #     -foreground [list selected $colors(-selectfg)]
 
-
 def read_config():
     config = configparser.ConfigParser()
     config.read('config.ini')
@@ -767,7 +733,6 @@ def read_config():
         shared.defaultImagePath = config['DEFAULT']['defaultimagepath']
     if 'Themes' in config:
         shared.defaultTheme = config['Themes']['defaulttheme']
-
 
 def startup():
     global version, path1, progname
@@ -815,7 +780,6 @@ def startup():
     read_config()
     setup_styles()
 
-
 def find_in_treeview():
     global node, CurrentID
     print('Into find_in_treeview()')
@@ -839,7 +803,6 @@ def find_in_treeview():
         w.Scrolledtreeview1.see(i)
         root.update()
 
-
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
@@ -854,7 +817,6 @@ def init(top, gui, *args, **kwargs):
     progname = "Cookbook V3"
     startup()
 
-
 def centre_screen(wid, hei):
     # ======================================================
     # Centers the screen
@@ -864,7 +826,6 @@ def centre_screen(wid, hei):
     x = (ws/2) - (wid/2)
     y = (hs/2) - (hei/2)
     root.geometry('%dx%d+%d+%d' % (wid, hei, x, y))
-
 
 def set_icon():
     # ======================================================
@@ -876,7 +837,6 @@ def set_icon():
     # shared.p1 = ImageTk.PhotoImage(file='images/chef.png')
     shared.p1 = ImageTk.PhotoImage(file=imgpath + '/chef.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
-
 
 def set_mode():
     tbcolour = 'gray72'
@@ -906,7 +866,6 @@ def set_mode():
 # Window stuff
 # =================================================================
 
-
 def show_me():
     global root
     root.deiconify()
@@ -917,11 +876,9 @@ def show_me():
     tv_fill_title()
     find_in_treeview()
 
-
 def hide_me():
     global root
     root.withdraw()
-
 
 def on_btnConfig():
     print('cbv3Main_support.on_btnConfig')
@@ -930,7 +887,6 @@ def on_btnConfig():
     txt = "Sorry, but the Configuration Utility is not implemented yet."
     messagebox.showinfo(title, txt)
 
-
 def on_btnUtils():
     print('cbv3Main_support.on_btnUtils')
     sys.stdout.flush()
@@ -938,14 +894,16 @@ def on_btnUtils():
     formDbMaint.create_formDbMaint(root)
     hide_me()
 
-
 def destroy_window():
     # Function which closes the window.
     global top_level
     top_level.destroy()
     top_level = None
 
-
 if __name__ == '__main__':
     import cbv3Main
     cbv3Main.vp_start_gui()
+
+
+
+

@@ -6,6 +6,7 @@ database table 'tips'
 schema:
 
 idTips - integer, pk, ae, notnull
+title - text
 source - text
 dateadded - text
 information - text
