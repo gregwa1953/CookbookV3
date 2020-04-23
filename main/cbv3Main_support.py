@@ -46,6 +46,7 @@ import configparser
 # import formConfig
 # import formConfig_support
 import printtemp
+import formTips
 
 # try:
 #     import Tkinter as tk
@@ -250,6 +251,7 @@ def on_TV_Click(e):
             # print(f'Title: {title} CurrentID: {CurrentID}')
             # set_labels()
             load_form(CurrentID)
+    shared.rectouse = CurrentID
 
 
 def on_time_update():
@@ -495,6 +497,7 @@ def populate_tree(tree, node):
     # if shared.tv_mode == 1:
     #     sort_by(tree, 'Recipe', 0)
     load_form(CurrentID)
+    shared.rectouse = CurrentID
 
 
 def load_base_recipes():
@@ -940,9 +943,13 @@ def on_btnUtils():
 def on_btnTips():
     print('cbv3Main_support.on_btnTips')
     sys.stdout.flush()
-    title = 'Under Construction'
-    msg = 'Sorry, but the tips portion of the program is not yet completed.'
-    messagebox.showinfo(title, msg)
+    # title = 'Under Construction'
+    # msg = 'Sorry, but the tips portion of the program is not yet completed.'
+    # messagebox.showinfo(title, msg)
+    shared.remote = True
+    print(f'Rectouse: {shared.rectouse}')
+    formTips.create_Toplevel1(root)
+    hide_me()
 
 
 def destroy_window():
