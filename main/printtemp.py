@@ -89,6 +89,8 @@ def main(inrec=None):
     fix_path()
     print(path1)
     print(f"Version: {version}")
+    global browse 
+    browse = webbrowser.get('firefox')
     global connection, cursor
     connection = sqlite3.Connection(path1 + "/database/cookbook-original.db")
     cursor = connection.cursor()
@@ -249,7 +251,8 @@ def main(inrec=None):
         # ======================================================
         f.close()
         # Send it to the default webbrowser
-        webbrowser.open(filename)
+        # webbrowser.open(filename)
+        browse.open(filename)
 
 
 if __name__ == "__main__":

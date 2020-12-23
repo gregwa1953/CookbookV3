@@ -30,12 +30,10 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
-
 def set_Tk_var():
     global lblTime
     lblTime = tk.StringVar()
     lblTime.set('Label')
-
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
@@ -59,7 +57,6 @@ def init(top, gui, *args, **kwargs):
     root.title(progname)
     start_up()
 
-
 def start_up():
     global connection, cursor, path1
 
@@ -75,10 +72,8 @@ def start_up():
     set_icon()
     load_screen()
 
-
 def load_screen():
     pass
-
 
 def on_btnExit():
     # print('formTips_support.on_btnExit')
@@ -90,14 +85,12 @@ def on_btnExit():
     else:
         destroy_window()
 
-
 def fix_path():
     global path1
     if "main" in path1:
         pass
     else:
         path1 = path1 + "/main"
-
 
 def centre_screen(wid, hei):
     ws = root.winfo_screenwidth()
@@ -110,16 +103,13 @@ def centre_screen(wid, hei):
 # Window stuff
 # =================================================================
 
-
 def show_me():
     root.deiconify()
     # root.attributes("-topmost", True)
 
-
 def hide_me():
     cbv3Main_support.show_me()
     root.withdraw()
-
 
 def set_icon():
     # ======================================================
@@ -130,7 +120,6 @@ def set_icon():
     formicon = ImageTk.PhotoImage(file=imgpath + '/32/icons8-light-32.png')
     root.tk.call('wm', 'iconphoto', root._w, formicon)
 
-
 def check_attr(module, variable):
     attr = getattr(module, variable, False)
     if attr is False:
@@ -138,14 +127,16 @@ def check_attr(module, variable):
     else:
         return True
 
-
 def destroy_window():
     # Function which closes the window.
     global top_level
     top_level.destroy()
     top_level = None
 
-
 if __name__ == '__main__':
     import formTips
     formTips.vp_start_gui()
+
+
+
+

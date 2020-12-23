@@ -1,5 +1,20 @@
 Changelog.txt
 
+21 December, 2020 -
+Main - 3.4.9.0
+Fixed support for Favorite recipes.
+Database currently has over 400 recipes.
+Changed print function to call Firefox directly due to changes in Google Chrome affecting printing.
+In main window, if you click on the recipe source hyperlink (blue), link is sent to Firefox to show recipe source.
+Cleaned up some of the code.
+Still have lots to do.
+---------------------
+
+24 May, 2020 -
+Main - Began Adding support for favorites
+Database - Began Adding support for favorites
+-------------------
+
 1 April 2020 -
 Main - 3.4.8.4
      - Started support for tips form.  Currently shows "under construction" messagebox.

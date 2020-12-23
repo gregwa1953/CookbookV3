@@ -159,9 +159,6 @@ def get_image_from_web(url):
         shared.imgname = '/database/recipeimages/' + d1 + '.png'
         print(f'Attemptying to copy {src} to {dst}')
         shutil.copyfile(src, dst)
-        # os.remove(original)
-        # os.remove(jpfile)
-        # os.rename(src, dst)
     except Exception:
         boxTitle = "Image Error"
         boxMessage = "An error occured getting the image."
@@ -182,8 +179,7 @@ def on_btnGo():
     domain = urlparse(url_to_get).netloc
     domain = domain.replace("www.", "")
     oktorun = True
-    # for l in SCRAPERS:
-    #     print(l)
+
     if domain in SCRAPERS:
         print('ok to run')
     else:
@@ -240,9 +236,8 @@ def on_btnGo():
 
 
 def on_popPaste(p1):
-    # if shared.debug:
-    #     print('PopPaste')
-    print('PopPaste')
+    if shared.debug:
+        print('PopPaste')
     if p1 == 1:
         EntryWebsite.set('')
         clear_form()
@@ -350,14 +345,14 @@ def WriteToDb():
             # Write Title,Source and Servings - Retain Record Number
             # -----------------------
             sql = ("Insert into recipes "
-                   "(RecipeText,RecipeSource,RecipeServes,TotalTime,Notes,Active) "
-                   "VALUES ({0},{1},{2},{3},{4},{5});").format(
+                   "(RecipeText,RecipeSource,RecipeServes,TotalTime,Notes,Active,Favorite) "
+                   "VALUES ({0},{1},{2},{3},{4},{5},{6});").format(
                 quote(sRecipeTitle.get()),
                 quote(EntryWebsite.get()),
                 quote(sYields.get()),
                 quote(sTotalTime.get()),
                 quote(w.stDescription.get('1.0', tk.END)),
-                1)
+                1,0)
 
             # Everything depends on the last_insert_rowid being available
             # so if this fails, we have to abort and have the user try again
@@ -516,6 +511,7 @@ def clear_label():
 
 
 def set_labels():
+    # Not sure if this is needed, so for now, pass...
     pass
 
 

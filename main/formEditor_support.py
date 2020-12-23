@@ -635,15 +635,15 @@ def write_to_db():
         # Use Insert
         try:
             sql = ("Insert into recipes "
-                   "(RecipeText,RecipeSource,RecipeServes,TotalTime, RecipeRating, Notes, Active) "
-                   "VALUES ({0},{1},{2},{3},{4},{5},{6});").format(
+                   "(RecipeText,RecipeSource,RecipeServes,TotalTime, RecipeRating, Notes, Active, Favorite) "
+                   "VALUES ({0},{1},{2},{3},{4},{5},{6},{7});").format(
                 quote(title),
                 quote(source),
                 quote(serves),
                 quote(totaltime),
                 quote(rating),
                 quote(notes),
-                1)
+                1,0)
             # Everything depends on the last_insert_rowid being available
             # so if this fails, we have to abort and have the user try again
             cursor.execute(sql)
