@@ -286,19 +286,12 @@ def on_btnPrint():
 def update_tree(e):
     if shared.debug:
         print('Update_Tree')
-    # global CurrentID
-    # row = w.Scrolledtreeview1.identify_row(e.y)
-    # col = w.Scrolledtreeview1.identify_column(e.x)
-    # print(f'Row: {row}  Col: {col}')
-    # title = w.Scrolledtreeview1.set(row, 0)
-    # CurrentID = w.Scrolledtreeview1.set(row, 1)
-    # print(f'Title: {title} CurrentID: {CurrentID}')
-    # # fill_form
+
 
 def clear_main_treeview():
     for i in w.Scrolledtreeview1.get_children():
         w.Scrolledtreeview1.delete(i)
-    # clear_labels()
+
 
 def clear_form():
     # Main recipe info
@@ -352,16 +345,11 @@ def load_form(id):
             show_fav(True)
         else:
             show_fav(False)
-
-        # active = r[6]
-        # photoid = r[7]
-        # print(r[8])
         if r[8] == None:
             w.stNotes.insert(tk.END, '')
         else:
             w.stNotes.insert(tk.END, str(r[8]))
-        # w.msgNotes.configure(text=r[8])
-        # RecipeNotes.set(r[8])
+
     # ======================================================
     # Load the ingredients
     # if int(id) < 90:
@@ -479,10 +467,7 @@ def tree_open(e):
         tree = w.Scrolledtreeview1
         tree.focus(first)
         tree.selection_set(first)
-        # print(f'first: {first}')
-        # title = w.Scrolledtreeview1.set(first, 0)
         CurrentID = w.Scrolledtreeview1.set(first, 1)
-        # set_labels()
         load_form(CurrentID)
 
 def populate_tree(tree, node):
@@ -506,16 +491,11 @@ def populate_tree(tree, node):
     tree.item(node, open=True)
     tree.focus(first)
     tree.selection_set(first)
-    # print(f'first: {first}')
-    # title = w.Scrolledtreeview1.set(first, 0)
     CurrentID = w.Scrolledtreeview1.set(first, 1)
-    # if shared.tv_mode == 1:
-    #     sort_by(tree, 'Recipe', 0)
     load_form(CurrentID)
     shared.rectouse = CurrentID
 
 def load_fav_list():
-    # Does nothing for the moment.
     global connection, cursor, activeonly
     # if activeonly:
     #     sql = "SELECT * from recipes where recipes.Active = 1 order by RecipeText ASC"
@@ -576,29 +556,7 @@ def tv_fill_favs():
     clear_form()
     shared.tv_mode = 4
     init_tree(w.Scrolledtreeview1)    
-    # # shared.searchfor = text
-    # tree["columns"] = ("Recipe", "Recid")
-    # tree.column('#0', width=150, stretch=tk.NO, anchor=tk.W)
-    # tree.column('Recipe', width=400, stretch=tk.NO, anchor=tk.W)
-    # tree.column("Recid", width=100, stretch=tk.NO, anchor=tk.W)
-    # tree.heading('#0', text='Favorite', anchor=tk.W)    
-    # tree.heading('Recipe', text='Recipe', anchor=tk.W)
-    # tree.heading('Recid', text='Recid', anchor=tk.W)
-    # tree["displaycolumns"] = ("Recipe")
-    # global activeonly
-    # sql = "SELECT * FROM recipes WHERE Favorite = 1"
-    # # init_tree(w.Scrolledtreeview1)
-    # recs = list(cursor.execute(sql))
-    # if len(recs):
-    #     # print(f'Returned {len(recs)} records')
-    #     lastcat = ''
-    #     for r in recs:
-    #         cat = r[0]
-    #         title = r[1]
-    #         # catid = r[3]
-    #         recipeid = r[2]
-    #         parentid = None
-    #         id = tree.insert(parentid, tk.END, values=(title, recipeid))
+
 
 def tv_fill_cats():
     tree = w.Scrolledtreeview1
@@ -906,10 +864,7 @@ def set_icon():
     # ======================================================
     # Sets the application icon...
     # ======================================================
-    # global p1
-    # p1 = tk.Image("photo", file='images/chef.png')
     global imgpath
-    # shared.p1 = ImageTk.PhotoImage(file='images/chef.png')
     shared.p1 = ImageTk.PhotoImage(file=imgpath + '/chef.png')
     root.tk.call('wm', 'iconphoto', root._w, shared.p1)
 
