@@ -28,6 +28,9 @@
 # Support "deleted" records in main table - mostly done
 # Create HTML print routine - done
 # Write program to clean orphans in database - partially done
+# -----------------------------------------------------
+# 01/02/2021 - Added Duplicate Recipe Check in Scraper 
+#                Need to do same to Edit/New Editor Form
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import sys
 import os

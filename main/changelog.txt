@@ -1,5 +1,20 @@
 Changelog.txt
 
+02 January, 2021 -
+Scraper - Added Duplicate Recipe Check in Scraper - Need to same for New recipe in Editor Form
+
+    # Check for duplicate
+    sql = f"SELECT RecipeText, RecipeSource FROM recipes WHERE RecipeText = {quote(sRecipeTitle.get())} and RecipeSource = {quote(EntryWebsite.get())}"
+    resp = list(cursor.execute(sql))
+    if len(resp) > 0:
+        title='Save Data'
+        msg = 'This recipe already exists in the database!'
+        messagebox.showwarning(title,msg)
+        busyEnd()
+    else:
+        ...
+----------------------
+
 21 December, 2020 -
 Main - 3.4.9.0
 Fixed support for Favorite recipes.

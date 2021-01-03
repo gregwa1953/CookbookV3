@@ -337,96 +337,105 @@ def WriteToDb():
     global connection, cursor
 
     busyStart()
-    try:
-        cur = cursor
-        NewRecipe = True
-        if NewRecipe is True:
-            # -----------------------
-            # Write Title,Source and Servings - Retain Record Number
-            # -----------------------
-            sql = ("Insert into recipes "
-                   "(RecipeText,RecipeSource,RecipeServes,TotalTime,Notes,Active,Favorite) "
-                   "VALUES ({0},{1},{2},{3},{4},{5},{6});").format(
-                quote(sRecipeTitle.get()),
-                quote(EntryWebsite.get()),
-                quote(sYields.get()),
-                quote(sTotalTime.get()),
-                quote(w.stDescription.get('1.0', tk.END)),
-                1,0)
+    # Check for duplicate
+    sql = f"SELECT RecipeText, RecipeSource FROM recipes WHERE RecipeText = {quote(sRecipeTitle.get())} and RecipeSource = {quote(EntryWebsite.get())}"
+    resp = list(cursor.execute(sql))
+    if len(resp) > 0:
+        title='Save Data'
+        msg = 'This recipe already exists in the database!'
+        messagebox.showwarning(title,msg)
+        busyEnd()
+    else:
+        try:
+            cur = cursor
+            NewRecipe = True
+            if NewRecipe is True:
+                # -----------------------
+                # Write Title,Source and Servings - Retain Record Number
+                # -----------------------
+                sql = ("Insert into recipes "
+                    "(RecipeText,RecipeSource,RecipeServes,TotalTime,Notes,Active,Favorite) "
+                    "VALUES ({0},{1},{2},{3},{4},{5},{6});").format(
+                    quote(sRecipeTitle.get()),
+                    quote(EntryWebsite.get()),
+                    quote(sYields.get()),
+                    quote(sTotalTime.get()),
+                    quote(w.stDescription.get('1.0', tk.END)),
+                    1,0)
 
-            # Everything depends on the last_insert_rowid being available
-            # so if this fails, we have to abort and have the user try again
-            cur.execute(sql)
-            connection.commit()
-            if shared.debug:
-                print('Main Record Written')
-            # LastRecord is the last id that was saved in the recipe table
-            # We will use it to link the rest of the data to this recipe
-            LastRecord = cur.lastrowid
-            shared.rectouse = LastRecord
-            if shared.debug:
-                print(f'LastRecord inserted at {LastRecord}')
-            # -----------------------
-            # Write Instructions
-            # -----------------------
-            sql = ("Insert into instructions "
-                   "(RecipeID,InstructionsData) "
-                   "VALUES ({0},{1})").format(LastRecord,
-                                              quote(
-                                                  w.Scrolledtext1.get(
-                                                      1.0, tk.END)))
-
-            cur.execute(sql)
-            connection.commit()
-            if shared.debug:
-                print('Instructions written')
-
-            # -----------------------
-            # Write Ingredients
-            # -----------------------
-
-            for line in shared.ingredients:
-                sql = ("INSERT INTO ingredients "
-                       "(RecipeID,Ingredientitem) "
-                       "VALUES ({0},{1})").format(
-                    LastRecord, quote(line))
-
-                cur.execute(sql)
-            connection.commit()
-            if shared.debug:
-                print('Ingredients Written')
-            # -----------------------
-            # Write Categories
-            # Get checked cateegories
-            checks = w.Custom1.get()
-
-            for c in checks:
-                sql = (
-                    "INSERT INTO recipecategories (RecipeId, MainCatKey) VALUES ({1}, {0})".format(c[1], LastRecord))
-                print(sql)
-                cur.execute(sql)
-            connection.commit()
-
-            # -----------------------
-            # Write ImageURL
-            if shared.imgname == None:
-                pass
-            else:
-                sql = ('INSERT INTO images (recipeID, image) '
-                       'VALUES ({0}, {1})'.format(
-                           LastRecord, quote(shared.imgname)))
+                # Everything depends on the last_insert_rowid being available
+                # so if this fails, we have to abort and have the user try again
                 cur.execute(sql)
                 connection.commit()
                 if shared.debug:
-                    print('Image Written')
-            # -----------------------
-            # connection.commit()
-            messagebox.showinfo('Data Actions', 'Recipe Saved')
+                    print('Main Record Written')
+                # LastRecord is the last id that was saved in the recipe table
+                # We will use it to link the rest of the data to this recipe
+                LastRecord = cur.lastrowid
+                shared.rectouse = LastRecord
+                if shared.debug:
+                    print(f'LastRecord inserted at {LastRecord}')
+                # -----------------------
+                # Write Instructions
+                # -----------------------
+                sql = ("Insert into instructions "
+                    "(RecipeID,InstructionsData) "
+                    "VALUES ({0},{1})").format(LastRecord,
+                                                quote(
+                                                    w.Scrolledtext1.get(
+                                                        1.0, tk.END)))
+
+                cur.execute(sql)
+                connection.commit()
+                if shared.debug:
+                    print('Instructions written')
+
+                # -----------------------
+                # Write Ingredients
+                # -----------------------
+
+                for line in shared.ingredients:
+                    sql = ("INSERT INTO ingredients "
+                        "(RecipeID,Ingredientitem) "
+                        "VALUES ({0},{1})").format(
+                        LastRecord, quote(line))
+
+                    cur.execute(sql)
+                connection.commit()
+                if shared.debug:
+                    print('Ingredients Written')
+                # -----------------------
+                # Write Categories
+                # Get checked cateegories
+                checks = w.Custom1.get()
+
+                for c in checks:
+                    sql = (
+                        "INSERT INTO recipecategories (RecipeId, MainCatKey) VALUES ({1}, {0})".format(c[1], LastRecord))
+                    print(sql)
+                    cur.execute(sql)
+                connection.commit()
+
+                # -----------------------
+                # Write ImageURL
+                if shared.imgname == None:
+                    pass
+                else:
+                    sql = ('INSERT INTO images (recipeID, image) '
+                        'VALUES ({0}, {1})'.format(
+                            LastRecord, quote(shared.imgname)))
+                    cur.execute(sql)
+                    connection.commit()
+                    if shared.debug:
+                        print('Image Written')
+                # -----------------------
+                # connection.commit()
+                messagebox.showinfo('Data Actions', 'Recipe Saved')
+                busyEnd()
+        except:
             busyEnd()
-    except:
-        busyEnd()
-        messagebox.showerror(
-            'Error', 'Something went wrong when trying to write to database!')
+            messagebox.showerror(
+                'Error', 'Something went wrong when trying to write to database!')
 
 # ======================================================
 # function check_attr()
